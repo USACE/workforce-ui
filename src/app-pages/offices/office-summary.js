@@ -1,11 +1,8 @@
 import React from 'react';
 import Header from '../../app-components/header';
 import MyResponsiveBar from '../../app-components/charts/bar';
-import MyResponsivePie from '../../app-components/charts/pie';
-import MyResponsiveBullet from '../../app-components/charts/bullet';
-import ChartTitle from '../../app-components/charts/chart-title';
-
-export default function Home() {
+import OfficeGroupList from '../../app-components/office-groups/group-list';
+export default function OfficeSummary() {
   // const [show, setShow] = useState(false);
   // const [product, setProduct] = useState(false);
   // const [deliverables, setDeliverables] = useState(false);
@@ -19,7 +16,7 @@ export default function Home() {
         <div className="my-6 lg:my-12 container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4 border-b border-gray-300">
           <div>
             <h4 className="text-2xl font-bold leading-tight text-gray-800">
-              Dashboard Overview
+              Office Summary
             </h4>
             <ul className="flex flex-col md:flex-row items-start md:items-center text-gray-600 text-sm mt-3">
               <li className="flex items-center mr-3 mt-3 md:mt-0">
@@ -104,16 +101,8 @@ export default function Home() {
           {/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
           <div className="w-full h-64 rounded border-dashed border-2 border-gray-300 bg-gray-50">
             {/* Place your content here */}
-
             <MyResponsiveBar />
-          </div>
-          <div className="lg:w-1/3 mt-3 h-80 pb-10 rounded border-dashed border-2 border-gray-300 bg-gray-50">
-            <ChartTitle title="Years of Service" />
-            <MyResponsivePie />
-          </div>
-          <div className="lg:w-1/2 mt-3 h-80 rounded border-dashed border-2 border-gray-300 bg-gray-50">
-            <ChartTitle title="Employee Allocation vs Need" />
-            <MyResponsiveBullet />
+            <OfficeGroupList />
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ import cache from '../cache';
 
 // App Bundles
 import modalBundle from './modal-bundle';
+import officeBundle from './office-bundle';
 
 export default composeBundles(
   createCacheBundle({ cacheFn: cache.set }),
@@ -20,6 +21,7 @@ export default composeBundles(
   // Application Bundles
   modalBundle,
   routeBundle,
+  officeBundle,
   createAuthBundle({
     name: 'auth',
     host: process.env.REACT_APP_AUTH_HOST,
