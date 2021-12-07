@@ -12,87 +12,18 @@ import { ResponsiveBar } from '@nivo/bar';
 export default function MyResponsiveBar() {
   const data = [
     {
-      division: 'ERDC',
-      allocated: 165,
-      allocatedColor: 'hsl(202, 70%, 50%)',
-      actual: 155,
-      actualColor: 'hsl(144, 100%, 32%)',
-      need: 10,
-    },
-    {
-      division: 'LRD',
-      allocated: 90,
-      allocatedColor: 'hsl(90, 70%, 50%)',
-      actual: 83,
-      actualColor: 'hsl(144, 100%, 32%)',
-      need: 7,
-    },
-    {
-      division: 'MVD',
-      allocated: 95,
-      allocatedColor: 'hsl(90, 70%, 50%)',
-      actual: 90,
-      actualColor: 'hsl(144, 100%, 32%)',
-      need: 5,
-    },
-    {
-      division: 'NWD',
-      allocated: 87,
-      allocatedColor: 'hsl(90, 70%, 50%)',
-      actual: 80,
-      actualColor: 'hsl(144, 100%, 32%)',
-      need: 7,
-    },
-    {
-      division: 'NAD',
-      allocated: 81,
-      allocatedColor: 'hsl(90, 70%, 50%)',
-      actual: 79,
-      actualColor: 'hsl(144, 100%, 32%)',
-      need: 2,
-    },
-    {
-      division: 'POD',
-      allocated: 80,
-      allocatedColor: 'hsl(90, 70%, 50%)',
-      actual: 65,
-      actualColor: 'hsl(144, 100%, 32%)',
-      need: 15,
-      needColor: 'hsl(144, 100%, 32%)',
-    },
-    {
-      division: 'SAD',
-      allocated: 88,
-      allocatedColor: 'hsl(90, 70%, 50%)',
-      actual: 80,
-      actualColor: 'hsl(144, 100%, 32%)',
-      need: 8,
-      needColor: 'hsl(144, 100%, 32%)',
-    },
-    {
-      division: 'SPD',
-      allocated: 75,
-      allocatedColor: 'hsl(90, 70%, 50%)',
-      actual: 75,
-      actualColor: 'hsl(144, 100%, 32%)',
-      need: 0,
-      needColor: 'hsl(144, 100%, 32%)',
-    },
-    {
-      division: 'SWD',
-      allocated: 95,
-      allocatedColor: 'hsl(90, 70%, 50%)',
-      actual: 85,
-      actualColor: 'hsl(144, 100%, 32%)',
-      need: 10,
-      needColor: 'hsl(144, 100%, 32%)',
+      division: 'HH&C CoP - USACE',
+      Engineers: 160,
+      Biologists: 60,
+      Scientist: 80,
+      Other: 90,
     },
   ];
 
   return (
     <ResponsiveBar
       data={data}
-      keys={['allocated', 'actual', 'need']}
+      keys={['Engineers', 'Biologists', 'Scientist', 'Other']}
       indexBy="division"
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.3}
