@@ -18,6 +18,8 @@ const authBundle = (options) => {
     redirectUrl: 'http://localhost:3000',
     refreshInterval: 300,
     sessionEndWarning: 600,
+    mock: false,
+    mockToken: null,
   };
 
   const config = { ...defaults, ...options };
@@ -59,6 +61,18 @@ const authBundle = (options) => {
     [doLogin]:
       () =>
       ({ dispatch, store }) => {
+        // Handle Mock Mode; Set Mock Token as Token
+        if (config.mock) {
+          if (!config.mockToken) {
+            console.error(
+              'Auth is mocked; bundle configuration parameter mockToken is not specifid'
+            );
+          } else {
+            store[doUpdate](config.mockToken);
+          }
+          return;
+        }
+        // Otherwise; Authenticate
         keycloak.directGrantX509Authenticate();
       },
     [doLogout]:
@@ -121,6 +135,10 @@ const authBundle = (options) => {
       return token ? true : false;
     }),
     init: (store) => {
+      if (config.mock) {
+        console.log('\n\nAUTH IS MOCKED\n\n');
+        return;
+      }
       keycloak = new Keycloak({
         keycloakUrl: config.host,
         realm: config.realm,
