@@ -5,19 +5,20 @@ const apiURL = process.env.REACT_APP_WORKFORCE_API_URL;
 export default createRestBundle({
   name: 'group',
   uid: 'id',
-  prefetch: false,
-  staleAfter: 30000, //5min
+  prefetch: true,
+  staleAfter: 0, //5min
   persist: true,
   routeParam: 'group_id',
-  getTemplate: `${apiURL}/offices/:office_symbol/groups`,
-  putTemplate: `${apiURL}/offices/:office_symbol/groups/:item.id`,
-  postTemplate: `${apiURL}/offices/:office_symbol/groups`,
-  deleteTemplate: `${apiURL}/offices/:office_symbol/groups/:item.id`,
-  fetchActions: [],
-  urlParamSelectors: ['selectGroupIdByRoute'],
+  getTemplate: `${apiURL}/offices/:symbol/groups`,
+  putTemplate: `${apiURL}/offices/:symbol/groups/:item.id`,
+  postTemplate: `${apiURL}/offices/:symbol/groups`,
+  deleteTemplate: `${apiURL}/offices/:symbol/groups/:item.id`,
+  fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED'],
+  urlParamSelectors: ['selectOfficeActive'],
   forceFetchActions: [],
   sortBy: '',
   sortAsc: false,
+  mergeItems: false,
   addons: {
     selectGroupItemsMocked: (state) => [
       {
@@ -36,7 +37,7 @@ export default createRestBundle({
     // @todo selectGroupItemsMocked ==> selectGroupItems
     selectGroupSelected: createSelector(
       'selectOfficeActive',
-      'selectGroupItemsMocked',
+      'selectGroupItemsArray',
       'selectRouteParams',
       (office, groups, params) => {
         const groupSlug = params.group_slug;
@@ -52,7 +53,7 @@ export default createRestBundle({
     ),
     // @todo selectGroupItemsMocked ==> selectGroupItems
     selectGroupActiveArray: createSelector(
-      'selectGroupItemsMocked',
+      'selectGroupItemsArray',
       'selectOfficeActive',
       (groups, office) => {
         // If Office is not active or no groups: return []
