@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from 'redux-bundler-react';
 import LoginControl from '../login-control';
 import UsaceLogo from '../../images/USACE_logo.png';
 
-export default function Header() {
+const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState(false);
   const [deliverables, setDeliverables] = useState(false);
@@ -26,7 +27,10 @@ export default function Header() {
           <div className="flex flex-col justify-between h-full">
             <div className="px-6 pt-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
+                <div
+                  onClick={(e) => doUpdateUrl('/')}
+                  className="cursor-pointer flex items-center"
+                >
                   <img src={UsaceLogo} className="w-16" alt="USACE logo" />
                   {/* <svg
                     aria-label="Home"
@@ -429,7 +433,10 @@ export default function Header() {
       <nav className="w-full mx-auto bg-white shadow">
         <div className="container px-6 justify-between h-16 flex items-center lg:items-stretch mx-auto">
           <div className="h-full flex items-center">
-            <div className="mr-10 flex items-center">
+            <div
+              onClick={(e) => doUpdateUrl('/')}
+              className="cursor-pointer mr-10 flex items-center"
+            >
               {/* <svg
                 aria-label="Home"
                 id="logo"
@@ -456,7 +463,7 @@ export default function Header() {
                 HH&C Workforce
               </h3>
             </div>
-            <ul className="pr-12 xl:flex items-center h-full hidden">
+            {/* <ul className="pr-12 xl:flex items-center h-full hidden">
               <li className="cursor-pointer h-full flex items-center text-sm text-indigo-700 tracking-normal border-b-2 border-indigo-700">
                 <a href="/">Dashboard</a>
               </li>
@@ -469,7 +476,7 @@ export default function Header() {
               <li className="cursor-pointer h-full flex items-center text-sm text-gray-800 tracking-normal">
                 Deliverables
               </li>
-            </ul>
+            </ul> */}
           </div>
           <div className="h-full xl:flex items-center justify-end hidden">
             <div className="w-full h-full flex items-center">
@@ -637,4 +644,6 @@ export default function Header() {
       {/* Navigation ends */}
     </>
   );
-}
+});
+
+export default Header;

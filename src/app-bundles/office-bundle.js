@@ -1,11 +1,11 @@
 import { createSelector } from 'redux-bundler';
 import createRestBundle from './create-rest-bundle';
 
-const apiUrl = process.env.REACT_APP_SHARED_API_URL;
+const apiUrl = process.env.REACT_APP_WORKFORCE_API_URL;
 
 export default createRestBundle({
   name: 'office',
-  uid: 'id',
+  uid: 'symbol',
   prefetch: true,
   staleAfter: 0, //milliseconds; 1Hour
   persist: true,
@@ -19,6 +19,7 @@ export default createRestBundle({
   forceFetchActions: [],
   sortBy: 'name',
   sortAsc: true,
+  mergeItems: false,
   addons: {
     selectOfficeBySymbol: createSelector('selectOfficeItems', (offices) => {
       const obj = {};
