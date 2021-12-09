@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'redux-bundler-react';
 import Wrapper from '../../app-components/wrapper';
+import { GroupPositionTable } from '../../app-components/position-tables';
 
 // const MyFunction = ({ officeActive: active, authIsLoggedIn }) => {
 //   return (
@@ -27,14 +28,15 @@ const GroupDetail = connect(
     return (
       office &&
       group && (
-        <Wrapper title={`Group Details | ${group.name}`}>
-          <div>
+        <Wrapper title={`${office.name} | ${group.name}`}>
+          {/* <div>
             <h1>Group Detail Page</h1>
             <div className="mt-4">Office</div>
             <div className="mt-4">{JSON.stringify(office)}</div>
             <div className="mt-4">Group</div>
             <div className="mt-4">{JSON.stringify(group)}</div>
-          </div>
+          </div> */}
+          <GroupPositionTable />
         </Wrapper>
       )
     );

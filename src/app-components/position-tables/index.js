@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'redux-bundler-react';
-import MyResponsiveBulletHorizontal from '../../app-components/charts/bullet-horizontal';
 
 import USACE_Logo from '../../images/USACE_logo.png';
 
-const AllocationTable = ({ title, items }) => {
+const PositionTable = ({ title, items }) => {
   return (
     <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
       <header className="px-5 py-4 border-b border-gray-100">
@@ -18,18 +17,21 @@ const AllocationTable = ({ title, items }) => {
             <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
               <tr>
                 <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">Name</div>
+                  <div className="font-semibold text-left">-</div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-left">
-                    Position Allocation vs Actual
+                    Occupation/Series
                   </div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">% Filled</div>
+                  <div className="font-semibold text-left">Title</div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-center">Need</div>
+                  <div className="font-semibold text-left">Pay Plan/Grade</div>
+                </th>
+                <th className="p-2 whitespace-nowrap">
+                  <div className="font-semibold text-center">Action</div>
                 </th>
               </tr>
             </thead>
@@ -45,31 +47,33 @@ const AllocationTable = ({ title, items }) => {
                           src={USACE_Logo}
                           width="40"
                           height="40"
-                          alt={t.name}
+                          alt={t.position_title}
                         />
                       </div>
-                      <a href={t.href}>
-                        <div className="font-medium text-gray-800">
-                          {t.name}
-                        </div>
-                      </a>
                     </div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    <div className="">
-                      <span className="inline-block w-40 h-10">
-                        <MyResponsiveBulletHorizontal />
-                      </span>
+                    <div className="flex items-center">
+                      <div className="font-medium text-gray-800">
+                        {t.occupation_code} - {t.occupation_name}
+                      </div>
                     </div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    <div className="text-left font-medium text-green-500">
-                      {t.perc_filled}
+                    <div className="font-medium text-gray-800">
+                      {t.position_title}
+                    </div>
+                  </td>
+                  <td className="p-2 whitespace-nowrap">
+                    <div className="text-left font-medium">
+                      {t.code}-{t.position_grade}
                     </div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
                     <div className="text-center font-medium text-red-400">
-                      {t.need}
+                      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Edit Occupant
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -82,25 +86,23 @@ const AllocationTable = ({ title, items }) => {
   );
 };
 
-const OfficeAllocationTable = connect(
-  'selectOfficeItemsArray',
-  ({ officeItemsArray: offices }) => {
-    const items = offices.map((f) => ({ ...f, href: `/offices/${f.symbol}` }));
-
-    return <AllocationTable title="Offices" items={items} />;
+const GroupPositionTable = connect(
+  'selectPositionItemsArray',
+  ({ positionItemsArray: positions }) => {
+    return <PositionTable title="Positions" items={positions} />;
   }
 );
 
-const GroupAllocationTable = connect(
-  'selectGroupActiveArray',
-  ({ groupActiveArray: groups }) => {
-    const items = groups.map((g) => ({
-      ...g,
-      href: `/offices/${g.office_symbol}/groups/${g.slug}`,
-    }));
+// const GroupAllocationTable = connect(
+//   'selectGroupActiveArray',
+//   ({ groupActiveArray: groups }) => {
+//     const items = groups.map((g) => ({
+//       ...g,
+//       href: `/offices/${g.symbol}/groups/${g.slug}`,
+//     }));
 
-    return <AllocationTable title="Groups" items={items} />;
-  }
-);
+//     return <AllocationTable title="Groups" items={items} />;
+//   }
+// );
 
-export { OfficeAllocationTable, GroupAllocationTable };
+export { GroupPositionTable };

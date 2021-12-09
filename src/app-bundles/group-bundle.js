@@ -9,10 +9,10 @@ export default createRestBundle({
   staleAfter: 0, //5min
   persist: true,
   routeParam: 'group_slug',
-  getTemplate: `${apiURL}/offices/:symbol/groups`,
-  putTemplate: `${apiURL}/offices/:symbol/groups/:group_slug`,
-  postTemplate: `${apiURL}/offices/:symbol/groups`,
-  deleteTemplate: `${apiURL}/offices/:symbol/groups/:group_slug`,
+  getTemplate: `${apiURL}/offices/:office_symbol/groups`,
+  putTemplate: `${apiURL}/offices/:office_symbol/groups/:group_slug`,
+  postTemplate: `${apiURL}/offices/:office_symbol/groups`,
+  deleteTemplate: `${apiURL}/offices/:office_symbol/groups/:group_slug`,
   fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED'],
   urlParamSelectors: ['selectOfficeActive'],
   forceFetchActions: [],
@@ -46,7 +46,8 @@ export default createRestBundle({
         }
         return groups.find(
           (g) =>
-            office.symbol === g.symbol && groupSlug.toLowerCase() === g.slug
+            office.symbol === g.ofice_symbol &&
+            groupSlug.toLowerCase() === g.slug
         );
       }
     ),
@@ -60,7 +61,7 @@ export default createRestBundle({
           return [];
         }
         // Otherwise, return array of groups that have group.office_symbol = activeOffice.symbol
-        return groups.filter((g) => g.symbol === office.symbol);
+        return groups.filter((g) => g.office_symbol === office.symbol);
       }
     ),
     selectGroupIdByRoute: createSelector('selectGroupByRoute', (group) => {
