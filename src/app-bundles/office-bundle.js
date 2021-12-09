@@ -14,20 +14,24 @@ export default createRestBundle({
   putTemplate: '',
   postTemplate: '',
   deleteTemplate: '',
-  fetchActions: [],
-  urlParamSelectors: [],
+  fetchActions: ['URL_UPDATED'],
+  urlParamSelectors: ['selectRouteParams'],
   forceFetchActions: [],
   sortBy: 'name',
   sortAsc: true,
   mergeItems: false,
   addons: {
-    selectOfficeBySymbol: createSelector('selectOfficeItems', (offices) => {
-      const obj = {};
-      offices.forEach((f) => {
-        obj[f.symbol] = f;
-      });
-      return obj;
-    }),
+    selectOfficeBySymbol: createSelector(
+      'selectOfficeItemsArray',
+      (offices) => {
+        const obj = {};
+        offices.forEach((f) => {
+          obj[f.symbol] = f;
+        });
+
+        return obj;
+      }
+    ),
     selectOfficeActive: createSelector(
       'selectOfficeBySymbol',
       'selectRouteParams',
@@ -35,6 +39,7 @@ export default createRestBundle({
         if (!routeParams['office_symbol']) {
           return null;
         }
+
         return officeBySymbol[routeParams['office_symbol'].toUpperCase()];
       }
     ),

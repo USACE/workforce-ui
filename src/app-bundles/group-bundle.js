@@ -61,7 +61,7 @@ export default createRestBundle({
           return [];
         }
         // Otherwise, return array of groups that have group.office_symbol = activeOffice.symbol
-        return groups.filter((g) => g.office_symbol === office.symbol);
+        return groups.filter((g) => g.symbol === office.symbol);
       }
     ),
     selectGroupIdByRoute: createSelector('selectGroupByRoute', (group) => {

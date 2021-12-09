@@ -9,9 +9,12 @@ const OfficeDetail = connect(
   'doUpdateUrl',
   ({ officeActive: office, groupActiveArray: groups, doUpdateUrl }) => {
     return (
-      <Wrapper title={`Office Details | ${office.name} (${office.symbol})`}>
-        <GroupAllocationTable />
-      </Wrapper>
+      office &&
+      groups && (
+        <Wrapper title={`Office Details | ${office.name} (${office.symbol})`}>
+          <GroupAllocationTable />
+        </Wrapper>
+      )
     );
   }
 );
