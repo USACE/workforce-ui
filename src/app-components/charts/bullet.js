@@ -10,7 +10,7 @@ import { ResponsiveBullet } from '@nivo/bullet';
 export default function MyResponsiveBullet() {
   const data = [
     {
-      id: 'LRH',
+      id: 'All HH&C',
       ranges: [0, 120],
       measures: [80],
       markers: [100],

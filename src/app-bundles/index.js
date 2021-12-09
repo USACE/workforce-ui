@@ -12,6 +12,8 @@ import routeBundle from './route-bundle';
 import cache from '../cache';
 
 // App Bundles
+import breadcrumbBundle from './breadcrumb-bundle';
+import redirectBundle from './redirect-bundle';
 import modalBundle from './modal-bundle';
 import officeBundle from './office-bundle';
 import groupBundle from './group-bundle';
@@ -27,6 +29,8 @@ export default composeBundles(
   createCacheBundle({ cacheFn: cache.set }),
   createUrlBundle,
   // Application Bundles
+  breadcrumbBundle,
+  redirectBundle,
   groupBundle,
   modalBundle,
   routeBundle,

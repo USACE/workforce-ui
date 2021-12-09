@@ -71,7 +71,7 @@ const PositionTable = ({ title, items }) => {
                   </td>
                   <td className="p-2 whitespace-nowrap">
                     <div className="text-center font-medium text-red-400">
-                      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Edit Occupant
                       </button>
                     </div>
@@ -87,8 +87,8 @@ const PositionTable = ({ title, items }) => {
 };
 
 const GroupPositionTable = connect(
-  'selectPositionItemsArray',
-  ({ positionItemsArray: positions }) => {
+  'selectPositionItems',
+  ({ positionItems: positions }) => {
     return <PositionTable title="Positions" items={positions} />;
   }
 );

@@ -7,7 +7,7 @@ export default createRestBundle({
   name: 'office',
   uid: 'symbol',
   prefetch: true,
-  staleAfter: 0, //milliseconds; 1Hour
+  staleAfter: 0,
   persist: true,
   routeParam: 'office_symbol',
   getTemplate: `${apiUrl}/offices`,
@@ -21,26 +21,15 @@ export default createRestBundle({
   sortAsc: true,
   mergeItems: false,
   addons: {
-    selectOfficeBySymbol: createSelector(
-      'selectOfficeItemsArray',
-      (offices) => {
-        const obj = {};
-        offices.forEach((f) => {
-          obj[f.symbol] = f;
-        });
-
-        return obj;
-      }
-    ),
     selectOfficeActive: createSelector(
-      'selectOfficeBySymbol',
+      'selectOfficeItemsObject',
       'selectRouteParams',
-      (officeBySymbol, routeParams) => {
+      (officeItemsObject, routeParams) => {
         if (!routeParams['office_symbol']) {
           return null;
         }
 
-        return officeBySymbol[routeParams['office_symbol'].toUpperCase()];
+        return officeItemsObject[routeParams['office_symbol'].toUpperCase()];
       }
     ),
   },

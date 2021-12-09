@@ -139,9 +139,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
                             />
                           </svg>
                         </div>
-                        <p className="text-gray-700 ml-3 text-lg">
-                          <a href="/offices">Offices</a>
-                        </p>
+                        <p className="text-gray-700 ml-3 text-lg">Offices</p>
                       </div>
                       <div onClick={() => setProduct(!product)}>
                         {product ? (
@@ -347,7 +345,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
             </div>
             <div className="w-full">
               <div className="flex justify-center mb-4 w-full px-6">
-                <div className="relative w-full">
+                {/* <div className="relative w-full">
                   <div className="text-gray-500 absolute ml-4 inset-0 m-auto w-4 h-4">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -371,7 +369,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
                     type="text"
                     placeholder="Search"
                   />
-                </div>
+                </div> */}
               </div>
               <div className="border-t border-gray-300">
                 <div className="w-full flex items-center justify-between px-6 pt-1">
@@ -481,7 +479,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
           <div className="h-full xl:flex items-center justify-end hidden">
             <div className="w-full h-full flex items-center">
               <div className="w-full pr-12 h-full flex items-center border-r">
-                <div className="relative w-full">
+                {/* <div className="relative w-full">
                   <div className="text-gray-500 absolute ml-3 inset-0 m-auto w-4 h-4">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -505,7 +503,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
                     type="text"
                     placeholder="Search"
                   />
-                </div>
+                </div> */}
               </div>
               <div className="w-full h-full flex">
                 <div className="w-32 h-full flex items-center justify-center border-r cursor-pointer text-gray-600">

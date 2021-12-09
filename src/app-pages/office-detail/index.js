@@ -8,13 +8,12 @@ const OfficeDetail = connect(
   'selectGroupActiveArray',
   'doUpdateUrl',
   ({ officeActive: office, groupActiveArray: groups, doUpdateUrl }) => {
-    return (
-      office &&
-      groups && (
-        <Wrapper title={`Office Details | ${office.name} (${office.symbol})`}>
-          <GroupAllocationTable />
-        </Wrapper>
-      )
+    return !office ? (
+      <>Office does not exist</>
+    ) : (
+      <Wrapper title={`HOME | ${office.name} (${office.symbol})`}>
+        <GroupAllocationTable />
+      </Wrapper>
     );
   }
 );

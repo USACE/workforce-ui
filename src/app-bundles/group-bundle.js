@@ -4,15 +4,15 @@ const apiURL = process.env.REACT_APP_WORKFORCE_API_URL;
 
 export default createRestBundle({
   name: 'group',
-  uid: 'uid',
+  uid: 'slug',
   prefetch: true,
   staleAfter: 0, //5min
-  persist: true,
+  persist: false,
   routeParam: 'group_slug',
-  getTemplate: `${apiURL}/offices/:office_symbol/groups`,
-  putTemplate: `${apiURL}/offices/:office_symbol/groups/:group_slug`,
-  postTemplate: `${apiURL}/offices/:office_symbol/groups`,
-  deleteTemplate: `${apiURL}/offices/:office_symbol/groups/:group_slug`,
+  getTemplate: `${apiURL}/offices/:symbol/groups`,
+  putTemplate: `${apiURL}/offices/:symbol/groups/:group_slug`,
+  postTemplate: `${apiURL}/offices/:symbol/groups`,
+  deleteTemplate: `${apiURL}/offices/:symbol/groups/:group_slug`,
   fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED'],
   urlParamSelectors: ['selectOfficeActive'],
   forceFetchActions: [],
@@ -20,24 +20,9 @@ export default createRestBundle({
   sortAsc: false,
   mergeItems: false,
   addons: {
-    // selectGroupItemsMocked: (state) => [
-    //   {
-    //     office_symbol: 'LRN',
-    //     name: 'Water Resources',
-    //     slug: 'water-resources',
-    //     last_modified: null,
-    //   },
-    //   {
-    //     office_symbol: 'LRH',
-    //     name: 'Water Management',
-    //     slug: 'water-management',
-    //     last_modified: null,
-    //   },
-    // ],
-    // @todo selectGroupItemsMocked ==> selectGroupItems
     selectGroupSelected: createSelector(
       'selectOfficeActive',
-      'selectGroupItems',
+      'selectGroupActiveArray',
       'selectRouteParams',
       (office, groups, params) => {
         const groupSlug = params.group_slug;
@@ -46,12 +31,11 @@ export default createRestBundle({
         }
         return groups.find(
           (g) =>
-            office.symbol === g.ofice_symbol &&
+            office.symbol === g.office_symbol &&
             groupSlug.toLowerCase() === g.slug
         );
       }
     ),
-    // @todo selectGroupItemsMocked ==> selectGroupItems
     selectGroupActiveArray: createSelector(
       'selectGroupItemsArray',
       'selectOfficeActive',
