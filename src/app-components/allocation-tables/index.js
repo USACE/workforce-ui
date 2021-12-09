@@ -35,8 +35,8 @@ const AllocationTable = ({ title, items }) => {
             </thead>
             {/* Table body */}
             <tbody className="text-sm divide-y divide-gray-100">
-              {items.map((t) => (
-                <tr key={t.id}>
+              {items.map((t, idx) => (
+                <tr key={idx}>
                   <td className="p-2 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
@@ -83,9 +83,12 @@ const AllocationTable = ({ title, items }) => {
 };
 
 const OfficeAllocationTable = connect(
-  'selectOfficeItemsArray',
-  ({ officeItemsArray: offices }) => {
-    const items = offices.map((f) => ({ ...f, href: `/offices/${f.symbol}` }));
+  'selectOfficeItems',
+  ({ officeItems: offices }) => {
+    const items = offices.map((f) => ({
+      ...f,
+      href: `/offices/${f.symbol.toLowerCase()}`,
+    }));
 
     return <AllocationTable title="Offices" items={items} />;
   }
@@ -96,7 +99,7 @@ const GroupAllocationTable = connect(
   ({ groupActiveArray: groups }) => {
     const items = groups.map((g) => ({
       ...g,
-      href: `/offices/${g.office_symbol}/groups/${g.slug}`,
+      href: `/offices/${g.office_symbol.toLowerCase()}/groups/${g.slug}`,
     }));
 
     return <AllocationTable title="Groups" items={items} />;

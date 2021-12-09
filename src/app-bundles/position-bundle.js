@@ -9,7 +9,7 @@ export default createRestBundle({
   staleAfter: 0, //milliseconds; 1Hour
   persist: true,
   routeParam: '',
-  getTemplate: `${apiUrl}/offices/:office_symbol/positions`,
+  getTemplate: `${apiUrl}/offices/:symbol/positions`,
   putTemplate: '',
   postTemplate: '',
   deleteTemplate: '',

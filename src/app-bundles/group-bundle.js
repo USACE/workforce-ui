@@ -8,12 +8,12 @@ export default createRestBundle({
   uid: 'slug',
   prefetch: true,
   staleAfter: 0, //5min
-  persist: true,
+  persist: false,
   routeParam: 'group_slug',
-  getTemplate: `${apiURL}/offices/:office_symbol/groups`,
-  putTemplate: `${apiURL}/offices/:office_symbol/groups/:group_slug`,
-  postTemplate: `${apiURL}/offices/:office_symbol/groups`,
-  deleteTemplate: `${apiURL}/offices/:office_symbol/groups/:group_slug`,
+  getTemplate: `${apiURL}/offices/:symbol/groups`,
+  putTemplate: `${apiURL}/offices/:symbol/groups/:group_slug`,
+  postTemplate: `${apiURL}/offices/:symbol/groups`,
+  deleteTemplate: `${apiURL}/offices/:symbol/groups/:group_slug`,
   fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED'],
   urlParamSelectors: ['selectOfficeActive'],
   forceFetchActions: [],
@@ -23,7 +23,7 @@ export default createRestBundle({
   addons: {
     selectGroupSelected: createSelector(
       'selectOfficeActive',
-      'selectGroupItems',
+      'selectGroupActiveArray',
       'selectRouteParams',
       (office, groups, params) => {
         const groupSlug = params.group_slug;
@@ -32,7 +32,7 @@ export default createRestBundle({
         }
         return groups.find(
           (g) =>
-            office.symbol === g.ofice_symbol &&
+            office.symbol === g.office_symbol &&
             groupSlug.toLowerCase() === g.slug
         );
       }
