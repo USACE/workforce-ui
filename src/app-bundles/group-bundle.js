@@ -4,7 +4,7 @@ const apiURL = process.env.REACT_APP_WORKFORCE_API_URL;
 
 export default createRestBundle({
   name: 'group',
-  uid: 'id',
+  uid: 'uid',
   prefetch: true,
   staleAfter: 0, //5min
   persist: true,
