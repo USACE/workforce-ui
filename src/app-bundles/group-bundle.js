@@ -11,9 +11,9 @@ export default createRestBundle({
   persist: false,
   routeParam: 'group_id',
   getTemplate: `${apiURL}/offices/:symbol/groups`,
-  putTemplate: `${apiURL}/offices/:symbol/groups/:item.id`,
+  putTemplate: `${apiURL}/offices/:symbol/groups/:item.slug`,
   postTemplate: `${apiURL}/offices/:symbol/groups`,
-  deleteTemplate: `${apiURL}/offices/:symbol/groups/:item.id`,
+  deleteTemplate: `${apiURL}/offices/:symbol/groups/:item.slug`,
   fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED'],
   urlParamSelectors: ['selectOfficeActive'],
   forceFetchActions: [],
@@ -23,7 +23,7 @@ export default createRestBundle({
   addons: {
     selectGroupSelected: createSelector(
       'selectOfficeActive',
-      'selectGroupItemsArray',
+      'selectGroupItems',
       'selectRouteParams',
       (office, groups, params) => {
         const groupSlug = params.group_slug;
@@ -32,8 +32,7 @@ export default createRestBundle({
         }
         return groups.find(
           (g) =>
-            office.symbol === g.office_symbol &&
-            groupSlug.toLowerCase() === g.slug
+            office.symbol === g.symbol && groupSlug.toLowerCase() === g.slug
         );
       }
     ),
@@ -46,7 +45,7 @@ export default createRestBundle({
           return [];
         }
         // Otherwise, return array of groups that have group.office_symbol = activeOffice.symbol
-        return groups.filter((g) => g.office_symbol === office.symbol);
+        return groups.filter((g) => g.symbol === office.symbol);
       }
     ),
     selectGroupIdByRoute: createSelector('selectGroupByRoute', (group) => {
