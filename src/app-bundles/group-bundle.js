@@ -1,13 +1,14 @@
 import { createSelector } from 'redux-bundler';
 import createRestBundle from './create-rest-bundle';
+
 const apiURL = process.env.REACT_APP_WORKFORCE_API_URL;
 
 export default createRestBundle({
   name: 'group',
-  uid: 'id',
+  uid: 'slug',
   prefetch: true,
-  staleAfter: 0, //5min
-  persist: true,
+  staleAfter: 0,
+  persist: false,
   routeParam: 'group_id',
   getTemplate: `${apiURL}/offices/:symbol/groups`,
   putTemplate: `${apiURL}/offices/:symbol/groups/:item.id`,
@@ -20,21 +21,6 @@ export default createRestBundle({
   sortAsc: false,
   mergeItems: false,
   addons: {
-    selectGroupItemsMocked: (state) => [
-      {
-        office_symbol: 'LRN',
-        name: 'Water Resources',
-        slug: 'water-resources',
-        last_modified: null,
-      },
-      {
-        office_symbol: 'LRH',
-        name: 'Water Management',
-        slug: 'water-management',
-        last_modified: null,
-      },
-    ],
-    // @todo selectGroupItemsMocked ==> selectGroupItems
     selectGroupSelected: createSelector(
       'selectOfficeActive',
       'selectGroupItemsArray',
@@ -51,7 +37,6 @@ export default createRestBundle({
         );
       }
     ),
-    // @todo selectGroupItemsMocked ==> selectGroupItems
     selectGroupActiveArray: createSelector(
       'selectGroupItemsArray',
       'selectOfficeActive',
