@@ -21,9 +21,7 @@ const GroupDetail = connect(
     ) : !office || !group ? (
       <>{`Group '${routeParams['group_slug']}' for office '${routeParams['office_symbol']}' does not exist`}</>
     ) : (
-      <Wrapper
-        title={`HOME  >  ${office.name} (${office.symbol})  >  ${group.name}`}
-      >
+      <Wrapper title={`${office.symbol}  |  ${group.name} Group`}>
         <GroupPositionTable />
       </Wrapper>
     );

@@ -11,7 +11,7 @@ const OfficeDetail = connect(
     return !office ? (
       <>Office does not exist</>
     ) : (
-      <Wrapper title={`HOME | ${office.name} (${office.symbol})`}>
+      <Wrapper title={`${office.name} Office (${office.symbol})`}>
         <GroupAllocationTable />
       </Wrapper>
     );
