@@ -96,7 +96,7 @@ const GroupAllocationTable = connect(
   ({ groupActiveArray: groups }) => {
     const items = groups.map((g) => ({
       ...g,
-      href: `/offices/${g.office_symbol}/groups/${g.slug}`,
+      href: `/offices/${g.symbol}/groups/${g.slug}`,
     }));
 
     return <AllocationTable title="Groups" items={items} />;

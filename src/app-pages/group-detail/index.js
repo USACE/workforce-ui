@@ -25,15 +25,18 @@ const GroupDetail = connect(
   'selectGroupSelected',
   ({ officeActive: office, groupSelected: group }) => {
     return (
-      <Wrapper title={`Group Details | ${group.name}`}>
-        <div>
-          <h1>Group Detail Page</h1>
-          <div className="mt-4">Office</div>
-          <div className="mt-4">{JSON.stringify(office)}</div>
-          <div className="mt-4">Group</div>
-          <div className="mt-4">{JSON.stringify(group)}</div>
-        </div>
-      </Wrapper>
+      office &&
+      group && (
+        <Wrapper title={`Group Details | ${group.name}`}>
+          <div>
+            <h1>Group Detail Page</h1>
+            <div className="mt-4">Office</div>
+            <div className="mt-4">{JSON.stringify(office)}</div>
+            <div className="mt-4">Group</div>
+            <div className="mt-4">{JSON.stringify(group)}</div>
+          </div>
+        </Wrapper>
+      )
     );
   }
 );
