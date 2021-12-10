@@ -1,13 +1,19 @@
 import React from 'react';
 import { connect } from 'redux-bundler-react';
 
-import USACE_Logo from '../../images/USACE_logo.png';
+// import USACE_Logo from '../../images/USACE_logo.png';
+import { UserIcon } from '@heroicons/react/outline';
+import { UserCircleIcon } from '@heroicons/react/solid';
+// import { EditIcon, DeleteIcon } from '../icons';
+import { EditButton, CancelButton } from '../forms/buttons';
 
 const PositionTable = ({ title, items }) => {
   return (
     <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
       <header className="px-5 py-4 border-b border-gray-100">
-        <h2 className="font-semibold text-gray-800">{title}</h2>
+        <h2 className="font-semibold text-gray-800">
+          {title} ({items.length})
+        </h2>
       </header>
       <div className="p-3">
         {/* Table */}
@@ -17,7 +23,7 @@ const PositionTable = ({ title, items }) => {
             <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
               <tr>
                 <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">-</div>
+                  <div className="font-semibold text-left">&nbsp;</div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-left">
@@ -41,14 +47,21 @@ const PositionTable = ({ title, items }) => {
                 <tr key={t.id}>
                   <td className="p-2 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                        <img
+                      <div className="w-8 h-10 flex-shrink-0 mr-2 sm:mr-3">
+                        {t.is_supervisor ? (
+                          <span title="Supervisor">
+                            <UserCircleIcon className="w-8 text-gray-400" />
+                          </span>
+                        ) : (
+                          <UserIcon className="w-8 text-gray-300" />
+                        )}
+                        {/* <img
                           className="rounded-full"
                           src={USACE_Logo}
                           width="40"
                           height="40"
                           alt={t.position_title}
-                        />
+                        /> */}
                       </div>
                     </div>
                   </td>
@@ -70,10 +83,16 @@ const PositionTable = ({ title, items }) => {
                     </div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    <div className="text-center font-medium text-red-400">
-                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <div className="flex text-center font-medium text-red-400">
+                      <EditButton label="Edit" onClick={null} />
+                      <CancelButton
+                        label="Delete"
+                        className="ml-2"
+                        onClick={null}
+                      />
+                      {/* <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Edit Occupant
-                      </button>
+                      </button> */}
                     </div>
                   </td>
                 </tr>
