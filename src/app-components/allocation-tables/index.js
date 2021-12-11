@@ -22,14 +22,17 @@ const AllocationTable = ({ title, items }) => {
                 </th>
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-left">
-                    Position Allocation vs Actual
+                    Positions <br />
+                    (Filled, Allowed, Target)
                   </div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">% Filled</div>
+                  <div className="font-semibold text-left"># Employees</div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-center">Need</div>
+                  <div className="font-semibold text-center">
+                    # Vacant Positions
+                  </div>
                 </th>
               </tr>
             </thead>
@@ -63,14 +66,21 @@ const AllocationTable = ({ title, items }) => {
                     </div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    <div className="text-left font-medium text-green-500">
-                      {t.perc_filled}
+                    <div className="text-center font-medium text-green-500">
+                      {t.count_employees}
                     </div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    <div className="text-center font-medium text-red-400">
-                      {t.need}
-                    </div>
+                    {t.count_positions && t.count_vacancies && (
+                      <div className="text-center font-medium ">
+                        <span className="text-red-400">
+                          {t.count_vacancies}
+                        </span>
+                        <span className="ml-2 text-gray-300">
+                          / {t.count_positions} total
+                        </span>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -96,9 +106,16 @@ const OfficeAllocationTable = connect(
 
 const GroupAllocationTable = connect(
   'selectGroupActiveArray',
-  ({ groupActiveArray: groups }) => {
+  'selectPositionCountsByGroup',
+  ({ groupActiveArray: groups, positionCountsByGroup: positionCounts }) => {
     const items = groups.map((g) => ({
       ...g,
+      count_positions:
+        positionCounts[g.slug] && positionCounts[g.slug].positions,
+      count_employees:
+        positionCounts[g.slug] && positionCounts[g.slug].employees,
+      count_vacancies:
+        positionCounts[g.slug] && positionCounts[g.slug].vacancies,
       href: `/offices/${g.office_symbol.toLowerCase()}/groups/${g.slug}`,
     }));
 

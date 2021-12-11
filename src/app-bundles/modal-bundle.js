@@ -1,13 +1,13 @@
 const modalBundle = {
-  name: "modal",
+  name: 'modal',
   getReducer: () => {
     const initialData = {
       content: null,
-      props: null,
+      props: {},
     };
 
     return (state = initialData, { type, payload }) => {
-      if (type === "MODAL_UPDATED") {
+      if (type === 'MODAL_UPDATED') {
         return Object.assign({}, state, payload);
       }
       return state;
@@ -17,7 +17,7 @@ const modalBundle = {
     (content, props) =>
     ({ dispatch }) => {
       dispatch({
-        type: "MODAL_UPDATED",
+        type: 'MODAL_UPDATED',
         payload: {
           content: content,
           props: props,
@@ -28,7 +28,7 @@ const modalBundle = {
     () =>
     ({ dispatch }) => {
       dispatch({
-        type: "MODAL_UPDATED",
+        type: 'MODAL_UPDATED',
         payload: {
           content: null,
         },

@@ -57,7 +57,7 @@ const Modal = connect(
             </span>
             {/* =========================== */}
             {/* VARIABLE MODAL CONTENT HERE */}
-            <ModalContent />
+            <ModalContent {...modalProps} />
             {/* =========================== */}
           </div>
         </Dialog>
