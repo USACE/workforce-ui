@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'redux-bundler-react';
+import ReactTooltip from 'react-tooltip';
 
 // import USACE_Logo from '../../images/USACE_logo.png';
-import { UserIcon } from '@heroicons/react/outline';
+// import { UserIcon } from '@heroicons/react/outline';
 import { UserCircleIcon } from '@heroicons/react/solid';
 // import { EditIcon, DeleteIcon } from '../icons';
-import { EditButton, CancelButton } from '../forms/buttons';
+import { EditButton, UserAddButton } from '../forms/buttons';
+import EditPositionModal from '../modals/edit-position-modal';
 
-const PositionTable = ({ title, items }) => {
+const PositionTable = ({ doModalOpen, title, items }) => {
   return (
     <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
       <header className="px-5 py-4 border-b border-gray-100">
@@ -36,6 +38,7 @@ const PositionTable = ({ title, items }) => {
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-left">Pay Plan/Grade</div>
                 </th>
+
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-center">Action</div>
                 </th>
@@ -48,12 +51,19 @@ const PositionTable = ({ title, items }) => {
                   <td className="p-2 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="w-8 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                        {t.is_supervisor ? (
+                        <ReactTooltip />
+                        {t.current_occupancy ? (
                           <span title="Supervisor">
-                            <UserCircleIcon className="w-8 text-gray-400" />
+                            <UserCircleIcon
+                              data-tip="Filled Position"
+                              className="w-8 text-green-500"
+                            />
                           </span>
                         ) : (
-                          <UserIcon className="w-8 text-gray-300" />
+                          <UserCircleIcon
+                            data-tip="Vacant Position"
+                            className="w-8 text-gray-200"
+                          />
                         )}
                         {/* <img
                           className="rounded-full"
@@ -73,23 +83,32 @@ const PositionTable = ({ title, items }) => {
                     </div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    <div className="font-medium text-gray-800">
-                      {t.position_title}
-                    </div>
+                    <div className="font-medium text-gray-800">{t.title}</div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
                     <div className="text-left font-medium">
-                      {t.code}-{t.position_grade}
+                      {t.pay_plan}-{t.grade}
                     </div>
                   </td>
+
                   <td className="p-2 whitespace-nowrap">
                     <div className="flex text-center font-medium text-red-400">
-                      <EditButton label="Edit" onClick={null} />
-                      <CancelButton
+                      {/* {JSON.stringify(t.current_occupancy)} */}
+
+                      <EditButton
+                        label=""
+                        onClick={() => doModalOpen(EditPositionModal, t)}
+                      />
+
+                      {!t.current_occupancy && (
+                        <UserAddButton label="" onClick={null} />
+                      )}
+
+                      {/* <CancelButton
                         label="Delete"
                         className="ml-2"
                         onClick={null}
-                      />
+                      /> */}
                       {/* <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Edit Occupant
                       </button> */}
@@ -106,9 +125,16 @@ const PositionTable = ({ title, items }) => {
 };
 
 const GroupPositionTable = connect(
+  'doModalOpen',
   'selectPositionItems',
-  ({ positionItems: positions }) => {
-    return <PositionTable title="Positions" items={positions} />;
+  ({ doModalOpen, positionItems: positions }) => {
+    return (
+      <PositionTable
+        title="Positions"
+        items={positions}
+        doModalOpen={doModalOpen}
+      />
+    );
   }
 );
 
