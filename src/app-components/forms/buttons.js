@@ -1,4 +1,15 @@
 import React from 'react';
+import { UserAddIcon } from '@heroicons/react/solid';
+
+const UserAddButton = (props) => (
+  <button
+    className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+    onClick={props.onClick}
+  >
+    <UserAddIcon className="h-5 w-5" />
+    {props.label}
+  </button>
+);
 
 const NewButton = (props) => (
   <button
@@ -95,4 +106,4 @@ const CancelButton = (props) => (
   </button>
 );
 
-export { NewButton, SaveButton, CancelButton, EditButton };
+export { NewButton, SaveButton, CancelButton, EditButton, UserAddButton };
