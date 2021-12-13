@@ -1,14 +1,30 @@
 import React from 'react';
 import { connect } from 'redux-bundler-react';
 import MyResponsiveBulletHorizontal from '../../app-components/charts/bullet-horizontal';
+import EditGroupModal from './EditGroupModal';
+
+import { UserCircleIcon, PencilAltIcon } from '@heroicons/react/outline';
 
 import USACE_Logo from '../../images/USACE_logo.png';
 
-const AllocationTable = ({ title, items }) => {
+const AllocationTable = ({ title, items, doModalOpen }) => {
   return (
     <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
-      <header className="px-5 py-4 border-b border-gray-100">
-        <h2 className="font-semibold text-gray-800">{title}</h2>
+      <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
+        <h2 className="font-semibold text-gray-800">
+          {title} ({items.length})
+        </h2>
+        {/* Only show button on groups table */}
+        {title && title == 'Groups' && (
+          <button
+            onClick={(e) => {
+              doModalOpen(EditGroupModal, {});
+            }}
+            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+          >
+            + New Group
+          </button>
+        )}
       </header>
       <div className="p-3">
         {/* Table */}
@@ -107,7 +123,12 @@ const OfficeAllocationTable = connect(
 const GroupAllocationTable = connect(
   'selectGroupActiveArray',
   'selectPositionCountsByGroup',
-  ({ groupActiveArray: groups, positionCountsByGroup: positionCounts }) => {
+  'doModalOpen',
+  ({
+    groupActiveArray: groups,
+    positionCountsByGroup: positionCounts,
+    doModalOpen,
+  }) => {
     const items = groups.map((g) => ({
       ...g,
       count_positions:
@@ -119,7 +140,9 @@ const GroupAllocationTable = connect(
       href: `/offices/${g.office_symbol.toLowerCase()}/groups/${g.slug}`,
     }));
 
-    return <AllocationTable title="Groups" items={items} />;
+    return (
+      <AllocationTable title="Groups" items={items} doModalOpen={doModalOpen} />
+    );
   }
 );
 
