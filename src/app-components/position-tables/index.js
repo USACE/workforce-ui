@@ -1,153 +1,143 @@
 import React from 'react';
 import { connect } from 'redux-bundler-react';
-import ReactTooltip from 'react-tooltip';
+import EditPositionModal from './EditPositionModal';
 
-// import USACE_Logo from '../../images/USACE_logo.png';
-// import { UserIcon } from '@heroicons/react/outline';
-import { UserCircleIcon } from '@heroicons/react/solid';
-// import { EditIcon, DeleteIcon } from '../icons';
-import { EditButton, UserAddButton } from '../forms/buttons';
-import EditPositionModal from '../modals/edit-position-modal';
+import { UserCircleIcon, PencilAltIcon } from '@heroicons/react/outline';
 
-const PositionTable = ({ doModalOpen, title, items }) => {
-  return (
-    <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
-      <header className="px-5 py-4 border-b border-gray-100">
-        <h2 className="font-semibold text-gray-800">
-          {title} ({items.length})
-        </h2>
-      </header>
-      <div className="p-3">
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full">
-            {/* Table header */}
-            <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-              <tr>
-                <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">&nbsp;</div>
-                </th>
-                <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">
-                    Occupation/Series
-                  </div>
-                </th>
-                <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">Title</div>
-                </th>
-                <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left">Pay Plan/Grade</div>
-                </th>
-
-                <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-center">Action</div>
-                </th>
-              </tr>
-            </thead>
-            {/* Table body */}
-            <tbody className="text-sm divide-y divide-gray-100">
-              {items.map((t) => (
-                <tr key={t.id}>
-                  <td className="p-2 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="w-8 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                        <ReactTooltip />
-                        {t.current_occupancy ? (
-                          <span title="Supervisor">
-                            <UserCircleIcon
-                              data-tip="Filled Position"
-                              className="w-8 text-green-500"
-                            />
-                          </span>
-                        ) : (
-                          <UserCircleIcon
-                            data-tip="Vacant Position"
-                            className="w-8 text-gray-200"
-                          />
-                        )}
-                        {/* <img
-                          className="rounded-full"
-                          src={USACE_Logo}
-                          width="40"
-                          height="40"
-                          alt={t.position_title}
-                        /> */}
-                      </div>
+const PositionTable = connect(
+  'doModalOpen',
+  ({ title, items, doModalOpen }) => {
+    return (
+      <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
+        <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
+          <h2 className="font-semibold text-gray-800">{title}</h2>
+          <button
+            onClick={(e) => {
+              console.log('CLICKED NEW POSITION');
+            }}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            + New Position
+          </button>
+        </header>
+        <div className="p-3">
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="table-auto w-full">
+              {/* Table header */}
+              <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                <tr>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Status</div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Title</div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">
+                      Series-Occupation
                     </div>
-                  </td>
-                  <td className="p-2 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="font-medium text-gray-800">
-                        {t.occupation_code} - {t.occupation_name}
-                      </div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">
+                      Pay Plan-Grade
                     </div>
-                  </td>
-                  <td className="p-2 whitespace-nowrap">
-                    <div className="font-medium text-gray-800">{t.title}</div>
-                  </td>
-                  <td className="p-2 whitespace-nowrap">
-                    <div className="text-left font-medium">
-                      {t.pay_plan}-{t.grade}
-                    </div>
-                  </td>
-
-                  <td className="p-2 whitespace-nowrap">
-                    <div className="flex text-center font-medium text-red-400">
-                      {/* {JSON.stringify(t.current_occupancy)} */}
-
-                      <EditButton
-                        label=""
-                        onClick={() => doModalOpen(EditPositionModal, t)}
-                      />
-
-                      {!t.current_occupancy && (
-                        <UserAddButton label="" onClick={null} />
-                      )}
-
-                      {/* <CancelButton
-                        label="Delete"
-                        className="ml-2"
-                        onClick={null}
-                      /> */}
-                      {/* <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Edit Occupant
-                      </button> */}
-                    </div>
-                  </td>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-center">Action</div>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              {/* Table body */}
+              <tbody className="text-sm divide-y divide-gray-100">
+                {items.map((t) => {
+                  const {
+                    id,
+                    occupation_code,
+                    occupation_name,
+                    title,
+                    pay_plan,
+                    grade,
+                    current_occupancy,
+                  } = t;
+                  const isVacant = !current_occupancy;
+                  return (
+                    <tr key={id}>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div
+                            className={`rounded-full w-11 h-11 flex justify-around items-center ${
+                              isVacant ? 'bg-gray-200' : 'bg-green-300'
+                            }`}
+                          >
+                            {!isVacant && (
+                              <UserCircleIcon className="text-green-800" />
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="font-medium text-gray-800">{title}</div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="font-medium text-gray-800">
+                            {occupation_code} - {occupation_name}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="text-left font-medium">
+                          {pay_plan}-{grade}
+                        </div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="text-center space-x-2 font-medium text-red-400">
+                          {/* <button
+                            disabled={!isVacant}
+                            onClick={(e) => {
+                              console.log('Add User to Position Clicked');
+                            }}
+                            className={`font-bold py-2 px-4 rounded ${
+                              isVacant
+                                ? 'bg-blue-500 hover:bg-blue-700 text-white'
+                                : 'bg-gray-200 text-gray-400'
+                            }`}
+                          >
+                            <UserAddIcon className="w-6 h-6" />
+                          </button>
+                          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <UserRemoveIcon className="w-6 h-6" />
+                          </button> */}
+                          <button
+                            onClick={(e) => {
+                              doModalOpen(EditPositionModal, {
+                                position: t,
+                              });
+                            }}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                          >
+                            <PencilAltIcon className="w-6 h-6" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-const GroupPositionTable = connect(
-  'doModalOpen',
-  'selectPositionItems',
-  ({ doModalOpen, positionItems: positions }) => {
-    return (
-      <PositionTable
-        title="Positions"
-        items={positions}
-        doModalOpen={doModalOpen}
-      />
     );
   }
 );
 
-// const GroupAllocationTable = connect(
-//   'selectGroupActiveArray',
-//   ({ groupActiveArray: groups }) => {
-//     const items = groups.map((g) => ({
-//       ...g,
-//       href: `/offices/${g.symbol}/groups/${g.slug}`,
-//     }));
-
-//     return <AllocationTable title="Groups" items={items} />;
-//   }
-// );
+const GroupPositionTable = connect(
+  'selectPositionItemsActive',
+  ({ positionItemsActive: positions }) => {
+    return <PositionTable title="Positions" items={positions} />;
+  }
+);
 
 export { GroupPositionTable };
