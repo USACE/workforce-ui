@@ -3,7 +3,7 @@ import { connect } from 'redux-bundler-react';
 import MyResponsiveBulletHorizontal from '../../app-components/charts/bullet-horizontal';
 import EditGroupModal from './EditGroupModal';
 
-import { UserCircleIcon, PencilAltIcon } from '@heroicons/react/outline';
+import { PencilAltIcon } from '@heroicons/react/outline';
 
 import USACE_Logo from '../../images/USACE_logo.png';
 
@@ -15,7 +15,7 @@ const AllocationTable = ({ title, items, doModalOpen }) => {
           {title} ({items.length})
         </h2>
         {/* Only show button on groups table */}
-        {title && title == 'Groups' && (
+        {title && title === 'Groups' && (
           <button
             onClick={(e) => {
               doModalOpen(EditGroupModal, {});
@@ -49,6 +49,9 @@ const AllocationTable = ({ title, items, doModalOpen }) => {
                   <div className="font-semibold text-center">
                     # Vacant Positions
                   </div>
+                </th>
+                <th className="p-2 whitespace-nowrap">
+                  <div className="font-semibold text-center">Action</div>
                 </th>
               </tr>
             </thead>
@@ -96,6 +99,18 @@ const AllocationTable = ({ title, items, doModalOpen }) => {
                           / {t.count_positions} total
                         </span>
                       </div>
+                    )}
+                  </td>
+                  <td className="p-2 whitespace-nowrap">
+                    {title && title === 'Groups' && (
+                      <button
+                        onClick={(e) => {
+                          doModalOpen(EditGroupModal, { group: t });
+                        }}
+                        className="bg-gray-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        <PencilAltIcon className="w-6 h-6" />
+                      </button>
                     )}
                   </td>
                 </tr>

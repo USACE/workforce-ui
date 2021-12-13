@@ -10,7 +10,9 @@ const PositionTable = connect(
     return (
       <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
         <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
-          <h2 className="font-semibold text-gray-800">{title}</h2>
+          <h2 className="font-semibold text-gray-800">
+            {title} ({items && items.length})
+          </h2>
           <button
             onClick={(e) => {
               console.log('CLICKED NEW POSITION');

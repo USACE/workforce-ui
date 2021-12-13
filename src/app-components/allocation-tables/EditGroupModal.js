@@ -5,20 +5,19 @@ import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 
 const EditPositionModal = connect(
-  'selectModalProps',
   'doModalClose',
   'selectOfficeActive',
   'doGroupSave',
   'doGroupFetch',
   ({
-    modalProps: g,
     doModalClose,
     officeActive: office,
     doGroupSave,
     doGroupFetch,
+    group: g,
   }) => {
     const [payload, setPayload] = useState({
-      id: (g && g.id) || null,
+      uid: (g && g.uid) || null,
       name: g && g.name,
       office_symbol: (g && g.office_symbol) || office.symbol,
       positions_allowed: (g && g.positions_allowed) || 0,
@@ -29,7 +28,7 @@ const EditPositionModal = connect(
 
       if (
         !payload ||
-        (!payload.id && g) ||
+        (!payload.uid && g) ||
         !payload.name ||
         !payload.office_symbol ||
         !payload.positions_allowed
@@ -61,12 +60,12 @@ const EditPositionModal = connect(
                   aria-hidden="true"
                 />
               </div>
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                 <Dialog.Title
                   as="h3"
                   className="text-lg leading-6 font-medium text-gray-900"
                 >
-                  {g
+                  {g && g.id
                     ? 'Edit ' + payload.office_symbol + ' Group'
                     : 'New ' + payload.office_symbol + ' Group'}
                 </Dialog.Title>
@@ -91,7 +90,7 @@ const EditPositionModal = connect(
                   </label>
                   <input
                     type="number"
-                    className="w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-2"
+                    className="lg:w-1/2 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-2"
                     defaultValue={payload.positions_allowed}
                     maxLength={40}
                     onChange={(e) =>
@@ -103,7 +102,9 @@ const EditPositionModal = connect(
                   />
                 </div>
 
-                <div className="mt-4">INFO: {JSON.stringify(payload)}</div>
+                <div className="mt-4 border-2">
+                  INFO: {JSON.stringify(payload)}
+                </div>
               </div>
             </div>
           </div>
@@ -111,10 +112,7 @@ const EditPositionModal = connect(
             <button
               type="button"
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-              onClick={() => {
-                console.log(g);
-                doModalClose();
-              }}
+              onClick={handleSubmit}
             >
               Submit
             </button>
