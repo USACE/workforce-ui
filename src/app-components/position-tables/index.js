@@ -3,6 +3,7 @@ import { connect } from 'redux-bundler-react';
 import EditPositionModal from './EditPositionModal';
 
 import { UserCircleIcon, PencilAltIcon } from '@heroicons/react/outline';
+import ReactTooltip from 'react-tooltip';
 
 const PositionTable = connect(
   'doModalOpen',
@@ -10,7 +11,9 @@ const PositionTable = connect(
     return (
       <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
         <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
-          <h2 className="font-semibold text-gray-800">{title}</h2>
+          <h2 className="font-semibold text-gray-800">
+            {title} ({items && items.length})
+          </h2>
           <button
             onClick={(e) => {
               console.log('CLICKED NEW POSITION');
@@ -59,13 +62,23 @@ const PositionTable = connect(
                     pay_plan,
                     grade,
                     current_occupancy,
+                    is_active,
                   } = t;
                   const isVacant = !current_occupancy;
                   return (
-                    <tr key={id}>
+                    <tr
+                      key={id}
+                      className={`${
+                        !is_active ? 'opacity-40 bg-gray-100' : ''
+                      }`}
+                    >
                       <td className="p-2 whitespace-nowrap">
                         <div className="flex items-center">
+                          <ReactTooltip />
                           <div
+                            data-tip={
+                              isVacant ? 'Position Vacant' : 'Position Filled'
+                            }
                             className={`rounded-full w-11 h-11 flex justify-around items-center ${
                               isVacant ? 'bg-gray-200' : 'bg-green-300'
                             }`}
@@ -77,7 +90,18 @@ const PositionTable = connect(
                         </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
-                        <div className="font-medium text-gray-800">{title}</div>
+                        <div className="font-medium text-gray-800">
+                          <span className="block">{title}</span>
+                          <span className="block text-gray-400">
+                            {current_occupancy && current_occupancy.title}
+                          </span>
+                          <span className="block text-red-400">
+                            {!is_active && 'Position Inactive'}
+                          </span>
+                          <span className="block text-red-400">
+                            {isVacant && is_active && 'Vacant'}
+                          </span>
+                        </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="flex items-center">
