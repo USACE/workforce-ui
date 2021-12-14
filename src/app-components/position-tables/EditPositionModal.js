@@ -9,10 +9,12 @@ const EditPositionModal = connect(
   'doModalClose',
   'selectOccupationItems',
   'selectPayplanItems',
+  'selectGroupActiveArray',
   ({
     doModalClose,
     occupationItems: occupations,
     payplanItems: pay_plans,
+    groupActiveArray: groups,
     position: p,
   }) => {
     const [payload, setPayload] = useState({
@@ -24,7 +26,9 @@ const EditPositionModal = connect(
       title: (p && p.title) || null,
       is_active: (p && p.is_active) || false,
       is_supervisor: (p && p.is_supervisor) || false,
+      group_slug: (p && p.group_slug) || null,
     });
+
     return (
       <Transition
         as={Fragment}
@@ -58,7 +62,25 @@ const EditPositionModal = connect(
                   <p>Title, Series/Occupation, PayPlan, Etc.</p>
                 </div> */}
                 <div className="w-full mt-3 p-2">
-                  <label className="block mt-6 mb-2 w-full" forhtml="unit">
+                  <label className="block mt-2 mb-2 w-full" forhtml="unit">
+                    <span className="text-gray-600">Group</span>
+                  </label>
+                  <Select
+                    placeholder={payload.group_slug}
+                    options={groups.map((s, idx) => ({
+                      value: s.slug,
+                      label: s.name,
+                    }))}
+                    onChange={(e) =>
+                      setPayload({
+                        ...payload,
+                        group_slug: e.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="w-full mt-3 p-2">
+                  <label className="block mt-2 mb-2 w-full" forhtml="unit">
                     <span className="text-gray-600">Occupation - Series</span>
                   </label>
                   <Select
@@ -79,7 +101,7 @@ const EditPositionModal = connect(
                   />
                 </div>
                 <div className="w-full lg:w-1/2 inline-block p-2">
-                  <label className="block mt-4 mb-2 w-full" forhtml="payplan">
+                  <label className="block mt-2 mb-2 w-full" forhtml="payplan">
                     <span className="text-gray-600">Pay Plan</span>
                   </label>
                   <Select
@@ -98,7 +120,7 @@ const EditPositionModal = connect(
                 </div>
 
                 <div className="w-full lg:w-1/2 inline-block p-2">
-                  <label className="block mt-4 mb-2 w-full" forhtml="grade">
+                  <label className="block mt-2 mb-2 w-full" forhtml="grade">
                     <span className="text-gray-600">Grade</span>
                   </label>
                   <input
@@ -118,7 +140,7 @@ const EditPositionModal = connect(
                 </div>
 
                 <div className="w-full block p-2">
-                  <label className="block mt-4 mb-2 w-full" forhtml="title">
+                  <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">Position Title</span>
                   </label>
                   <input
@@ -224,8 +246,11 @@ const EditPositionModal = connect(
                   </p>
                 </div>
                 <div className="mt-4">
-                  INFO:{' '}
-                  <textarea defaultValue={JSON.stringify(payload)}></textarea>
+                  <textarea
+                    cols={40}
+                    rows={7}
+                    defaultValue={JSON.stringify(payload)}
+                  ></textarea>
                 </div>
                 {/* <form>
                   <input
