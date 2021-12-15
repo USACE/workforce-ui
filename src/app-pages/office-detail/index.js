@@ -8,13 +8,24 @@ const OfficeDetail = connect(
   'selectGroupActiveArray',
   'doUpdateUrl',
   ({ officeActive: office, groupActiveArray: groups, doUpdateUrl }) => {
-    return !office ? (
-      <>Office does not exist</>
-    ) : (
-      <Wrapper title={`${office.name} Office (${office.symbol})`}>
+    let title = 'Loading';
+    if (office) {
+      title = `${office.name} Office (${office.symbol})`;
+    }
+
+    return (
+      <Wrapper title={title}>
         <GroupAllocationTable />
       </Wrapper>
     );
+
+    // return !office ? (
+    //   <>Office does not exist</>
+    // ) : (
+    //   <Wrapper title={`${office.name} Office (${office.symbol})`}>
+    //     <GroupAllocationTable />
+    //   </Wrapper>
+    // );
   }
 );
 

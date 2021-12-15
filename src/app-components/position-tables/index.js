@@ -1,8 +1,13 @@
 import React from 'react';
 import { connect } from 'redux-bundler-react';
 import EditPositionModal from './EditPositionModal';
+import EditOccupancyModal from './EditOccupancyModal';
 
-import { UserCircleIcon, PencilAltIcon } from '@heroicons/react/outline';
+import {
+  UserCircleIcon,
+  UserIcon,
+  PencilAltIcon,
+} from '@heroicons/react/outline';
 import ReactTooltip from 'react-tooltip';
 
 const PositionTable = connect(
@@ -142,6 +147,16 @@ const PositionTable = connect(
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                           >
                             <PencilAltIcon className="w-6 h-6" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              doModalOpen(EditOccupancyModal, {
+                                position: t,
+                              });
+                            }}
+                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                          >
+                            <UserIcon className="w-6 h-6" />
                           </button>
                         </div>
                       </td>

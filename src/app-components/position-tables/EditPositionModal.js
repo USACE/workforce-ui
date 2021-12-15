@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { useState, Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Transition, Switch } from '@headlessui/react';
 import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 import Select from 'react-select';
@@ -9,10 +9,14 @@ const EditPositionModal = connect(
   'doModalClose',
   'selectOccupationItems',
   'selectPayplanItems',
+  'selectGroupActiveArray',
+  'selectGroupActiveObject',
   ({
     doModalClose,
     occupationItems: occupations,
     payplanItems: pay_plans,
+    groupActiveArray: groups,
+    groupActiveObject: groupsObj,
     position: p,
   }) => {
     const [payload, setPayload] = useState({
@@ -21,7 +25,12 @@ const EditPositionModal = connect(
       occupation_name: (p && p.occupation_name) || null,
       pay_plan: (p && p.pay_plan) || null,
       grade: (p && p.grade) || 0,
+      title: (p && p.title) || null,
+      is_active: (p && p.is_active) || false,
+      is_supervisor: (p && p.is_supervisor) || false,
+      group_slug: (p && p.group_slug) || null,
     });
+
     return (
       <Transition
         as={Fragment}
@@ -33,9 +42,9 @@ const EditPositionModal = connect(
         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
       >
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div className="sm:flex sm:items-start">
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-purple-100 sm:mx-0 sm:h-10 sm:w-10">
+          <div className="bg-white px-4 pt-5 pb-4 sm:p-4 sm:pb-4">
+            <div className="sm:flex sm:items-start bg-gray-100 p-2">
+              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-purple-200 sm:mx-0 sm:h-10 sm:w-10">
                 <PencilAltIcon
                   className="h-6 w-6 text-purple-600"
                   aria-hidden="true"
@@ -44,18 +53,36 @@ const EditPositionModal = connect(
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg leading-6 font-medium text-gray-900"
+                  className="text-lg leading-6 font-medium text-gray-900 pt-2"
                 >
-                  Edit Position Modal
+                  Edit Position
                 </Dialog.Title>
-                <div className="mt-8">
+                {/* <div className="mt-8">
                   <p className="text-sm text-gray-500">
                     EDIT POSITION INFORMATION SECTION
                   </p>
                   <p>Title, Series/Occupation, PayPlan, Etc.</p>
+                </div> */}
+                <div className="w-full mt-3 p-2">
+                  <label className="block mt-2 mb-2 w-full" forhtml="unit">
+                    <span className="text-gray-600">Group</span>
+                  </label>
+                  <Select
+                    placeholder={groupsObj[p.group_slug].name}
+                    options={groups.map((s, idx) => ({
+                      value: s.slug,
+                      label: s.name,
+                    }))}
+                    onChange={(e) =>
+                      setPayload({
+                        ...payload,
+                        group_slug: e.value,
+                      })
+                    }
+                  />
                 </div>
-                <div className="mt-3">
-                  <label className="block mt-6 mb-2 w-full" forhtml="unit">
+                <div className="w-full mt-3 p-2">
+                  <label className="block mt-2 mb-2 w-full" forhtml="unit">
                     <span className="text-gray-600">Occupation - Series</span>
                   </label>
                   <Select
@@ -75,8 +102,8 @@ const EditPositionModal = connect(
                     }
                   />
                 </div>
-                <div className="w-full lg:w-1/2 inline-block mt-3 pr-5">
-                  <label className="block mt-4 w-full" forhtml="payplan">
+                <div className="w-full lg:w-1/2 inline-block p-2">
+                  <label className="block mt-2 mb-2 w-full" forhtml="payplan">
                     <span className="text-gray-600">Pay Plan</span>
                   </label>
                   <Select
@@ -94,13 +121,13 @@ const EditPositionModal = connect(
                   />
                 </div>
 
-                <div className="w-full lg:w-1/2 inline-block mt-3 pr-5">
-                  <label className="block mt-4 w-full" forhtml="grade">
+                <div className="w-full lg:w-1/2 inline-block p-2">
+                  <label className="block mt-2 mb-2 w-full" forhtml="grade">
                     <span className="text-gray-600">Grade</span>
                   </label>
                   <input
                     type="number"
-                    className="border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-2"
+                    className="block w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     defaultValue={payload.grade}
                     maxLength={2}
                     min={1}
@@ -114,28 +141,104 @@ const EditPositionModal = connect(
                   />
                 </div>
 
-                <div className="mt-8">
-                  <p className="text-sm text-gray-500">
-                    Employee Section Showing 1 of 2 Button Alternatives
-                  </p>
-                  <p>
-                    (1) If Vacant, "Add Employee" <br /> (2) If Position
-                    Currently Filled, "Vacate Position" button or allow editing
-                    select details about employee
-                  </p>
-                </div>
-                <div className="mt-4">
-                  INFO: <textarea>{JSON.stringify(payload)}</textarea>
-                </div>
-                {/* <form>
+                <div className="w-full block p-2">
+                  <label className="block mt-2 mb-2 w-full" forhtml="title">
+                    <span className="text-gray-600">Position Title</span>
+                  </label>
                   <input
-                    className="mt-4 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    type="file"
-                    onChange={(e) => {
-                      setFile(e.target.files[0]);
-                    }}
+                    type="text"
+                    className="block w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
+                    defaultValue={payload.title}
+                    maxLength={40}
+                    onChange={(e) =>
+                      setPayload({
+                        ...payload,
+                        title: e.target.value,
+                      })
+                    }
                   />
-                </form> */}
+                </div>
+
+                <div className="w-full lg:w-1/2 inline-block p-2">
+                  {/* <label
+                    className="block mt-4 mb-2 w-full"
+                    forhtml="supervisor"
+                  >
+                    <span className="text-gray-600">Supervisor?</span>
+                  </label> */}
+                  <div className="py-4">
+                    <Switch.Group>
+                      <div className="flex items-center">
+                        <Switch.Label className="mr-4 text-left w-24 lg:w-24">
+                          Supervisor?
+                        </Switch.Label>
+                        <Switch
+                          checked={payload.is_supervisor}
+                          onChange={(e) =>
+                            setPayload({
+                              ...payload,
+                              is_supervisor: !payload.is_supervisor,
+                            })
+                          }
+                          className={`${
+                            payload.is_supervisor
+                              ? 'bg-blue-600'
+                              : 'bg-gray-200'
+                          } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                        >
+                          <span
+                            className={`${
+                              payload.is_supervisor
+                                ? 'translate-x-6'
+                                : 'translate-x-1'
+                            } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+                          />
+                        </Switch>
+                      </div>
+                    </Switch.Group>
+                  </div>
+                </div>
+
+                <div className="w-full lg:w-1/2 inline-block p-2">
+                  <div className="py-8">
+                    <Switch.Group>
+                      <div className="flex items-center">
+                        <Switch.Label className="mr-4 text-left w-24 lg:w-16">
+                          Active?
+                        </Switch.Label>
+                        <Switch
+                          checked={payload.is_active}
+                          onChange={(e) =>
+                            setPayload({
+                              ...payload,
+                              is_active: !payload.is_active,
+                            })
+                          }
+                          className={`${
+                            payload.is_active ? 'bg-blue-600' : 'bg-gray-200'
+                          } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                        >
+                          <span
+                            className={`${
+                              payload.is_active
+                                ? 'translate-x-6'
+                                : 'translate-x-1'
+                            } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+                          />
+                        </Switch>
+                      </div>
+                    </Switch.Group>
+                  </div>
+                </div>
+
+                {/* <div className="mt-4">
+                  <textarea
+                    cols={40}
+                    rows={7}
+                    readOnly={1}
+                    value={JSON.stringify(payload)}
+                  ></textarea>
+                </div> */}
               </div>
             </div>
           </div>
