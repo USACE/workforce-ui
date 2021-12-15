@@ -8,19 +8,11 @@ const EditPositionModal = connect(
   'doModalClose',
   'selectOfficeActive',
   'doGroupSave',
-  'doGroupFetch',
-  ({
-    doModalClose,
-    officeActive: office,
-    doGroupSave,
-    doGroupFetch,
-    group: g,
-  }) => {
+  ({ doModalClose, officeActive: office, doGroupSave, group: g }) => {
     const [payload, setPayload] = useState({
       uid: (g && g.uid) || null,
-      name: g && g.name,
-      office_symbol: (g && g.office_symbol) || office.symbol,
-      positions_allowed: (g && g.positions_allowed) || 0,
+      name: (g && g.name) || null,
+      // office_symbol: (g && g.office_symbol) || office.symbol,
     });
 
     const handleSubmit = (e) => {
@@ -29,16 +21,15 @@ const EditPositionModal = connect(
       if (
         !payload ||
         (!payload.uid && g) ||
-        !payload.name ||
-        !payload.office_symbol ||
-        !payload.positions_allowed
+        !payload.name
+        // !payload.office_symbol
       ) {
         console.log('Missing one or more required fields for group');
         return;
       }
       doGroupSave(payload);
-      doGroupFetch();
-      doModalClose();
+      console.log(payload);
+      // doModalClose();
     };
 
     return (
@@ -66,8 +57,8 @@ const EditPositionModal = connect(
                   className="text-lg leading-6 font-medium text-gray-900"
                 >
                   {g && g.id
-                    ? 'Edit ' + payload.office_symbol + ' Group'
-                    : 'New ' + payload.office_symbol + ' Group'}
+                    ? 'Edit ' + office.symbol + ' Group'
+                    : 'New ' + office.symbol + ' Group'}
                 </Dialog.Title>
                 <div className="mt-8">
                   <label className="block mt-4 w-full" forhtml="label">
@@ -79,25 +70,6 @@ const EditPositionModal = connect(
                     maxLength={40}
                     onChange={(e) =>
                       setPayload({ ...payload, name: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="mt-8">
-                  <label className="block mt-4 w-full" forhtml="label">
-                    <span className="text-gray-600">
-                      Allowed Position Count
-                    </span>
-                  </label>
-                  <input
-                    type="number"
-                    className="lg:w-1/2 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-2"
-                    defaultValue={payload.positions_allowed}
-                    maxLength={40}
-                    onChange={(e) =>
-                      setPayload({
-                        ...payload,
-                        positions_allowed: e.target.value,
-                      })
                     }
                   />
                 </div>

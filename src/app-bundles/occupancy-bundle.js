@@ -9,9 +9,9 @@ export default createRestBundle({
   staleAfter: 0, //milliseconds; 1Hour
   persist: true,
   routeParam: '',
-  getTemplate: `${apiUrl}/offices/:office_symbol/:group_slug/occupancy`,
+  getTemplate: `${apiUrl}/offices/:office_symbol/occupancy`,
   putTemplate: `${apiUrl}/occupancy/:id`,
-  postTemplate: `${apiUrl}/occupancy`,
+  postTemplate: `${apiUrl}/offices/:office_symbol/occupancy`,
   deleteTemplate: '',
   fetchActions: ['OFFICE_FETCH_FINISHED'],
   urlParamSelectors: [],
