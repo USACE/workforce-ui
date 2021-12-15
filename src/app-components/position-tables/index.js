@@ -21,9 +21,9 @@ const PositionTable = connect(
           </h2>
           <button
             onClick={(e) => {
-              console.log('CLICKED NEW POSITION');
+              doModalOpen(EditPositionModal);
             }}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
           >
             + New Position
           </button>

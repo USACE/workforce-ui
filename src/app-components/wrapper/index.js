@@ -27,18 +27,18 @@ export default function Wrapper({ children, title }) {
             </div>
           </div>
           {/* Statistic Numbers */}
-          <div class="flex text-center justify-center space-x-12 w-full py-4 lg:mr-12 lg:justify-end">
-            <div class="p-4">
-              <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">
+          <div className="flex text-center justify-center space-x-12 w-full py-4 lg:mr-12 lg:justify-end">
+            <div className="p-4">
+              <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
                 2,700
               </h2>
-              <p class="leading-relaxed">Positions</p>
+              <p className="leading-relaxed">Positions</p>
             </div>
-            <div class="p-4">
-              <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">
+            <div className="p-4">
+              <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
                 25
               </h2>
-              <p class="leading-relaxed">Vacancies</p>
+              <p className="leading-relaxed">Vacancies</p>
             </div>
           </div>
         </div>

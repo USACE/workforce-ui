@@ -4,18 +4,27 @@ import { Dialog, Transition } from '@headlessui/react';
 import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 // import Select from 'react-select';
-import { parseISO } from 'date-fns';
+import { parseISO, setHours, addDays } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const EditOccupancyModal = connect(
   'doModalClose',
-  'selectGroupActiveArray',
-  ({ doModalClose, groupActiveArray: groups, position: p }) => {
+  // 'selectGroupActiveArray',
+  'doOccupancySave',
+  'doOccupancyFetch',
+  ({
+    doModalClose,
+    // groupActiveArray: groups,
+    doOccupancySave,
+    doOccupancyFetch,
+    position: p,
+  }) => {
     const occupant = p.current_occupancy;
     const [payload, setPayload] = useState({
-      id: p.id,
-      occupant_title: (occupant && occupant.title) || null,
+      id: (occupant && occupant.id) || null,
+      position_id: (p && p.id) || null,
+      title: (occupant && occupant.title) || null,
       service_start_date:
         (occupant &&
           occupant.service_start_date &&
@@ -32,14 +41,25 @@ const EditOccupancyModal = connect(
       end_date:
         (occupant && occupant.end_date && parseISO(occupant.end_date)) || null,
       dob: (occupant && occupant.dob && parseISO(occupant.dob)) || null,
-      // occupation_name: (p && p.occupation_name) || null,
-      // pay_plan: (p && p.pay_plan) || null,
-      // grade: (p && p.grade) || 0,
-      // title: (p && p.title) || null,
-      // is_active: (p && p.is_active) || false,
-      // is_supervisor: (p && p.is_supervisor) || false,
-      // group_slug: (p && p.group_slug) || null,
     });
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+
+      if (
+        !payload ||
+        (!payload.id && occupant) ||
+        !payload.service_start_date ||
+        !payload.start_date ||
+        !payload.dob
+      ) {
+        console.log('Missing one or more required fields for product');
+        return;
+      }
+      doOccupancySave(payload);
+      doOccupancyFetch();
+      doModalClose();
+    };
 
     return (
       <Transition
@@ -80,7 +100,7 @@ const EditOccupancyModal = connect(
                   <input
                     type="text"
                     className="block w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
-                    defaultValue={payload.occupant_title}
+                    defaultValue={payload.title}
                     maxLength={40}
                     onChange={(e) =>
                       setPayload({
@@ -110,7 +130,7 @@ const EditOccupancyModal = connect(
                     onChange={(date) =>
                       setPayload({
                         ...payload,
-                        service_start_date: date,
+                        service_start_date: addDays(date, 1),
                       })
                     }
                   />
@@ -135,7 +155,7 @@ const EditOccupancyModal = connect(
                     onChange={(date) =>
                       setPayload({
                         ...payload,
-                        service_end_date: date,
+                        service_end_date: addDays(date, 1),
                       })
                     }
                   />
@@ -160,7 +180,7 @@ const EditOccupancyModal = connect(
                     onChange={(date) =>
                       setPayload({
                         ...payload,
-                        start_date: date,
+                        start_date: addDays(date, 1),
                       })
                     }
                   />
@@ -185,7 +205,7 @@ const EditOccupancyModal = connect(
                     onChange={(date) =>
                       setPayload({
                         ...payload,
-                        end_date: date,
+                        end_date: addDays(date, 1),
                       })
                     }
                   />
@@ -210,7 +230,7 @@ const EditOccupancyModal = connect(
                     onChange={(date) =>
                       setPayload({
                         ...payload,
-                        dob: date,
+                        dob: addDays(date, 1),
                       })
                     }
                   />
@@ -240,10 +260,7 @@ const EditOccupancyModal = connect(
             <button
               type="button"
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-              onClick={() => {
-                console.log(p);
-                doModalClose();
-              }}
+              onClick={handleSubmit}
             >
               Submit
             </button>

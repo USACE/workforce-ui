@@ -572,7 +572,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
                 <span className="ml-2">Performance</span>
               </li>
             </ul>
-            <svg
+            {/* <svg
               onClick={() => setShow(!show)}
               aria-label="Main Menu"
               aria-haspopup="true"
@@ -590,7 +590,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
               <path stroke="none" d="M0 0h24v24H0z" />
               <line x1={4} y1={8} x2={20} y2={8} />
               <line x1={4} y1={16} x2={20} y2={16} />
-            </svg>
+            </svg> */}
           </div>
         </div>
       </nav>
