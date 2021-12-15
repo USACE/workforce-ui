@@ -125,10 +125,12 @@ const AllocationTable = ({ title, items, doModalOpen }) => {
 
 const OfficeAllocationTable = connect(
   'selectOfficeItems',
-  ({ officeItems: offices }) => {
+  'selectQueryString',
+  ({ officeItems: offices, queryString }) => {
+    const qs = queryString && '?' + queryString;
     const items = offices.map((f) => ({
       ...f,
-      href: `/offices/${f.symbol.toLowerCase()}`,
+      href: `/offices/${f.symbol.toLowerCase()}${qs}`,
     }));
 
     return <AllocationTable title="Offices" items={items} />;
@@ -139,11 +141,14 @@ const GroupAllocationTable = connect(
   'selectGroupActiveArray',
   'selectPositionCountsByGroup',
   'doModalOpen',
+  'selectQueryString',
   ({
     groupActiveArray: groups,
     positionCountsByGroup: positionCounts,
     doModalOpen,
+    queryString,
   }) => {
+    const qs = queryString && `?${queryString}`;
     const items = groups.map((g) => ({
       ...g,
       count_positions:
@@ -152,7 +157,7 @@ const GroupAllocationTable = connect(
         positionCounts[g.slug] && positionCounts[g.slug].employees,
       count_vacancies:
         positionCounts[g.slug] && positionCounts[g.slug].vacancies,
-      href: `/offices/${g.office_symbol.toLowerCase()}/groups/${g.slug}`,
+      href: `/offices/${g.office_symbol.toLowerCase()}/groups/${g.slug}${qs}`,
     }));
 
     return (

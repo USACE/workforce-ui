@@ -14,7 +14,7 @@ const Breadcrumb = connect(
             <HomeIcon
               className="cursor-pointer text-blue-500 mr-2"
               onClick={(e) => {
-                doUpdateUrl('/');
+                doUpdateUrl(items[0].href);
               }}
             />
             <ChevronRightIcon />

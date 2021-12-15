@@ -7,24 +7,27 @@ const breadcrumbBundle = {
     'selectGroupSelected',
     'selectOfficeActive',
     'selectOfficeItemsObject',
-    (group, office, officeObj) => {
+    'selectQueryString',
+    (group, office, officeObj, queryString) => {
+      const qs = queryString && '?' + queryString;
+
       if (!officeObj || !Object.keys(officeObj).length) {
         return [];
       }
       if (group) {
         const symbol = group.office_symbol.toLowerCase();
         return [
-          { name: 'Home', href: '/' },
+          { name: 'Home', href: `/${qs}` },
           {
             name: officeObj[group.office_symbol].name,
-            href: `/offices/${symbol}`,
+            href: `/offices/${symbol}${qs}`,
           },
           { name: group.name, href: null },
         ];
       }
       if (office) {
         return [
-          { name: 'Home', href: '/' },
+          { name: 'Home', href: `/${qs}` },
           {
             name: office.name,
             href: null,

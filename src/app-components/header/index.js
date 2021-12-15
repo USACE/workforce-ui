@@ -478,52 +478,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
           </div>
           <div className="h-full xl:flex items-center justify-end hidden">
             <div className="w-full h-full flex items-center">
-              <div className="w-full pr-12 h-full flex items-center border-r">
-                {/* <div className="relative w-full">
-                  <div className="text-gray-500 absolute ml-3 inset-0 m-auto w-4 h-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="icon icon-tabler icon-tabler-search"
-                      width={16}
-                      height={16}
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" />
-                      <circle cx={10} cy={10} r={7} />
-                      <line x1={21} y1={21} x2={15} y2={15} />
-                    </svg>
-                  </div>
-                  <input
-                    className="border border-gray-100 focus:outline-none focus:border-indigo-700 w-56 rounded text-sm text-gray-500 bg-gray-100 pl-8 py-2"
-                    type="text"
-                    placeholder="Search"
-                  />
-                </div> */}
-              </div>
               <div className="w-full h-full flex">
-                <div className="w-32 h-full flex items-center justify-center border-r cursor-pointer text-gray-600">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon icon-tabler icon-tabler-bell"
-                    width={28}
-                    height={28}
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-                    <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
-                  </svg>
-                </div>
                 <div className="pt-3">
                   <LoginControl />
                   {/*login here*/}
