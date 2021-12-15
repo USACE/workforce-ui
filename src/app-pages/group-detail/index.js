@@ -16,15 +16,27 @@ const GroupDetail = connect(
     groupIsLoading,
     routeParams,
   }) => {
-    return officeIsLoading || groupIsLoading ? (
-      <>Loading...</>
-    ) : !office || !group ? (
-      <>{`Group '${routeParams['group_slug']}' for office '${routeParams['office_symbol']}' does not exist`}</>
-    ) : (
-      <Wrapper title={`${office.symbol}  |  ${group.name} Group`}>
-        <GroupPositionTable />
-      </Wrapper>
+    let title = 'Loading';
+    if (office && group) {
+      title = `${office && office.symbol}  |  ${group && group.name} Group`;
+    }
+
+    return (
+      <>
+        <Wrapper title={title}>
+          <GroupPositionTable />
+        </Wrapper>
+      </>
     );
+    // return officeIsLoading || groupIsLoading ? (
+    //   <>Loading...</>
+    // ) : !office || !group ? (
+    //   <>{`Group '${routeParams['group_slug']}' for office '${routeParams['office_symbol']}' does not exist`}</>
+    // ) : (
+    //   <Wrapper title={`${office.symbol}  |  ${group.name} Group`}>
+    //     <GroupPositionTable />
+    //   </Wrapper>
+    // );
   }
 );
 

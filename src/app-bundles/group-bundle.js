@@ -49,6 +49,16 @@ export default createRestBundle({
         return groups.filter((g) => g.office_symbol === office.symbol);
       }
     ),
+    selectGroupActiveObject: createSelector(
+      'selectGroupActiveArray',
+      (groups) => {
+        const obj = {};
+        groups.forEach((g) => {
+          obj[g.slug] = g;
+        });
+        return obj;
+      }
+    ),
     selectGroupIdByRoute: createSelector('selectGroupByRoute', (group) => {
       if (group && group.id) return { group_id: group.id };
       return null;

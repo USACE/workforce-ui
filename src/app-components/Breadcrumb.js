@@ -1,5 +1,5 @@
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/outline';
-import React from 'react';
+import { React, Fragment } from 'react';
 import { connect } from 'redux-bundler-react';
 
 const Breadcrumb = connect(
@@ -22,8 +22,9 @@ const Breadcrumb = connect(
         )}
         {/* REST OF CRUMBS */}
         {items.slice(1).map((t, idx) => (
-          <>
+          <Fragment key={idx}>
             <div
+              key={idx}
               className={`mx-2 ${
                 t.href ? 'text-blue-500 cursor-pointer' : 'text-gray-500'
               }`}
@@ -36,7 +37,7 @@ const Breadcrumb = connect(
               {t.name}
             </div>
             {idx !== items.length - 2 ? <ChevronRightIcon /> : null}
-          </>
+          </Fragment>
         ))}
       </div>
     );

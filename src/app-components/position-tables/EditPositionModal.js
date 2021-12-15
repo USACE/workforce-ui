@@ -10,11 +10,13 @@ const EditPositionModal = connect(
   'selectOccupationItems',
   'selectPayplanItems',
   'selectGroupActiveArray',
+  'selectGroupActiveObject',
   ({
     doModalClose,
     occupationItems: occupations,
     payplanItems: pay_plans,
     groupActiveArray: groups,
+    groupActiveObject: groupsObj,
     position: p,
   }) => {
     const [payload, setPayload] = useState({
@@ -66,7 +68,7 @@ const EditPositionModal = connect(
                     <span className="text-gray-600">Group</span>
                   </label>
                   <Select
-                    placeholder={payload.group_slug}
+                    placeholder={groupsObj[p.group_slug].name}
                     options={groups.map((s, idx) => ({
                       value: s.slug,
                       label: s.name,
@@ -198,12 +200,6 @@ const EditPositionModal = connect(
                 </div>
 
                 <div className="w-full lg:w-1/2 inline-block p-2">
-                  {/* <label
-                    className="block mt-4 mb-2 w-full"
-                    forhtml="supervisor"
-                  >
-                    <span className="text-gray-600">Supervisor?</span>
-                  </label> */}
                   <div className="py-8">
                     <Switch.Group>
                       <div className="flex items-center">
@@ -235,32 +231,14 @@ const EditPositionModal = connect(
                   </div>
                 </div>
 
-                <div className="mt-8">
-                  <p className="text-sm text-gray-500">
-                    Employee Section Showing 1 of 2 Button Alternatives
-                  </p>
-                  <p>
-                    (1) If Vacant, "Add Employee" <br /> (2) If Position
-                    Currently Filled, "Vacate Position" button or allow editing
-                    select details about employee
-                  </p>
-                </div>
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <textarea
                     cols={40}
                     rows={7}
-                    defaultValue={JSON.stringify(payload)}
+                    readOnly={1}
+                    value={JSON.stringify(payload)}
                   ></textarea>
-                </div>
-                {/* <form>
-                  <input
-                    className="mt-4 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    type="file"
-                    onChange={(e) => {
-                      setFile(e.target.files[0]);
-                    }}
-                  />
-                </form> */}
+                </div> */}
               </div>
             </div>
           </div>
