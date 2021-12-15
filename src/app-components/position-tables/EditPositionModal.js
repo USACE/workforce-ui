@@ -11,12 +11,16 @@ const EditPositionModal = connect(
   'selectPayplanItems',
   'selectGroupActiveArray',
   'selectGroupActiveObject',
+  'doPositionSave',
+  'doPositionsFetch',
   ({
     doModalClose,
     occupationItems: occupations,
     payplanItems: pay_plans,
     groupActiveArray: groups,
     groupActiveObject: groupsObj,
+    doPositionSave,
+    doPositionsFetch,
     position: p,
   }) => {
     const [payload, setPayload] = useState({
@@ -30,6 +34,27 @@ const EditPositionModal = connect(
       is_supervisor: (p && p.is_supervisor) || false,
       group_slug: (p && p.group_slug) || null,
     });
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+
+      if (
+        !payload ||
+        (!payload.id && p) ||
+        !payload.title ||
+        !payload.occupation_code ||
+        !payload.pay_plan ||
+        !payload.grade ||
+        !payload.group_slug
+      ) {
+        console.log('Missing one or more required fields for product');
+        return;
+      }
+      doPositionSave(payload);
+      doPositionsFetch();
+
+      doModalClose();
+    };
 
     return (
       <Transition
@@ -55,7 +80,7 @@ const EditPositionModal = connect(
                   as="h3"
                   className="text-lg leading-6 font-medium text-gray-900 pt-2"
                 >
-                  Edit Position
+                  {p ? 'Edit' : 'New'} Position
                 </Dialog.Title>
                 {/* <div className="mt-8">
                   <p className="text-sm text-gray-500">
@@ -68,7 +93,9 @@ const EditPositionModal = connect(
                     <span className="text-gray-600">Group</span>
                   </label>
                   <Select
-                    placeholder={groupsObj[p.group_slug].name}
+                    placeholder={
+                      p && p.group_slug && groupsObj[p.group_slug].name
+                    }
                     options={groups.map((s, idx) => ({
                       value: s.slug,
                       label: s.name,
@@ -87,6 +114,7 @@ const EditPositionModal = connect(
                   </label>
                   <Select
                     placeholder={
+                      p &&
                       payload.occupation_code + ' - ' + payload.occupation_name
                     }
                     options={occupations.map((s, idx) => ({
@@ -231,14 +259,14 @@ const EditPositionModal = connect(
                   </div>
                 </div>
 
-                {/* <div className="mt-4">
+                <div className="mt-4">
                   <textarea
                     cols={40}
                     rows={7}
                     readOnly={1}
                     value={JSON.stringify(payload)}
                   ></textarea>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
@@ -246,10 +274,7 @@ const EditPositionModal = connect(
             <button
               type="button"
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-              onClick={() => {
-                console.log(p);
-                doModalClose();
-              }}
+              onClick={handleSubmit}
             >
               Submit
             </button>

@@ -14,7 +14,11 @@ export default createRestBundle({
   putTemplate: '',
   postTemplate: '',
   deleteTemplate: '',
-  fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED'],
+  fetchActions: [
+    'URL_UPDATED',
+    'OFFICE_FETCH_FINISHED',
+    'OCCUPANCY_SAVE_FINISHED',
+  ],
   urlParamSelectors: ['selectOfficeActive', 'selectGroupSelected'],
   forceFetchActions: [],
   sortBy: 'grade',
