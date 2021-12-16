@@ -476,7 +476,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
               </li>
             </ul> */}
           </div>
-          <div className="h-full xl:flex items-center justify-end hidden">
+          <div className="h-full xl:flex items-center justify-end">
             <div className="w-full h-full flex items-center">
               <div className="w-full h-full flex">
                 <div className="pt-3">

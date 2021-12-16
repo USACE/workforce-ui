@@ -22,7 +22,7 @@ const LoginButton = connect('doAuthLogin', ({ doAuthLogin }) => {
         onClick={() => {
           doAuthLogin();
         }}
-        className="h-11 inline-flex justify-center items-center rounded-lg border border-gray-300 bg-indigo-600 px-4 bg-white text-sm font-medium text-gray-200 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+        className="h-11 inline-flex justify-center items-center rounded-lg border border-gray-300 bg-blue-500 px-4 text-sm font-medium text-gray-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
       >
         Login
         <LoginIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
@@ -38,7 +38,7 @@ const LoggedInMenu = connect(
     return (
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex w-11 h-11 justify-center items-center rounded-full border border-purple-300 shadow-sm p-2 bg-purple-100 text-sm font-medium text-gray-700 hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-purple-600 focus:ring-indigo-500">
+          <Menu.Button className="inline-flex w-11 h-11 justify-center items-center rounded-full border border-blue-400 shadow-sm p-2 bg-purple-100 text-sm font-medium text-gray-700 hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-purple-600 focus:ring-indigo-500">
             {userInitials}
           </Menu.Button>
         </div>
