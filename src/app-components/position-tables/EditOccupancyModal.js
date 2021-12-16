@@ -74,9 +74,9 @@ const EditOccupancyModal = connect(
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div className="bg-white px-4 pt-5 pb-4 sm:p-4 sm:pb-4">
             <div className="sm:flex sm:items-start bg-gray-100 p-2">
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-purple-200 sm:mx-0 sm:h-10 sm:w-10">
+              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-200 sm:mx-0 sm:h-10 sm:w-10">
                 <PencilAltIcon
-                  className="h-6 w-6 text-purple-600"
+                  className="h-6 w-6 text-blue-600"
                   aria-hidden="true"
                 />
               </div>
@@ -114,6 +114,7 @@ const EditOccupancyModal = connect(
                 <div className="w-full block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">
+                      <span className="text-lg text-red-700 mr-1">*</span>
                       Service Start Date:{' '}
                       {/* <span className="text-sm text-gray-400">
                         (ex: Team Lead, Regional RTS)
@@ -164,6 +165,7 @@ const EditOccupancyModal = connect(
                 <div className="w-full block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">
+                      <span className="text-lg text-red-700 mr-1">*</span>
                       Employee's Position Start Date:{' '}
                       {/* <span className="text-sm text-gray-400">
                         (ex: Team Lead, Regional RTS)
@@ -214,6 +216,7 @@ const EditOccupancyModal = connect(
                 <div className="w-full block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">
+                      <span className="text-lg text-red-700 mr-1">*</span>
                       Employee's Year of Birth:{' '}
                       <span className="text-sm text-gray-400">(year only)</span>
                     </span>
@@ -258,7 +261,7 @@ const EditOccupancyModal = connect(
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
-              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
               onClick={handleSubmit}
             >
               Submit
