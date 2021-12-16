@@ -14,11 +14,7 @@ export default createRestBundle({
   putTemplate: `${apiURL}/offices/:symbol/groups/:item.slug`,
   postTemplate: `${apiURL}/offices/:symbol/groups`,
   deleteTemplate: `${apiURL}/offices/:symbol/groups/:group_slug`,
-  fetchActions: [
-    'URL_UPDATED',
-    'OFFICE_FETCH_FINISHED',
-    'GROUP_SAVED_FINISHED',
-  ],
+  fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED', 'GROUP_SAVE_FINISHED'],
   urlParamSelectors: ['selectOfficeActive'],
   forceFetchActions: [],
   sortBy: '',

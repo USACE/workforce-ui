@@ -12,6 +12,7 @@ const EditPositionModal = connect(
     const [payload, setPayload] = useState({
       uid: (g && g.uid) || null,
       name: (g && g.name) || null,
+      slug: (g && g.slug) || null,
       // office_symbol: (g && g.office_symbol) || office.symbol,
     });
 
