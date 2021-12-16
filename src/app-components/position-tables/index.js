@@ -68,6 +68,7 @@ const PositionTable = connect(
                     grade,
                     current_occupancy,
                     is_active,
+                    is_allocated,
                   } = t;
                   const isVacant = !current_occupancy;
                   return (
@@ -112,6 +113,9 @@ const PositionTable = connect(
                         <div className="flex items-center">
                           <div className="font-medium text-gray-800">
                             {occupation_code} - {occupation_name}
+                            <span className="block text-red-400">
+                              {!is_allocated && is_active && 'Over-Allocation'}
+                            </span>
                           </div>
                         </div>
                       </td>

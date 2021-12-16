@@ -214,10 +214,8 @@ const EditOccupancyModal = connect(
                 <div className="w-full block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">
-                      Employee's Date of Birth:{' '}
-                      <span className="text-sm text-gray-400">
-                        (month and year only)
-                      </span>
+                      Employee's Year of Birth:{' '}
+                      <span className="text-sm text-gray-400">(year only)</span>
                     </span>
                   </label>
                   <DatePicker
@@ -225,8 +223,9 @@ const EditOccupancyModal = connect(
                     name="dob"
                     className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     selected={payload.dob}
-                    dateFormat="MMM-yyyy"
-                    showMonthYearPicker
+                    dateFormat="yyyy"
+                    showYearPicker
+                    yearItemNumber={12}
                     onChange={(date) =>
                       setPayload({
                         ...payload,

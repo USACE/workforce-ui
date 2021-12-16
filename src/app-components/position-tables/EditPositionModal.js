@@ -4,6 +4,7 @@ import { Dialog, Transition, Switch } from '@headlessui/react';
 import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 import Select from 'react-select';
+import ReactTooltip from 'react-tooltip';
 
 const EditPositionModal = connect(
   'doModalClose',
@@ -20,7 +21,6 @@ const EditPositionModal = connect(
     groupActiveArray: groups,
     groupActiveObject: groupsObj,
     doPositionSave,
-    doPositionsFetch,
     position: p,
   }) => {
     const [payload, setPayload] = useState({
@@ -28,10 +28,11 @@ const EditPositionModal = connect(
       occupation_code: (p && p.occupation_code) || null,
       occupation_name: (p && p.occupation_name) || null,
       pay_plan: (p && p.pay_plan) || null,
-      grade: (p && p.grade) || 0,
+      grade: (p && parseInt(p.grade)) || 0,
       title: (p && p.title) || null,
       is_active: (p && p.is_active) || false,
       is_supervisor: (p && p.is_supervisor) || false,
+      is_allocated: (p && p.is_allocated) || false,
       group_slug: (p && p.group_slug) || null,
     });
 
@@ -44,15 +45,13 @@ const EditPositionModal = connect(
         !payload.title ||
         !payload.occupation_code ||
         !payload.pay_plan ||
-        !payload.grade ||
+        !parseInt(payload.grade) ||
         !payload.group_slug
       ) {
         console.log('Missing one or more required fields for product');
         return;
       }
       doPositionSave(payload);
-      doPositionsFetch();
-
       doModalClose();
     };
 
@@ -70,8 +69,9 @@ const EditPositionModal = connect(
           <div className="bg-white px-4 pt-5 pb-4 sm:p-4 sm:pb-4">
             <div className="sm:flex sm:items-start bg-gray-100 p-2">
               <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-purple-200 sm:mx-0 sm:h-10 sm:w-10">
+                <ReactTooltip />
                 <PencilAltIcon
-                  className="h-6 w-6 text-purple-600"
+                  className="h-6 w-6 text-blue-600"
                   aria-hidden="true"
                 />
               </div>
@@ -163,7 +163,7 @@ const EditPositionModal = connect(
                     onChange={(e) =>
                       setPayload({
                         ...payload,
-                        grade: e.target.value,
+                        grade: parseInt(e.target.value),
                       })
                     }
                   />
@@ -171,7 +171,12 @@ const EditPositionModal = connect(
 
                 <div className="w-full block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
-                    <span className="text-gray-600">Position Title</span>
+                    <span className="text-gray-600">
+                      Position Title
+                      <span className="ml-2 text-sm text-gray-400">
+                        (as shown on PD)
+                      </span>
+                    </span>
                   </label>
                   <input
                     type="text"
@@ -194,7 +199,7 @@ const EditPositionModal = connect(
                   >
                     <span className="text-gray-600">Supervisor?</span>
                   </label> */}
-                  <div className="py-4">
+                  <div className="py-2">
                     <Switch.Group>
                       <div className="flex items-center">
                         <Switch.Label className="mr-4 text-left w-24 lg:w-24">
@@ -228,11 +233,18 @@ const EditPositionModal = connect(
                 </div>
 
                 <div className="w-full lg:w-1/2 inline-block p-2">
-                  <div className="py-8">
+                  <div className="py-2">
                     <Switch.Group>
                       <div className="flex items-center">
                         <Switch.Label className="mr-4 text-left w-24 lg:w-16">
-                          Active?
+                          <span
+                            data-place="top"
+                            data-html="true"
+                            data-tip="Setting to 'Inactive' will exclude it from all calculations."
+                            className="border-b-2 border-dashed border-gray-400"
+                          >
+                            Active?
+                          </span>
                         </Switch.Label>
                         <Switch
                           checked={payload.is_active}
@@ -259,6 +271,45 @@ const EditPositionModal = connect(
                   </div>
                 </div>
 
+                <div className="w-full inline-block p-2">
+                  <div className="py-2">
+                    <Switch.Group>
+                      <div className="flex items-center">
+                        <Switch.Label className="mr-4 text-left w-24 lg:w-24">
+                          <span
+                            data-place="right"
+                            data-html="true"
+                            data-tip="Is this position included in your <br />office's manning document?"
+                            className="border-b-2 border-dashed border-gray-400"
+                          >
+                            Position Allocated?
+                          </span>
+                        </Switch.Label>
+                        <Switch
+                          checked={payload.is_allocated}
+                          onChange={(e) =>
+                            setPayload({
+                              ...payload,
+                              is_allocated: !payload.is_allocated,
+                            })
+                          }
+                          className={`${
+                            payload.is_allocated ? 'bg-blue-600' : 'bg-gray-200'
+                          } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                        >
+                          <span
+                            className={`${
+                              payload.is_allocated
+                                ? 'translate-x-6'
+                                : 'translate-x-1'
+                            } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+                          />
+                        </Switch>
+                      </div>
+                    </Switch.Group>
+                  </div>
+                </div>
+
                 <div className="mt-4">
                   <textarea
                     cols={40}
@@ -273,7 +324,7 @@ const EditPositionModal = connect(
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
-              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
               onClick={handleSubmit}
             >
               Submit

@@ -28,8 +28,8 @@ const EditPositionModal = connect(
         return;
       }
       doGroupSave(payload);
-      console.log(payload);
-      // doModalClose();
+      // console.log(payload);
+      doModalClose();
     };
 
     return (
