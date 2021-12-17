@@ -13,7 +13,7 @@ jobs:
     env:
       REACT_APP_AUTH_HOST: https://auth.corps.cloud/auth
       REACT_APP_AUTH_REDIRECT_URL: https://workforce.corps.cloud
-      REACT_APP_WORKFORCE_API: https://workforce-api.corps.cloud
+      REACT_APP_WORKFORCE_API_URL: https://workforce-api.corps.cloud
     runs-on: ubuntu-latest
     strategy:
       matrix:
