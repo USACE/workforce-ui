@@ -7,14 +7,14 @@ export default createRestBundle({
   name: 'occupation',
   uid: 'code',
   prefetch: true,
-  staleAfter: 0, //milliseconds; 1Hour
+  staleAfter: 3600000, // 3600000 milliseconds = 1Hour
   persist: true,
   routeParam: '',
   getTemplate: `${apiUrl}/occupation_codes`,
   putTemplate: '',
   postTemplate: '',
   deleteTemplate: '',
-  fetchActions: ['OFFICE_FETCH_FINISHED'],
+  fetchActions: [],
   urlParamSelectors: [],
   forceFetchActions: [],
   sortBy: 'code',

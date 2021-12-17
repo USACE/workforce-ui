@@ -7,7 +7,7 @@ export default createRestBundle({
   name: 'position',
   uid: 'id',
   prefetch: false,
-  staleAfter: 0, //milliseconds; 1Hour
+  staleAfter: 0, // 3600000 milliseconds = 1Hour
   persist: false,
   routeParam: '',
   getTemplate: `${apiUrl}/offices/:symbol/positions`,

@@ -6,7 +6,7 @@ export default createRestBundle({
   name: 'occupancy',
   uid: 'id',
   prefetch: false,
-  staleAfter: 0, //milliseconds; 1Hour
+  staleAfter: 0, // 3600000 milliseconds = 1Hour
   persist: true,
   routeParam: '',
   getTemplate: `${apiUrl}/offices/:office_symbol/occupancy`,
