@@ -7,7 +7,7 @@ import { PencilAltIcon, UserGroupIcon } from '@heroicons/react/outline';
 
 import USACE_Logo from '../../images/USACE_logo.png';
 
-const AllocationTable = ({ title, items, doModalOpen }) => {
+const AllocationTable = ({ title, items, isLoggedIn, doModalOpen }) => {
   return (
     <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
       <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
@@ -15,7 +15,7 @@ const AllocationTable = ({ title, items, doModalOpen }) => {
           {title} ({items.length})
         </h2>
         {/* Only show button on groups table */}
-        {title && title === 'Groups' && (
+        {title && title === 'Groups' && isLoggedIn && (
           <button
             onClick={(e) => {
               doModalOpen(EditGroupModal, {});
@@ -106,7 +106,7 @@ const AllocationTable = ({ title, items, doModalOpen }) => {
                     )}
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    {title && title === 'Groups' && (
+                    {title && title === 'Groups' && isLoggedIn && (
                       <button
                         onClick={(e) => {
                           doModalOpen(EditGroupModal, { group: t });
@@ -142,11 +142,13 @@ const OfficeAllocationTable = connect(
 );
 
 const GroupAllocationTable = connect(
+  'selectAuthIsLoggedIn',
   'selectGroupActiveArray',
   'selectPositionCountsByGroup',
   'doModalOpen',
   'selectQueryString',
   ({
+    authIsLoggedIn: isLoggedIn,
     groupActiveArray: groups,
     positionCountsByGroup: positionCounts,
     doModalOpen,
@@ -165,7 +167,12 @@ const GroupAllocationTable = connect(
     }));
 
     return (
-      <AllocationTable title="Groups" items={items} doModalOpen={doModalOpen} />
+      <AllocationTable
+        title="Groups"
+        items={items}
+        isLoggedIn={isLoggedIn}
+        doModalOpen={doModalOpen}
+      />
     );
   }
 );
