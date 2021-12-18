@@ -3,7 +3,7 @@ import { connect } from 'redux-bundler-react';
 import MyResponsiveBulletHorizontal from '../../app-components/charts/bullet-horizontal';
 import EditGroupModal from './EditGroupModal';
 
-import { PencilAltIcon } from '@heroicons/react/outline';
+import { PencilAltIcon, UserGroupIcon } from '@heroicons/react/outline';
 
 import USACE_Logo from '../../images/USACE_logo.png';
 
@@ -62,13 +62,17 @@ const AllocationTable = ({ title, items, doModalOpen }) => {
                   <td className="p-2 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                        <img
-                          className="rounded-full"
-                          src={USACE_Logo}
-                          width="40"
-                          height="40"
-                          alt={t.name}
-                        />
+                        {title && title === 'Groups' ? (
+                          <UserGroupIcon className="w-8 text-gray-500" />
+                        ) : (
+                          <img
+                            className="rounded-lg opacity-80 pt-1"
+                            src={USACE_Logo}
+                            width="40"
+                            alt={t.name}
+                          />
+                        )}
+                        {/*  */}
                       </div>
                       <a href={t.href}>
                         <div className="font-medium text-gray-800">
