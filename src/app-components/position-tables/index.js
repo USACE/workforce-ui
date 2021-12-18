@@ -12,21 +12,23 @@ import ReactTooltip from 'react-tooltip';
 
 const PositionTable = connect(
   'doModalOpen',
-  ({ title, items, doModalOpen }) => {
+  ({ title, items, isLoggedIn, doModalOpen }) => {
     return (
       <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
         <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
           <h2 className="font-semibold text-gray-800">
             {title} ({items && items.length})
           </h2>
-          <button
-            onClick={(e) => {
-              doModalOpen(EditPositionModal);
-            }}
-            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-          >
-            + New Position
-          </button>
+          {isLoggedIn && (
+            <button
+              onClick={(e) => {
+                doModalOpen(EditPositionModal);
+              }}
+              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+            >
+              + New Position
+            </button>
+          )}
         </header>
         <div className="p-3">
           {/* Table */}
@@ -142,26 +144,31 @@ const PositionTable = connect(
                           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             <UserRemoveIcon className="w-6 h-6" />
                           </button> */}
-                          <button
-                            onClick={(e) => {
-                              doModalOpen(EditPositionModal, {
-                                position: t,
-                              });
-                            }}
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                          >
-                            <PencilAltIcon className="w-6 h-6" />
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              doModalOpen(EditOccupancyModal, {
-                                position: t,
-                              });
-                            }}
-                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                          >
-                            <UserIcon className="w-6 h-6" />
-                          </button>
+                          {isLoggedIn && (
+                            <>
+                              <button
+                                onClick={(e) => {
+                                  doModalOpen(EditPositionModal, {
+                                    position: t,
+                                  });
+                                }}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                              >
+                                <PencilAltIcon className="w-6 h-6" />
+                              </button>
+
+                              <button
+                                onClick={(e) => {
+                                  doModalOpen(EditOccupancyModal, {
+                                    position: t,
+                                  });
+                                }}
+                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                              >
+                                <UserIcon className="w-6 h-6" />
+                              </button>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -177,9 +184,16 @@ const PositionTable = connect(
 );
 
 const GroupPositionTable = connect(
+  'selectAuthIsLoggedIn',
   'selectPositionItemsActive',
-  ({ positionItemsActive: positions }) => {
-    return <PositionTable title="Positions" items={positions} />;
+  ({ positionItemsActive: positions, authIsLoggedIn: isLoggedIn }) => {
+    return (
+      <PositionTable
+        title="Positions"
+        items={positions}
+        isLoggedIn={isLoggedIn}
+      />
+    );
   }
 );
 
