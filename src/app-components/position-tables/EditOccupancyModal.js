@@ -12,12 +12,12 @@ const EditOccupancyModal = connect(
   'doModalClose',
   // 'selectGroupActiveArray',
   'doOccupancySave',
-  'doOccupancyFetch',
+  'doPositionFetch',
   ({
     doModalClose,
     // groupActiveArray: groups,
     doOccupancySave,
-    doOccupancyFetch,
+    doPositionFetch,
     position: p,
   }) => {
     const occupant = p.current_occupancy;
@@ -57,7 +57,9 @@ const EditOccupancyModal = connect(
         return;
       }
       doOccupancySave(payload);
-      doOccupancyFetch();
+      // doPositionFetch();
+      // ^^^ NOTE doPositionFetch() is called implicitly in app-bundles/position-bundle.js
+      //     this happens because `forceFetchActions:` includes action 'OCCUPANCY_SAVE_FINISHED'
       doModalClose();
     };
 

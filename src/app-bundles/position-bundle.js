@@ -6,22 +6,17 @@ const apiUrl = process.env.REACT_APP_WORKFORCE_API_URL;
 export default createRestBundle({
   name: 'position',
   uid: 'id',
-  prefetch: false,
-  staleAfter: 0, // 3600000 milliseconds = 1Hour
+  prefetch: true,
+  staleAfter: 300000, // 300000 milliseconds = 5min
   persist: false,
   routeParam: '',
   getTemplate: `${apiUrl}/offices/:symbol/positions`,
   putTemplate: `${apiUrl}/offices/:symbol/positions/:item.id`,
   postTemplate: `${apiUrl}/offices/:symbol/positions`,
   deleteTemplate: `${apiUrl}/offices/:symbol/positions/:item.id`,
-  fetchActions: [
-    'URL_UPDATED',
-    'OFFICE_FETCH_FINISHED',
-    'POSITION_SAVE_FINISHED',
-    'OCCUPANCY_SAVE_FINISHED',
-  ],
+  fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED'],
   urlParamSelectors: ['selectOfficeActive', 'selectGroupSelected'],
-  forceFetchActions: [],
+  forceFetchActions: ['POSITION_SAVE_FINISHED', 'OCCUPANCY_SAVE_FINISHED'],
   sortBy: 'grade',
   mergeItems: false,
   sortAsc: false,

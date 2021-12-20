@@ -7,8 +7,8 @@ export default createRestBundle({
   name: 'office',
   uid: 'symbol',
   prefetch: true,
-  staleAfter: 3600000, // 3600000 milliseconds = 1Hour
-  persist: false,
+  staleAfter: 900000, // 900000 milliseconds = 15min
+  persist: true,
   routeParam: 'office_symbol',
   getTemplate: `${apiUrl}/offices`,
   putTemplate: '',
