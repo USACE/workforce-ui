@@ -38,7 +38,7 @@ const LoggedInMenu = connect(
     return (
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex w-11 h-11 justify-center items-center rounded-full border border-blue-400 shadow-sm p-2 bg-purple-100 text-sm font-medium text-gray-700 hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-purple-600 focus:ring-indigo-500">
+          <Menu.Button className="inline-flex w-11 h-11 justify-center items-center rounded-full border border-blue-400 shadow-sm p-2 bg-blue-50 text-sm font-medium text-gray-700 hover:bg-blue-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-600 focus:ring-blue-500">
             {userInitials}
           </Menu.Button>
         </div>

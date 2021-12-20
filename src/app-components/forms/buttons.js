@@ -36,26 +36,36 @@ const NewButton = (props) => (
 
 const SaveButton = (props) => (
   <button
-    className="bg-blue-500 hover:bg-blue-700 text-white py-2 pl-2 pr-4 text-lg rounded"
+    type="button"
+    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
     onClick={props.onClick}
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-6 w-6 inline"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M5 13l4 4L19 7"
-      />
-    </svg>
     {props.label}
   </button>
 );
+
+// const SaveButton = (props) => (
+//   <button
+//     className="bg-blue-500 hover:bg-blue-700 text-white py-2 pl-2 pr-4 text-lg rounded"
+//     onClick={props.onClick}
+//   >
+//     <svg
+//       xmlns="http://www.w3.org/2000/svg"
+//       className="h-6 w-6 inline"
+//       fill="none"
+//       viewBox="0 0 24 24"
+//       stroke="currentColor"
+//     >
+//       <path
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//         strokeWidth={2}
+//         d="M5 13l4 4L19 7"
+//       />
+//     </svg>
+//     {props.label}
+//   </button>
+// );
 
 const EditButton = (props) => (
   <button
@@ -82,28 +92,38 @@ const EditButton = (props) => (
 
 const CancelButton = (props) => (
   <button
-    className={
-      'bg-red-300 hover:bg-red-500 text-white py-2 pl-3 pr-4 text-lg rounded ' +
-      props.className
-    }
+    type="button"
+    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
     onClick={props.onClick}
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-6 w-6 mr-1 inline"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
-      />
-    </svg>
     {props.label}
   </button>
 );
+
+// const CancelButton = (props) => (
+//   <button
+//     className={
+//       'bg-red-300 hover:bg-red-500 text-white py-2 pl-3 pr-4 text-lg rounded ' +
+//       props.className
+//     }
+//     onClick={props.onClick}
+//   >
+//     <svg
+//       xmlns="http://www.w3.org/2000/svg"
+//       className="h-6 w-6 mr-1 inline"
+//       fill="none"
+//       viewBox="0 0 24 24"
+//       stroke="currentColor"
+//     >
+//       <path
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//         strokeWidth={2}
+//         d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+//       />
+//     </svg>
+//     {props.label}
+//   </button>
+// );
 
 export { NewButton, SaveButton, CancelButton, EditButton, UserAddButton };

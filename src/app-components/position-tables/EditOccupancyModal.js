@@ -7,6 +7,7 @@ import { connect } from 'redux-bundler-react';
 import { parseISO, addDays } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { SaveButton, CancelButton } from '../forms/buttons';
 
 const EditOccupancyModal = connect(
   'doModalClose',
@@ -125,6 +126,7 @@ const EditOccupancyModal = connect(
                   </label>
                   <DatePicker
                     id="serviceStartDate"
+                    autoComplete="off"
                     name="serviceStartDate"
                     className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     selected={payload.service_start_date}
@@ -150,6 +152,7 @@ const EditOccupancyModal = connect(
                   </label>
                   <DatePicker
                     id="serviceEndDate"
+                    autoComplete="off"
                     name="serviceEndDate"
                     className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     selected={payload.service_end_date}
@@ -177,6 +180,7 @@ const EditOccupancyModal = connect(
                   <DatePicker
                     id="startDate"
                     name="startDate"
+                    autoComplete="off"
                     className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     selected={payload.start_date}
                     todayButton="Today"
@@ -202,6 +206,7 @@ const EditOccupancyModal = connect(
                   <DatePicker
                     id="endDate"
                     name="endDate"
+                    autoComplete="off"
                     className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     selected={payload.end_date}
                     todayButton="Today"
@@ -226,6 +231,7 @@ const EditOccupancyModal = connect(
                   <DatePicker
                     id="dob"
                     name="dob"
+                    autoComplete="off"
                     className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     selected={payload.dob}
                     dateFormat="yyyy"
@@ -261,22 +267,14 @@ const EditOccupancyModal = connect(
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button
-              type="button"
-              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-            <button
-              type="button"
-              className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            <SaveButton label="Submit" onClick={handleSubmit} />
+
+            <CancelButton
+              label="Cancel"
               onClick={() => {
                 doModalClose();
               }}
-            >
-              Cancel
-            </button>
+            />
           </div>
         </div>
       </Transition>

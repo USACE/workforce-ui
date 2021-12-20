@@ -3,11 +3,11 @@ import { connect } from 'redux-bundler-react';
 import MyResponsiveBulletHorizontal from '../../app-components/charts/bullet-horizontal';
 import EditGroupModal from './EditGroupModal';
 
-import { PencilAltIcon } from '@heroicons/react/outline';
+import { PencilAltIcon, UserGroupIcon } from '@heroicons/react/outline';
 
 import USACE_Logo from '../../images/USACE_logo.png';
 
-const AllocationTable = ({ title, items, doModalOpen }) => {
+const AllocationTable = ({ title, items, isLoggedIn, doModalOpen }) => {
   return (
     <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
       <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
@@ -15,7 +15,7 @@ const AllocationTable = ({ title, items, doModalOpen }) => {
           {title} ({items.length})
         </h2>
         {/* Only show button on groups table */}
-        {title && title === 'Groups' && (
+        {title && title === 'Groups' && isLoggedIn && (
           <button
             onClick={(e) => {
               doModalOpen(EditGroupModal, {});
@@ -62,13 +62,17 @@ const AllocationTable = ({ title, items, doModalOpen }) => {
                   <td className="p-2 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                        <img
-                          className="rounded-full"
-                          src={USACE_Logo}
-                          width="40"
-                          height="40"
-                          alt={t.name}
-                        />
+                        {title && title === 'Groups' ? (
+                          <UserGroupIcon className="w-8 text-gray-500" />
+                        ) : (
+                          <img
+                            className="rounded-lg opacity-80 pt-1"
+                            src={USACE_Logo}
+                            width="40"
+                            alt={t.name}
+                          />
+                        )}
+                        {/*  */}
                       </div>
                       <a href={t.href}>
                         <div className="font-medium text-gray-800">
@@ -102,7 +106,7 @@ const AllocationTable = ({ title, items, doModalOpen }) => {
                     )}
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    {title && title === 'Groups' && (
+                    {title && title === 'Groups' && isLoggedIn && (
                       <button
                         onClick={(e) => {
                           doModalOpen(EditGroupModal, { group: t });
@@ -138,11 +142,13 @@ const OfficeAllocationTable = connect(
 );
 
 const GroupAllocationTable = connect(
+  'selectAuthIsLoggedIn',
   'selectGroupActiveArray',
   'selectPositionCountsByGroup',
   'doModalOpen',
   'selectQueryString',
   ({
+    authIsLoggedIn: isLoggedIn,
     groupActiveArray: groups,
     positionCountsByGroup: positionCounts,
     doModalOpen,
@@ -161,7 +167,12 @@ const GroupAllocationTable = connect(
     }));
 
     return (
-      <AllocationTable title="Groups" items={items} doModalOpen={doModalOpen} />
+      <AllocationTable
+        title="Groups"
+        items={items}
+        isLoggedIn={isLoggedIn}
+        doModalOpen={doModalOpen}
+      />
     );
   }
 );
