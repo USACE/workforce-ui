@@ -38,6 +38,7 @@ const authBundle = (options) => {
   const selectUsername = `select${uCaseName}Username`;
   const selectUserInitials = `select${uCaseName}UserInitials`;
   const selectRoles = `select${uCaseName}Roles`;
+  const selectRolesObj = `select${uCaseName}RolesObj`;
 
   // Actions
   const capsName = config.name.toUpperCase();
@@ -117,6 +118,16 @@ const authBundle = (options) => {
           payload.resource_access[config.client].roles) ||
         []
       );
+    }),
+    [selectRolesObj]: createSelector(selectRoles, (roles) => {
+      if (!roles || !roles.length) {
+        return {};
+      }
+      const obj = {};
+      roles.forEach((r) => {
+        obj[r] = true;
+      });
+      return obj;
     }),
     [selectUsername]: createSelector(selectTokenPayload, (payload) => {
       if (!Object.keys(payload).length) {

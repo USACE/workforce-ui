@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'redux-bundler-react';
 import EditPositionModal from './EditPositionModal';
 import EditOccupancyModal from './EditOccupancyModal';
+import RoleFilter from '../RoleFilter';
 
 import {
   UserCircleIcon,
@@ -19,7 +20,13 @@ const PositionTable = connect(
           <h2 className="font-semibold text-gray-800">
             {title} ({items && items.length})
           </h2>
-          {isLoggedIn && (
+          {/* Get Office Symbol from First Position in the Table; Table only contains positions for single office */}
+          <RoleFilter
+            allow={[
+              'application.admin',
+              items && items.length && `${items[0].office_symbol}.admin`,
+            ]}
+          >
             <button
               onClick={(e) => {
                 doModalOpen(EditPositionModal);
@@ -28,7 +35,7 @@ const PositionTable = connect(
             >
               + New Position
             </button>
-          )}
+          </RoleFilter>
         </header>
         <div className="p-3">
           {/* Table */}
@@ -144,7 +151,14 @@ const PositionTable = connect(
                           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             <UserRemoveIcon className="w-6 h-6" />
                           </button> */}
-                          {isLoggedIn && (
+                          <RoleFilter
+                            allow={[
+                              'application.admin',
+                              items &&
+                                items.length &&
+                                `${items[0].office_symbol}.admin`,
+                            ]}
+                          >
                             <>
                               <button
                                 onClick={(e) => {
@@ -168,7 +182,7 @@ const PositionTable = connect(
                                 <UserIcon className="w-6 h-6" />
                               </button>
                             </>
-                          )}
+                          </RoleFilter>
                         </div>
                       </td>
                     </tr>
