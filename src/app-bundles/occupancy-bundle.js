@@ -10,7 +10,7 @@ export default createRestBundle({
   persist: false,
   routeParam: '',
   getTemplate: `${apiUrl}/offices/:office_symbol/occupancy`,
-  putTemplate: `${apiUrl}/occupancy/:id`,
+  putTemplate: `${apiUrl}/offices/:office_symbol/occupancy/:item.id`,
   postTemplate: `${apiUrl}/offices/:office_symbol/occupancy`,
   deleteTemplate: '',
   fetchActions: [],
