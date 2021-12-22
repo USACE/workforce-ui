@@ -1,8 +1,38 @@
 import React from 'react';
+import { connect } from 'redux-bundler-react';
 import Breadcrumb from '../Breadcrumb';
 
 import Header from '../header';
 
+const Statistics = connect(
+  'selectSeriesMetricsTotals',
+  'selectSeriesMetricsIsLoading',
+  ({ seriesMetricsTotals: totals, seriesMetricsIsLoading: isLoading }) => {
+    const { positions, employees, vacancies } = totals;
+    return (
+      <div className="flex text-center justify-center space-x-12 w-full py-4 lg:mr-12 lg:justify-end">
+        <div className="p-4">
+          <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
+            {isLoading ? '-' : employees}
+          </h2>
+          <p className="leading-relaxed">Employees</p>
+        </div>
+        <div className="p-4">
+          <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
+            {isLoading ? '-' : positions}
+          </h2>
+          <p className="leading-relaxed">Positions</p>
+        </div>
+        <div className="p-4">
+          <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
+            {isLoading ? '-' : vacancies}
+          </h2>
+          <p className="leading-relaxed">Vacancies</p>
+        </div>
+      </div>
+    );
+  }
+);
 export default function Wrapper({ children, title }) {
   return (
     <>
@@ -27,20 +57,7 @@ export default function Wrapper({ children, title }) {
             </div>
           </div>
           {/* Statistic Numbers */}
-          <div className="flex text-center justify-center space-x-12 w-full py-4 lg:mr-12 lg:justify-end">
-            <div className="p-4">
-              <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
-                2,700
-              </h2>
-              <p className="leading-relaxed">Positions</p>
-            </div>
-            <div className="p-4">
-              <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
-                25
-              </h2>
-              <p className="leading-relaxed">Vacancies</p>
-            </div>
-          </div>
+          <Statistics />
         </div>
 
         {/* Page title ends */}

@@ -12,7 +12,7 @@ export default function Home() {
   // const [deliverables, setDeliverables] = useState(false);
   // const [profile, setProfile] = useState(false);
   return (
-    <Wrapper title="Overview Dashboard">
+    <Wrapper title="Hydraulics, Hydrology, Coastal Community of Practice">
       {/* Remove class [ h-64 ] when adding a card block */}
       {/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
       <div className="container justify-between mx-auto lg:inline-flex gap-1 md:bg-green-200 sm:bg-blue-200 lg:bg-red-900 mt-2 lg:h-80 p-2">

@@ -458,7 +458,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
                 alt="USACE Logo"
               />
               <h3 className="text-base text-gray-800 font-bold tracking-normal leading-tight ml-3 hidden lg:block">
-                HH&C Workforce
+                Workforce
               </h3>
             </div>
             {/* <ul className="pr-12 xl:flex items-center h-full hidden">
