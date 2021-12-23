@@ -92,6 +92,24 @@ const seriesMetrics = {
       return totals;
     }
   ),
+  // selectSeriesMetricsBulletInfo formats data for Nivo Bullet Chart component for visualization
+  selectSeriesMetricsBulletInfo: createSelector(
+    'selectSeriesMetricsData',
+    (data) => {
+      return {
+        maxValue: data ? data.reduce((a, b) => Math.max(a, b.target), 0) : 0,
+        data: !data
+          ? []
+          : data.map((d) => ({
+              id: d.occupation_code,
+              title: `${d.occupation_name} - ${d.occupation_code}`,
+              ranges: [d.allocated],
+              measures: [d.employees],
+              markers: [d.target],
+            })),
+      };
+    }
+  ),
   selectSeriesMetricsFetchParams: (state) => state.seriesMetrics.fetchParams,
   reactSeriesMetricsShouldFetch: createSelector(
     'selectSeriesMetricsRaw',

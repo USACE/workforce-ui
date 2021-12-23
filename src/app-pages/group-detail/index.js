@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'redux-bundler-react';
 import Wrapper from '../../app-components/wrapper';
 import { GroupPositionTable } from '../../app-components/position-tables';
+import { HorizontalSeriesMetricsCard } from '../../app-components/charts/SeriesMetricsResponsiveBullet';
 
 const GroupDetail = connect(
   'selectOfficeActive',
@@ -24,7 +25,17 @@ const GroupDetail = connect(
     return (
       <>
         <Wrapper title={title}>
-          <GroupPositionTable />
+          <div
+            className={`container justify-between inline-flex p-2 ${
+              process.env.NODE_ENV === 'development' &&
+              'md:bg-green-200 sm:bg-blue-200 lg:bg-red-900'
+            }`}
+          >
+            <HorizontalSeriesMetricsCard />
+          </div>
+          <div className="mt-12">
+            <GroupPositionTable />
+          </div>
         </Wrapper>
       </>
     );
