@@ -4,7 +4,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 // import Select from 'react-select';
-import { parseISO, addDays } from 'date-fns';
+import { addDays, isValid, subDays } from 'date-fns';
+import { utcToZonedTime, toDate } from 'date-fns-tz';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { SaveButton, CancelButton } from '../forms/buttons';
@@ -29,20 +30,34 @@ const EditOccupancyModal = connect(
       service_start_date:
         (occupant &&
           occupant.service_start_date &&
-          parseISO(occupant.service_start_date)) ||
+          utcToZonedTime(toDate(occupant.service_start_date), 'UTC')) ||
         null,
       service_end_date:
         (occupant &&
           occupant.service_end_date &&
-          parseISO(occupant.service_end_date)) ||
+          utcToZonedTime(toDate(occupant.service_end_date), 'UTC')) ||
         null,
       start_date:
-        (occupant && occupant.start_date && parseISO(occupant.start_date)) ||
+        (occupant &&
+          occupant.start_date &&
+          utcToZonedTime(toDate(occupant.start_date), 'UTC')) ||
         null,
       end_date:
-        (occupant && occupant.end_date && parseISO(occupant.end_date)) || null,
-      dob: (occupant && occupant.dob && parseISO(occupant.dob)) || null,
+        (occupant &&
+          occupant.end_date &&
+          utcToZonedTime(toDate(occupant.end_date), 'UTC')) ||
+        null,
+      dob:
+        (occupant &&
+          occupant.dob &&
+          utcToZonedTime(toDate(occupant.dob), 'UTC')) ||
+        null,
     });
+
+    // Parse an ISO 8601 timestamp recognised by date-fns
+    // let loc = 'UTC';
+    // let s1   = '2020-12-03 08:30:00';
+    // let utcDate =  zonedTimeToUtc(s1, loc);
 
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -74,7 +89,7 @@ const EditOccupancyModal = connect(
         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
       >
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg lg:max-w-xl sm:w-full">
           <div className="bg-white px-4 pt-5 pb-4 sm:p-4 sm:pb-4">
             <div className="sm:flex sm:items-start bg-gray-100 p-2">
               <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-200 sm:mx-0 sm:h-10 sm:w-10">
@@ -91,11 +106,11 @@ const EditOccupancyModal = connect(
                   Edit {p && p.title} Occupancy
                 </Dialog.Title>
 
-                <div className="w-full block p-2">
+                <div className="w-full block p-2 text-left">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">
                       Additional Title/Role:{' '}
-                      <span className="text-sm text-gray-400">
+                      <span className="text-sm text-gray-400 block">
                         (ex: Team Lead, Regional RTS)
                       </span>
                     </span>
@@ -114,110 +129,164 @@ const EditOccupancyModal = connect(
                   />
                 </div>
 
-                <div className="w-full block p-2">
-                  <label className="block mt-2 mb-2 w-full" forhtml="title">
-                    <span className="text-gray-600">
-                      <span className="text-lg text-red-700 mr-1">*</span>
-                      Service Start Date:{' '}
-                      {/* <span className="text-sm text-gray-400">
+                <div className="text-left mt-3">
+                  <div className="bg-gray-200 p-2 text-gray-500 border-b-2 border-gray-300">
+                    Employee's Federal Service Dates:
+                  </div>
+
+                  <div className="w-full block lg:w-1/2 lg:inline-block p-2">
+                    <label
+                      className="block mt-2 mb-2 w-full"
+                      forhtml="serviceStartDate"
+                    >
+                      <span className="text-gray-600">
+                        <span className="text-lg text-red-700 mr-1">*</span>
+                        Service Start:{' '}
+                        {/* <span className="text-sm text-gray-400">
                         (ex: Team Lead, Regional RTS)
                       </span> */}
-                    </span>
-                  </label>
-                  <DatePicker
-                    id="serviceStartDate"
-                    autoComplete="off"
-                    name="serviceStartDate"
-                    className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
-                    selected={payload.service_start_date}
-                    todayButton="Today"
-                    dateFormat="dd-MMM-yyyy"
-                    onChange={(date) =>
-                      setPayload({
-                        ...payload,
-                        service_start_date: addDays(date, 1),
-                      })
-                    }
-                  />
+                      </span>
+                    </label>
+                    <DatePicker
+                      id="serviceStartDate"
+                      autoComplete="off"
+                      name="serviceStartDate"
+                      className="w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
+                      selected={payload.service_start_date}
+                      todayButton="Today"
+                      dateFormat="dd-MMM-yyyy"
+                      showMonthDropdown
+                      showYearDropdown
+                      dropdownMode="select"
+                      strictParsing
+                      minDate={subDays(new Date(), 25570)}
+                      maxDate={addDays(new Date(), 5)}
+                      onChange={(date) =>
+                        setPayload({
+                          ...payload,
+                          service_start_date: date,
+                        })
+                      }
+                    />
+                  </div>
+
+                  <div className="w-full lg:w-1/2 inline-block p-2">
+                    <label
+                      className="block mt-2 mb-2 w-full"
+                      forhtml="serviceEndDate"
+                    >
+                      <span className="text-gray-600">
+                        Service End:{' '}
+                        {/* <span className="text-xs text-gray-400 block w-full">
+                        (leave empty if still employed)
+                      </span> */}
+                      </span>
+                    </label>
+                    <DatePicker
+                      id="serviceEndDate"
+                      autoComplete="off"
+                      name="serviceEndDate"
+                      className="w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
+                      selected={payload.service_end_date}
+                      todayButton="Today"
+                      dateFormat="dd-MMM-yyyy"
+                      showMonthDropdown
+                      showYearDropdown
+                      dropdownMode="select"
+                      strictParsing
+                      disabled={!payload.service_start_date}
+                      minDate={
+                        payload.service_start_date || subDays(new Date(), 25570)
+                      }
+                      maxDate={addDays(new Date(), 5)}
+                      placeholderText="departure date"
+                      onChange={(date) =>
+                        setPayload({
+                          ...payload,
+                          service_end_date: isValid(date)
+                            ? addDays(date, 1)
+                            : null,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
 
-                <div className="w-full block p-2">
-                  <label className="block mt-2 mb-2 w-full" forhtml="title">
-                    <span className="text-gray-600">
-                      Service End Date:{' '}
-                      {/* <span className="text-sm text-gray-400">
-                        (ex: Team Lead, Regional RTS)
-                      </span> */}
-                    </span>
-                  </label>
-                  <DatePicker
-                    id="serviceEndDate"
-                    autoComplete="off"
-                    name="serviceEndDate"
-                    className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
-                    selected={payload.service_end_date}
-                    todayButton="Today"
-                    dateFormat="dd-MMM-yyyy"
-                    onChange={(date) =>
-                      setPayload({
-                        ...payload,
-                        service_end_date: addDays(date, 1),
-                      })
-                    }
-                  />
-                </div>
+                <div className="text-left mt-3">
+                  <div className="bg-gray-200 p-2 text-gray-500 border-b-2 border-gray-300">
+                    Employee's Position Occupancy Dates:
+                  </div>
 
-                <div className="w-full block p-2">
-                  <label className="block mt-2 mb-2 w-full" forhtml="title">
-                    <span className="text-gray-600">
-                      <span className="text-lg text-red-700 mr-1">*</span>
-                      Employee's Position Start Date:{' '}
-                      {/* <span className="text-sm text-gray-400">
+                  <div className="w-full lg:w-1/2 inline-block p-2">
+                    <label
+                      className="block mt-2 mb-2 w-full text-left"
+                      forhtml="title"
+                    >
+                      <span className="text-gray-600">
+                        <span className="text-lg text-red-700 mr-1">*</span>
+                        Position Start:{' '}
+                        {/* <span className="text-sm text-gray-400">
                         (ex: Team Lead, Regional RTS)
                       </span> */}
-                    </span>
-                  </label>
-                  <DatePicker
-                    id="startDate"
-                    name="startDate"
-                    autoComplete="off"
-                    className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
-                    selected={payload.start_date}
-                    todayButton="Today"
-                    dateFormat="dd-MMM-yyyy"
-                    onChange={(date) =>
-                      setPayload({
-                        ...payload,
-                        start_date: addDays(date, 1),
-                      })
-                    }
-                  />
-                </div>
+                      </span>
+                    </label>
+                    <DatePicker
+                      id="startDate"
+                      name="startDate"
+                      popperPlacement="top"
+                      autoComplete="off"
+                      className="w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
+                      selected={payload.start_date}
+                      todayButton="Today"
+                      dateFormat="dd-MMM-yyyy"
+                      showMonthDropdown
+                      showYearDropdown
+                      dropdownMode="select"
+                      strictParsing
+                      minDate={subDays(new Date(), 25570)}
+                      maxDate={addDays(new Date(), 5)}
+                      onChange={(date) =>
+                        setPayload({
+                          ...payload,
+                          start_date: date,
+                        })
+                      }
+                    />
+                  </div>
 
-                <div className="w-full block p-2">
-                  <label className="block mt-2 mb-2 w-full" forhtml="title">
-                    <span className="text-gray-600">
-                      Employee's Position End Date:{' '}
-                      {/* <span className="text-sm text-gray-400">
+                  <div className="w-full lg:w-1/2 inline-block p-2">
+                    <label className="block mt-2 mb-2 w-full" forhtml="title">
+                      <span className="text-gray-600">
+                        Position End:{' '}
+                        {/* <span className="text-sm text-gray-400">
                         (ex: Team Lead, Regional RTS)
                       </span> */}
-                    </span>
-                  </label>
-                  <DatePicker
-                    id="endDate"
-                    name="endDate"
-                    autoComplete="off"
-                    className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
-                    selected={payload.end_date}
-                    todayButton="Today"
-                    dateFormat="dd-MMM-yyyy"
-                    onChange={(date) =>
-                      setPayload({
-                        ...payload,
-                        end_date: addDays(date, 1),
-                      })
-                    }
-                  />
+                      </span>
+                    </label>
+                    <DatePicker
+                      id="endDate"
+                      name="endDate"
+                      popperPlacement="top"
+                      autoComplete="off"
+                      className="w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
+                      selected={payload.end_date}
+                      todayButton="Today"
+                      dateFormat="dd-MMM-yyyy"
+                      showMonthDropdown
+                      showYearDropdown
+                      dropdownMode="select"
+                      strictParsing
+                      disabled={!payload.start_date}
+                      minDate={payload.start_date}
+                      maxDate={addDays(new Date(), 5)}
+                      onChange={(date) =>
+                        setPayload({
+                          ...payload,
+                          end_date: date,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
 
                 <div className="w-full block p-2">
@@ -231,38 +300,32 @@ const EditOccupancyModal = connect(
                   <DatePicker
                     id="dob"
                     name="dob"
+                    popperPlacement="top"
                     autoComplete="off"
                     className="w-56 border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     selected={payload.dob}
                     dateFormat="yyyy"
                     showYearPicker
                     yearItemNumber={12}
+                    minDate={subDays(new Date(), 33000)}
+                    maxDate={subDays(new Date(), 6575)}
                     onChange={(date) =>
                       setPayload({
                         ...payload,
-                        dob: addDays(date, 1),
+                        dob: date,
                       })
                     }
                   />
                 </div>
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <textarea
-                    cols={40}
-                    rows={4}
+                    cols={50}
+                    rows={8}
                     value={JSON.stringify(payload)}
                     readOnly
                   ></textarea>
-                </div>
-                {/* <form>
-                  <input
-                    className="mt-4 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    type="file"
-                    onChange={(e) => {
-                      setFile(e.target.files[0]);
-                    }}
-                  />
-                </form> */}
+                </div> */}
               </div>
             </div>
           </div>
