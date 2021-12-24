@@ -9,6 +9,8 @@ import {
   UserIcon,
   PencilAltIcon,
 } from '@heroicons/react/outline';
+import { StarIcon } from '@heroicons/react/solid';
+
 import ReactTooltip from 'react-tooltip';
 
 const PositionTable = connect(
@@ -78,6 +80,7 @@ const PositionTable = connect(
                     current_occupancy,
                     is_active,
                     is_allocated,
+                    is_supervisor,
                   } = t;
                   const isVacant = !current_occupancy;
                   return (
@@ -106,7 +109,15 @@ const PositionTable = connect(
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="font-medium text-gray-800">
-                          <span className="block">{title}</span>
+                          <span className="block">
+                            {title}
+                            {is_supervisor && (
+                              <StarIcon
+                                data-tip="Supervisor"
+                                className="w-4 inline ml-1 mb-1 text-yellow-400"
+                              />
+                            )}
+                          </span>
                           <span className="block text-gray-400">
                             {current_occupancy && current_occupancy.title}
                           </span>
