@@ -91,7 +91,9 @@ const EditPositionModal = connect(
                 </div> */}
                 <div className="w-full mt-3 p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="unit">
-                    <span className="text-gray-600">Group</span>
+                    <span className="text-gray-600">
+                      <span className="text-lg text-red-700 mr-1">*</span>Group
+                    </span>
                   </label>
                   <Select
                     placeholder={
@@ -111,7 +113,10 @@ const EditPositionModal = connect(
                 </div>
                 <div className="w-full mt-3 p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="unit">
-                    <span className="text-gray-600">Occupation - Series</span>
+                    <span className="text-gray-600">
+                      <span className="text-lg text-red-700 mr-1">*</span>
+                      Occupation - Series
+                    </span>
                   </label>
                   <Select
                     placeholder={
@@ -133,7 +138,10 @@ const EditPositionModal = connect(
                 </div>
                 <div className="w-full lg:w-1/2 inline-block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="payplan">
-                    <span className="text-gray-600">Pay Plan</span>
+                    <span className="text-gray-600">
+                      <span className="text-lg text-red-700 mr-1">*</span>Pay
+                      Plan
+                    </span>
                   </label>
                   <Select
                     placeholder={payload.pay_plan}
@@ -152,10 +160,13 @@ const EditPositionModal = connect(
 
                 <div className="w-full lg:w-1/2 inline-block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="grade">
-                    <span className="text-gray-600">Grade</span>
+                    <span className="text-gray-600">
+                      <span className="text-lg text-red-700 mr-1">*</span>Grade
+                    </span>
                   </label>
                   <input
                     type="number"
+                    pattern="\d*"
                     className="block w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     defaultValue={payload.grade}
                     maxLength={2}
@@ -173,6 +184,7 @@ const EditPositionModal = connect(
                 <div className="w-full block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">
+                      <span className="text-lg text-red-700 mr-1">*</span>
                       Position Title
                       <span className="ml-2 text-sm text-gray-400">
                         (as shown on PD)
@@ -311,14 +323,14 @@ const EditPositionModal = connect(
                   </div>
                 </div>
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <textarea
                     cols={40}
                     rows={7}
                     readOnly={1}
                     value={JSON.stringify(payload)}
                   ></textarea>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
