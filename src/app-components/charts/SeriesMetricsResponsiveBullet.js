@@ -15,7 +15,7 @@ const VerticalSeriesMetricsResponsiveBullet = connect(
     return (
       <div className="w-full h-full flex space-x-3 justify-center p-4">
         {data.map((d, idx) => (
-          <div style={{ width: idx === 0 ? 64 : 32 }}>
+          <div key={idx} style={{ width: idx === 0 ? 64 : 32 }}>
             <ResponsiveBullet
               animate={false}
               data={[d]}
@@ -65,7 +65,7 @@ const HorizontalSeriesMetricsResponsiveBullet = connect(
     return (
       <div className="w-full h-full flex flex-col space-y-1 justify-center px-12 py-8">
         {data.map((d, idx) => (
-          <div style={{ height: idx === 0 ? 36 : 18 }}>
+          <div key={idx} style={{ height: idx === 0 ? 36 : 18 }}>
             <ResponsiveBullet
               animate={false}
               data={[d]}
