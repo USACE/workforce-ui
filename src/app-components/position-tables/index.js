@@ -8,6 +8,7 @@ import {
   UserCircleIcon,
   UserIcon,
   PencilAltIcon,
+  DuplicateIcon,
 } from '@heroicons/react/outline';
 import { StarIcon } from '@heroicons/react/solid';
 
@@ -172,6 +173,7 @@ const PositionTable = connect(
                           >
                             <>
                               <button
+                                data-tip="Edit Position"
                                 onClick={(e) => {
                                   doModalOpen(EditPositionModal, {
                                     position: t,
@@ -183,6 +185,7 @@ const PositionTable = connect(
                               </button>
 
                               <button
+                                data-tip="Edit Occupant"
                                 onClick={(e) => {
                                   doModalOpen(EditOccupancyModal, {
                                     position: t,
@@ -191,6 +194,22 @@ const PositionTable = connect(
                                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                               >
                                 <UserIcon className="w-6 h-6" />
+                              </button>
+
+                              <button
+                                data-tip="Duplicate Position"
+                                onClick={(e) => {
+                                  doModalOpen(EditPositionModal, {
+                                    position: {
+                                      ...t,
+                                      id: null,
+                                      duplicate: true,
+                                    },
+                                  });
+                                }}
+                                className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
+                              >
+                                <DuplicateIcon className="w-6 h-6" />
                               </button>
                             </>
                           </RoleFilter>
