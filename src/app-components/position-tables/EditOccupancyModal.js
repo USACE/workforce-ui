@@ -330,7 +330,7 @@ const EditOccupancyModal = connect(
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <SaveButton label="Submit" onClick={handleSubmit} />
+            <SaveButton label="Save" onClick={handleSubmit} />
 
             <CancelButton
               label="Cancel"

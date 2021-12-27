@@ -1,10 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { useState, Fragment } from 'react';
 import { Dialog, Transition, Switch } from '@headlessui/react';
-import { PencilAltIcon } from '@heroicons/react/outline';
+import { PencilAltIcon, InformationCircleIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 import Select from 'react-select';
-import ReactTooltip from 'react-tooltip';
 import { SaveButton, CancelButton } from '../forms/buttons';
 
 const EditPositionModal = connect(
@@ -42,7 +41,7 @@ const EditPositionModal = connect(
 
       if (
         !payload ||
-        (!payload.id && p) ||
+        (!payload.id && p && !p.duplicate) ||
         !payload.title ||
         !payload.occupation_code ||
         !payload.pay_plan ||
@@ -70,7 +69,6 @@ const EditPositionModal = connect(
           <div className="bg-white px-4 pt-5 pb-4 sm:p-4 sm:pb-4">
             <div className="sm:flex sm:items-start bg-gray-100 p-2">
               <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-200 sm:mx-0 sm:h-10 sm:w-10">
-                <ReactTooltip />
                 <PencilAltIcon
                   className="h-6 w-6 text-blue-600"
                   aria-hidden="true"
@@ -81,7 +79,12 @@ const EditPositionModal = connect(
                   as="h3"
                   className="text-lg leading-6 font-medium text-gray-900 pt-2"
                 >
-                  {p ? 'Edit' : 'New'} Position
+                  {p && !p.duplicate
+                    ? 'Edit'
+                    : p && p.duplicate
+                    ? 'Duplicate'
+                    : 'New'}{' '}
+                  Position
                 </Dialog.Title>
                 {/* <div className="mt-8">
                   <p className="text-sm text-gray-500">
@@ -322,6 +325,12 @@ const EditPositionModal = connect(
                     </Switch.Group>
                   </div>
                 </div>
+                {p && p.duplicate && (
+                  <div className="bg-yellow-100 text-gray-500 p-2">
+                    <InformationCircleIcon className="w-5 mb-1 mr-2 inline-block text-blue-700" />
+                    Occupant information will not be copied.
+                  </div>
+                )}
 
                 {/* <div className="mt-4">
                   <textarea
@@ -335,7 +344,10 @@ const EditPositionModal = connect(
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <SaveButton label="Submit" onClick={handleSubmit} />
+            <SaveButton
+              label={p && p.duplicate ? 'Save as New Position' : 'Save'}
+              onClick={handleSubmit}
+            />
 
             <CancelButton
               label="Cancel"
