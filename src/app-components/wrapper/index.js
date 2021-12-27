@@ -36,7 +36,7 @@ const Statistics = connect(
 export default function Wrapper({ children, title }) {
   return (
     <>
-      <div className="absolute bg-gray-200 w-full h-full">
+      <div className="absolute bg-gray-200 w-full h-full bg-gradient-to-b from-gray-200 to-white">
         <Header />
 
         {/* Page title starts */}

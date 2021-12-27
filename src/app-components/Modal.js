@@ -1,7 +1,8 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react';
+import { useEffect, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { connect } from 'redux-bundler-react';
+import ReactTooltip from 'react-tooltip';
 
 // Markup for modal sourced from free
 // Tailwind UI Preview Components
@@ -28,6 +29,10 @@ const Modal = connect(
   'selectModalProps',
   'doModalClose',
   ({ modalContent: ModalContent, modalProps, doModalClose }) => {
+    useEffect(() => {
+      ReactTooltip.rebuild();
+    });
+
     return ModalContent ? (
       <Transition.Root show={true} as={Fragment}>
         <Dialog
@@ -58,6 +63,7 @@ const Modal = connect(
             {/* =========================== */}
             {/* VARIABLE MODAL CONTENT HERE */}
             <ModalContent {...modalProps} />
+            <ReactTooltip />
             {/* =========================== */}
           </div>
         </Dialog>
