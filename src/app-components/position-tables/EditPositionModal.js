@@ -4,7 +4,7 @@ import { Dialog, Transition, Switch } from '@headlessui/react';
 import { PencilAltIcon, InformationCircleIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 import Select from 'react-select';
-import { SaveButton, CancelButton } from '../forms/buttons';
+import { DeleteButton, SaveButton, CancelButton } from '../forms/buttons';
 
 const EditPositionModal = connect(
   'doModalClose',
@@ -13,6 +13,7 @@ const EditPositionModal = connect(
   'selectGroupActiveArray',
   'selectGroupActiveObject',
   'doPositionSave',
+  'doPositionDelete',
   'doPositionsFetch',
   ({
     doModalClose,
@@ -21,6 +22,7 @@ const EditPositionModal = connect(
     groupActiveArray: groups,
     groupActiveObject: groupsObj,
     doPositionSave,
+    doPositionDelete,
     position: p,
   }) => {
     const [payload, setPayload] = useState({
@@ -34,6 +36,7 @@ const EditPositionModal = connect(
       is_supervisor: (p && p.is_supervisor) || false,
       is_allocated: (p && p.is_allocated) || false,
       group_slug: (p && p.group_slug) || null,
+      current_occupant: (p && p.current_occupancy) || null,
     });
 
     const handleSubmit = (e) => {
@@ -52,6 +55,15 @@ const EditPositionModal = connect(
         return;
       }
       doPositionSave(payload);
+      doModalClose();
+    };
+
+    const handleDelete = (e) => {
+      if (!payload || !payload.id) {
+        console.log('Payload or payload.id not set.');
+        return;
+      }
+      doPositionDelete(payload);
       doModalClose();
     };
 
@@ -335,7 +347,7 @@ const EditPositionModal = connect(
                 {/* <div className="mt-4">
                   <textarea
                     cols={40}
-                    rows={7}
+                    rows={9}
                     readOnly={1}
                     value={JSON.stringify(payload)}
                   ></textarea>
@@ -355,6 +367,12 @@ const EditPositionModal = connect(
                 doModalClose();
               }}
             />
+
+            <div className="flex-auto">
+              {p && !p.current_occupancy && (
+                <DeleteButton label="Delete" onClick={handleDelete} />
+              )}
+            </div>
           </div>
         </div>
       </Transition>

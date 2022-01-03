@@ -3,13 +3,20 @@ import React, { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
-import { SaveButton, CancelButton } from '../forms/buttons';
+import { SaveButton, CancelButton, DeleteButton } from '../forms/buttons';
 
 const EditPositionModal = connect(
   'doModalClose',
   'selectOfficeActive',
   'doGroupSave',
-  ({ doModalClose, officeActive: office, doGroupSave, group: g }) => {
+  'doGroupDelete',
+  ({
+    doModalClose,
+    officeActive: office,
+    doGroupSave,
+    doGroupDelete,
+    group: g,
+  }) => {
     const [payload, setPayload] = useState({
       uid: (g && g.uid) || null,
       name: (g && g.name) || null,
@@ -31,6 +38,15 @@ const EditPositionModal = connect(
       }
       doGroupSave(payload);
       // console.log(payload);
+      doModalClose();
+    };
+
+    const handleDelete = (e) => {
+      if (!payload || !payload.slug) {
+        console.log('Payload or payload.slug not set.');
+        return;
+      }
+      doGroupDelete(payload);
       doModalClose();
     };
 
@@ -76,8 +92,13 @@ const EditPositionModal = connect(
                   />
                 </div>
 
-                {/* <div className="mt-4 border-2">
-                  INFO: {JSON.stringify(payload)}
+                {/* <div className="mt-4">
+                  <textarea
+                    cols={40}
+                    rows={9}
+                    readOnly={1}
+                    value={JSON.stringify(g)}
+                  ></textarea>
                 </div> */}
               </div>
             </div>
@@ -91,6 +112,12 @@ const EditPositionModal = connect(
                 doModalClose();
               }}
             />
+
+            <div className="flex-auto">
+              {g && !g.count_positions && (
+                <DeleteButton label="Delete" onClick={handleDelete} />
+              )}
+            </div>
           </div>
         </div>
       </Transition>

@@ -16,7 +16,11 @@ export default createRestBundle({
   deleteTemplate: `${apiUrl}/offices/:symbol/positions/:item.id`,
   fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED'],
   urlParamSelectors: ['selectOfficeActive', 'selectGroupSelected'],
-  forceFetchActions: ['POSITION_SAVE_FINISHED', 'OCCUPANCY_SAVE_FINISHED'],
+  forceFetchActions: [
+    'POSITION_SAVE_FINISHED',
+    'POSITION_DELETE_FINISHED',
+    'OCCUPANCY_SAVE_FINISHED',
+  ],
   sortBy: 'grade',
   mergeItems: false,
   sortAsc: false,
