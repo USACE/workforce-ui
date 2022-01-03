@@ -113,10 +113,10 @@ const HorizontalSeriesMetricsCard = (props) => (
         Filled Positions
       </h2>
       <div className="flex space-x-2 text-xs items-center">
-        <div className="bg-gray-300 px-3 py-1 rounded-xl ">Allocated</div>
         <div className="text-white bg-gray-900 px-3 py-1 rounded-xl">
           Filled
         </div>
+        <div className="bg-gray-300 px-3 py-1 rounded-xl ">Allocated</div>
         <div className="bg-green-400 px-3 py-1 rounded-xl">
           Target (includes extra need)
         </div>
