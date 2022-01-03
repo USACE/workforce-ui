@@ -15,6 +15,10 @@ const seriesMetrics = {
     { type, payload }
   ) => {
     switch (type) {
+      case 'POSITION_SAVE_FINISHED':
+      case 'POSITION_DELETE_FINISHED':
+      case 'OCCUPANCY_SAVE_FINISHED':
+        return { ...state, shouldFetch: true };
       case 'SERIESMETRICS_SHOULD_FETCH':
       case 'SERIESMETRICS_FETCH_STARTED':
       case 'SERIESMETRICS_FETCH_FINISHED':
