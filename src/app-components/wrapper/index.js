@@ -11,23 +11,19 @@ const Statistics = connect(
     const { positions, employees, vacancies } = totals;
     return (
       <div className="flex text-center justify-center space-x-12 w-full py-4 lg:mr-12 lg:justify-end">
-        <div className="p-4">
-          <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
-            {isLoading ? '-' : employees}
-          </h2>
-          <p className="leading-relaxed">Employees</p>
+        <div className="p-4 bg-white rounded">
+          <div className="flex title-font font-medium sm:text-4xl text-3xl">
+            <div className="text-gray-900">{isLoading ? '-' : employees}</div>
+            <div className="mx-2 text-gray-300">/</div>
+            <div className="text-gray-300">{isLoading ? '-' : positions}</div>
+          </div>
+          <div className="leading-relaxed text-gray-600">Positions Filled</div>
         </div>
-        <div className="p-4">
-          <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
-            {isLoading ? '-' : positions}
-          </h2>
-          <p className="leading-relaxed">Positions</p>
-        </div>
-        <div className="p-4">
+        <div className="p-4 bg-white rounded">
           <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
             {isLoading ? '-' : vacancies}
           </h2>
-          <p className="leading-relaxed">Vacancies</p>
+          <p className="leading-relaxed text-gray-600">Vacancies</p>
         </div>
       </div>
     );
