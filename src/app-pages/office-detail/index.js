@@ -17,9 +17,9 @@ const OfficeDetail = connect(
     return (
       <Wrapper title={title}>
         <div
-          className={`container justify-between inline-flex p-2 ${
+          className={`container justify-between inline-flex shadow-md ${
             process.env.NODE_ENV === 'development' &&
-            'md:bg-green-200 sm:bg-blue-200 lg:bg-red-900'
+            'border-0 md:border-green-200 sm:border-blue-200 lg:border-red-900'
           }`}
         >
           <HorizontalSeriesMetricsCard />
