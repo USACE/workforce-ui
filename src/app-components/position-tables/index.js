@@ -16,7 +16,7 @@ import ReactTooltip from 'react-tooltip';
 
 const PositionTable = connect(
   'doModalOpen',
-  ({ title, items, isLoggedIn, doModalOpen }) => {
+  ({ title, items, doModalOpen }) => {
     return (
       <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
         <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
@@ -147,22 +147,6 @@ const PositionTable = connect(
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-center space-x-2 font-medium text-red-400">
-                          {/* <button
-                            disabled={!isVacant}
-                            onClick={(e) => {
-                              console.log('Add User to Position Clicked');
-                            }}
-                            className={`font-bold py-2 px-4 rounded ${
-                              isVacant
-                                ? 'bg-blue-500 hover:bg-blue-700 text-white'
-                                : 'bg-gray-200 text-gray-400'
-                            }`}
-                          >
-                            <UserAddIcon className="w-6 h-6" />
-                          </button>
-                          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            <UserRemoveIcon className="w-6 h-6" />
-                          </button> */}
                           <RoleFilter
                             allow={[
                               'application.admin',
@@ -228,16 +212,9 @@ const PositionTable = connect(
 );
 
 const GroupPositionTable = connect(
-  'selectAuthIsLoggedIn',
   'selectPositionItemsActive',
-  ({ positionItemsActive: positions, authIsLoggedIn: isLoggedIn }) => {
-    return (
-      <PositionTable
-        title="Positions"
-        items={positions}
-        isLoggedIn={isLoggedIn}
-      />
-    );
+  ({ positionItemsActive: positions }) => {
+    return <PositionTable title="Positions" items={positions} />;
   }
 );
 
