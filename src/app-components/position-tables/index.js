@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'redux-bundler-react';
 import EditPositionModal from './EditPositionModal';
 import EditOccupancyModal from './EditOccupancyModal';
-import RoleFilter from '../RoleFilter';
+import { RoleFilterCaseInsensitive } from '../RoleFilter';
 
 import {
   UserCircleIcon,
@@ -24,7 +24,7 @@ const PositionTable = connect(
             {title} ({items && items.length})
           </h2>
           {/* Get Office Symbol from First Position in the Table; Table only contains positions for single office */}
-          <RoleFilter
+          <RoleFilterCaseInsensitive
             allow={[
               'application.admin',
               items && items.length && `${items[0].office_symbol}.admin`,
@@ -38,7 +38,7 @@ const PositionTable = connect(
             >
               + New Position
             </button>
-          </RoleFilter>
+          </RoleFilterCaseInsensitive>
         </header>
         <div className="p-3">
           {/* Table */}
@@ -147,7 +147,7 @@ const PositionTable = connect(
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-center space-x-2 font-medium text-red-400">
-                          <RoleFilter
+                          <RoleFilterCaseInsensitive
                             allow={[
                               'application.admin',
                               items &&
@@ -196,7 +196,7 @@ const PositionTable = connect(
                                 <DuplicateIcon className="w-6 h-6" />
                               </button>
                             </>
-                          </RoleFilter>
+                          </RoleFilterCaseInsensitive>
                         </div>
                       </td>
                     </tr>
