@@ -39,6 +39,7 @@ const authBundle = (options) => {
   const selectUserInitials = `select${uCaseName}UserInitials`;
   const selectRoles = `select${uCaseName}Roles`;
   const selectRolesObj = `select${uCaseName}RolesObj`;
+  const selectRolesCaseInsensitiveObj = `select${uCaseName}RolesCaseInsensitiveObj`;
 
   // Actions
   const capsName = config.name.toUpperCase();
@@ -126,6 +127,16 @@ const authBundle = (options) => {
       const obj = {};
       roles.forEach((r) => {
         obj[r] = true;
+      });
+      return obj;
+    }),
+    [selectRolesCaseInsensitiveObj]: createSelector(selectRoles, (roles) => {
+      if (!roles || !roles.length) {
+        return {};
+      }
+      const obj = {};
+      roles.forEach((r) => {
+        obj[r.toUpperCase()] = true;
       });
       return obj;
     }),

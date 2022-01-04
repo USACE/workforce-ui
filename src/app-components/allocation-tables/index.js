@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'redux-bundler-react';
 import MyResponsiveBulletHorizontal from '../../app-components/charts/bullet-horizontal';
 import EditGroupModal from './EditGroupModal';
-import RoleFilter from '../RoleFilter';
+import { RoleFilterCaseInsensitive } from '../RoleFilter';
 
 import { PencilAltIcon, UserGroupIcon } from '@heroicons/react/outline';
 
@@ -16,10 +16,10 @@ const AllocationTable = ({ title, items, office, doModalOpen }) => {
           {title} ({items.length})
         </h2>
         {/* Only show button on groups table */}
-        <RoleFilter
+        <RoleFilterCaseInsensitive
           allow={[
             'application.admin',
-            title && title === 'Groups' && `${office.symbol}.admin`,
+            title && title === 'Groups' && office && `${office.symbol}.admin`,
           ]}
         >
           <button
@@ -30,7 +30,7 @@ const AllocationTable = ({ title, items, office, doModalOpen }) => {
           >
             + New Group
           </button>
-        </RoleFilter>
+        </RoleFilterCaseInsensitive>
       </header>
       <div className="p-3">
         {/* Table */}
@@ -112,7 +112,7 @@ const AllocationTable = ({ title, items, office, doModalOpen }) => {
                     )}
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    <RoleFilter
+                    <RoleFilterCaseInsensitive
                       allow={[
                         'application.admin',
                         title &&
@@ -128,7 +128,7 @@ const AllocationTable = ({ title, items, office, doModalOpen }) => {
                       >
                         <PencilAltIcon className="w-6 h-6" />
                       </button>
-                    </RoleFilter>
+                    </RoleFilterCaseInsensitive>
                   </td>
                 </tr>
               ))}

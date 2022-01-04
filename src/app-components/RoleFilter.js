@@ -13,4 +13,17 @@ const RoleFilter = connect(
   }
 );
 
-export default RoleFilter;
+const RoleFilterCaseInsensitive = connect(
+  'selectAuthRolesCaseInsensitiveObj',
+  ({ allow = [], authRolesCaseInsensitiveObj: rolesObj, children }) => {
+    let show = false;
+    allow.forEach((a) => {
+      if (a && rolesObj[a.toUpperCase()]) {
+        show = true;
+      }
+    });
+    return show ? <>{children}</> : null;
+  }
+);
+
+export { RoleFilter, RoleFilterCaseInsensitive, RoleFilter as default };
