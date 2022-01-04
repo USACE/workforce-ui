@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'redux-bundler-react';
 import MyResponsiveBulletHorizontal from '../../app-components/charts/bullet-horizontal';
 import EditGroupModal from './EditGroupModal';
+import RoleFilter from '../RoleFilter';
 
 import { PencilAltIcon, UserGroupIcon } from '@heroicons/react/outline';
 
 import USACE_Logo from '../../images/USACE_logo.png';
 
-const AllocationTable = ({ title, items, isLoggedIn, doModalOpen }) => {
+const AllocationTable = ({ title, items, office, doModalOpen }) => {
   return (
     <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
       <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
@@ -15,7 +16,12 @@ const AllocationTable = ({ title, items, isLoggedIn, doModalOpen }) => {
           {title} ({items.length})
         </h2>
         {/* Only show button on groups table */}
-        {title && title === 'Groups' && isLoggedIn && (
+        <RoleFilter
+          allow={[
+            'application.admin',
+            title && title === 'Groups' && `${office.symbol}.admin`,
+          ]}
+        >
           <button
             onClick={(e) => {
               doModalOpen(EditGroupModal, {});
@@ -24,14 +30,14 @@ const AllocationTable = ({ title, items, isLoggedIn, doModalOpen }) => {
           >
             + New Group
           </button>
-        )}
+        </RoleFilter>
       </header>
       <div className="p-3">
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="table-auto w-full">
             {/* Table header */}
-            <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+            <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-100">
               <tr>
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-left">Name</div>
@@ -58,7 +64,7 @@ const AllocationTable = ({ title, items, isLoggedIn, doModalOpen }) => {
             {/* Table body */}
             <tbody className="text-sm divide-y divide-gray-100">
               {items.map((t, idx) => (
-                <tr key={idx}>
+                <tr key={idx} className="hover:bg-gray-50">
                   <td className="p-2 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
@@ -75,7 +81,7 @@ const AllocationTable = ({ title, items, isLoggedIn, doModalOpen }) => {
                         {/*  */}
                       </div>
                       <a href={t.href}>
-                        <div className="font-medium text-gray-800">
+                        <div className="font-medium text-blue-500 hover:text-blue-800">
                           {t.name}
                         </div>
                       </a>
@@ -106,7 +112,14 @@ const AllocationTable = ({ title, items, isLoggedIn, doModalOpen }) => {
                     )}
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    {title && title === 'Groups' && isLoggedIn && (
+                    <RoleFilter
+                      allow={[
+                        'application.admin',
+                        title &&
+                          title === 'Groups' &&
+                          `${t.office_symbol}.admin`,
+                      ]}
+                    >
                       <button
                         onClick={(e) => {
                           doModalOpen(EditGroupModal, { group: t });
@@ -115,7 +128,7 @@ const AllocationTable = ({ title, items, isLoggedIn, doModalOpen }) => {
                       >
                         <PencilAltIcon className="w-6 h-6" />
                       </button>
-                    )}
+                    </RoleFilter>
                   </td>
                 </tr>
               ))}
@@ -147,12 +160,13 @@ const GroupAllocationTable = connect(
   'selectPositionCountsByGroup',
   'doModalOpen',
   'selectQueryString',
+  'selectOfficeActive',
   ({
-    authIsLoggedIn: isLoggedIn,
     groupActiveArray: groups,
     positionCountsByGroup: positionCounts,
     doModalOpen,
     queryString,
+    officeActive,
   }) => {
     const qs = queryString && `?${queryString}`;
     const items = groups.map((g) => ({
@@ -170,7 +184,7 @@ const GroupAllocationTable = connect(
       <AllocationTable
         title="Groups"
         items={items}
-        isLoggedIn={isLoggedIn}
+        office={officeActive}
         doModalOpen={doModalOpen}
       />
     );
