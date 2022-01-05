@@ -212,10 +212,9 @@ const GroupAllocationTable = connect(
         office={officeActive}
         doModalOpen={doModalOpen}
         // Largest target or allocated size among all offices
-        maxBulletSize={items.reduce(
-          (a, b) => Math.max(a, b.target, b.allocated),
-          0
-        )}
+        maxBulletSize={
+          items.reduce((a, b) => Math.max(a, b.target, b.allocated), 0) || 0
+        }
       />
     );
   }
