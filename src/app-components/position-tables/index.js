@@ -12,6 +12,8 @@ import {
 } from '@heroicons/react/outline';
 import { StarIcon } from '@heroicons/react/solid';
 
+import { formatDistanceToNowStrict, parseISO } from 'date-fns';
+
 import ReactTooltip from 'react-tooltip';
 
 const PositionTable = connect(
@@ -62,6 +64,9 @@ const PositionTable = connect(
                     <div className="font-semibold text-left">
                       Pay Plan-Grade
                     </div>
+                  </th>
+                  <th className="hidden lg:table-cell p-2 whitespace-nowrap">
+                    <div className="font-semibold text-center">Credentials</div>
                   </th>
                   <th className="p-2 whitespace-nowrap">
                     <div className="font-semibold text-center">Action</div>
@@ -122,6 +127,7 @@ const PositionTable = connect(
                           <span className="block text-gray-400">
                             {current_occupancy && current_occupancy.title}
                           </span>
+
                           <span className="block text-red-400">
                             {!is_active && 'Position Inactive'}
                           </span>
@@ -137,12 +143,27 @@ const PositionTable = connect(
                             <span className="block text-red-400">
                               {!is_allocated && is_active && 'Over-Allocation'}
                             </span>
+                            <span className="block text-gray-400">
+                              {current_occupancy &&
+                                current_occupancy.start_date &&
+                                formatDistanceToNowStrict(
+                                  parseISO(current_occupancy.start_date),
+                                  {
+                                    addSuffix: false,
+                                  }
+                                )}
+                            </span>
                           </div>
                         </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-left font-medium">
                           {pay_plan}-{grade}
+                        </div>
+                      </td>
+                      <td className="hidden lg:table-cell p-2 whitespace-nowrap">
+                        <div className="text-center font-medium text-gray-800">
+                          -
                         </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
