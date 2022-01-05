@@ -12,6 +12,7 @@ const EditPositionModal = connect(
   'selectPayplanItems',
   'selectGroupActiveArray',
   'selectGroupActiveObject',
+  'selectGroupSelected',
   'doPositionSave',
   'doPositionDelete',
   'doPositionsFetch',
@@ -21,6 +22,7 @@ const EditPositionModal = connect(
     payplanItems: pay_plans,
     groupActiveArray: groups,
     groupActiveObject: groupsObj,
+    groupSelected: defaultGroup,
     doPositionSave,
     doPositionDelete,
     position: p,
@@ -35,7 +37,7 @@ const EditPositionModal = connect(
       is_active: (p && p.is_active) || false,
       is_supervisor: (p && p.is_supervisor) || false,
       is_allocated: (p && p.is_allocated) || false,
-      group_slug: (p && p.group_slug) || null,
+      group_slug: (p && p.group_slug) || defaultGroup.slug,
       current_occupant: (p && p.current_occupancy) || null,
     });
 
@@ -86,6 +88,7 @@ const EditPositionModal = connect(
                   aria-hidden="true"
                 />
               </div>
+
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <Dialog.Title
                   as="h3"
@@ -112,7 +115,8 @@ const EditPositionModal = connect(
                   </label>
                   <Select
                     placeholder={
-                      p && p.group_slug && groupsObj[p.group_slug].name
+                      // (p && p.group_slug && groupsObj[p.group_slug].name) ||
+                      groupsObj[payload.group_slug].name
                     }
                     options={groups.map((s, idx) => ({
                       value: s.slug,
