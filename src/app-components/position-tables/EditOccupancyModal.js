@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
@@ -9,17 +9,21 @@ import { utcToZonedTime, toDate } from 'date-fns-tz';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { SaveButton, CancelButton } from '../forms/buttons';
+import Select from 'react-select';
 
 const EditOccupancyModal = connect(
   'doModalClose',
-  // 'selectGroupActiveArray',
+  'selectCredentialItems',
   'doOccupancySave',
   'doPositionFetch',
+  'doCredentialFetch',
   ({
     doModalClose,
     // groupActiveArray: groups,
+    credentialItems: credentials,
     doOccupancySave,
     doPositionFetch,
+    doCredentialFetch,
     position: p,
   }) => {
     const occupant = p.current_occupancy;
@@ -54,10 +58,14 @@ const EditOccupancyModal = connect(
         null,
     });
 
-    // Parse an ISO 8601 timestamp recognised by date-fns
-    // let loc = 'UTC';
-    // let s1   = '2020-12-03 08:30:00';
-    // let utcDate =  zonedTimeToUtc(s1, loc);
+    const [error, setError] = useState({
+      msg: null,
+    });
+
+    // Load credentials on modal load
+    useEffect(() => {
+      doCredentialFetch();
+    }, [doCredentialFetch]);
 
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -69,7 +77,11 @@ const EditOccupancyModal = connect(
         !payload.start_date ||
         !payload.dob
       ) {
-        console.log('Missing one or more required fields for product');
+        console.log('Missing one or more required fields.');
+        setError({
+          ...error,
+          msg: 'Please fill out all required (*) fields.',
+        });
         return;
       }
       doOccupancySave(payload);
@@ -106,6 +118,12 @@ const EditOccupancyModal = connect(
                   Edit {p && p.title} Occupancy
                 </Dialog.Title>
 
+                {error && error.msg && (
+                  <div className="bg-red-100 border-2 border-red-300 mt-2 p-2 text-red-800 rounded">
+                    {error.msg}
+                  </div>
+                )}
+
                 <div className="w-full block p-2 text-left">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">
@@ -130,7 +148,7 @@ const EditOccupancyModal = connect(
                 </div>
 
                 <div className="text-left mt-3">
-                  <div className="bg-gray-200 p-2 text-gray-500 border-b-2 border-gray-300">
+                  <div className="p-1 text-gray-400 border-b-2 border-gray-300 uppercase text-sm font-semibold mt-5">
                     Employee's Federal Service Dates:
                   </div>
 
@@ -213,7 +231,7 @@ const EditOccupancyModal = connect(
                 </div>
 
                 <div className="text-left mt-3">
-                  <div className="bg-gray-200 p-2 text-gray-500 border-b-2 border-gray-300">
+                  <div className="p-1 text-gray-400 border-b-2 border-gray-300 uppercase text-sm font-semibold mt-5">
                     Employee's Position Occupancy Dates:
                   </div>
 
@@ -287,6 +305,29 @@ const EditOccupancyModal = connect(
                       }
                     />
                   </div>
+                </div>
+
+                <div className="p-1 text-gray-400 border-b-2 border-gray-300 uppercase text-sm font-semibold mt-5">
+                  Additional Employee Details:
+                </div>
+
+                <div className="w-full block p-2">
+                  <label className="block mt-2 mb-2 w-full" forhtml="title">
+                    <span className="text-gray-600">Employee Credentials</span>
+                  </label>
+                  <Select
+                    placeholder={null}
+                    closeMenuOnSelect={false}
+                    isMulti
+                    menuPlacement="top"
+                    options={
+                      credentials &&
+                      credentials.map((c, idx) => ({
+                        value: c.id,
+                        label: `${c.name}`,
+                      }))
+                    }
+                  ></Select>
                 </div>
 
                 <div className="w-full block p-2">
