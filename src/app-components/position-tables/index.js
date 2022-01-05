@@ -18,19 +18,16 @@ import ReactTooltip from 'react-tooltip';
 
 const PositionTable = connect(
   'doModalOpen',
-  ({ title, items, doModalOpen }) => {
+  ({ title, items, office, doModalOpen }) => {
     return (
       <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
         <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
           <h2 className="font-semibold text-gray-800">
             {title} ({items && items.length})
           </h2>
-          {/* Get Office Symbol from First Position in the Table; Table only contains positions for single office */}
+
           <RoleFilterCaseInsensitive
-            allow={[
-              'application.admin',
-              items && items.length && `${items[0].office_symbol}.admin`,
-            ]}
+            allow={['application.admin', office && `${office.symbol}.admin`]}
           >
             <button
               onClick={(e) => {
@@ -234,8 +231,15 @@ const PositionTable = connect(
 
 const GroupPositionTable = connect(
   'selectPositionItemsActive',
-  ({ positionItemsActive: positions }) => {
-    return <PositionTable title="Positions" items={positions} />;
+  'selectOfficeActive',
+  ({ positionItemsActive: positions, officeActive }) => {
+    return (
+      <PositionTable
+        title="Positions"
+        items={positions}
+        office={officeActive}
+      />
+    );
   }
 );
 
