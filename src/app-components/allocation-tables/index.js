@@ -1,14 +1,20 @@
 import React from 'react';
 import { connect } from 'redux-bundler-react';
-import MyResponsiveBulletHorizontal from '../../app-components/charts/bullet-horizontal';
 import EditGroupModal from './EditGroupModal';
 import { RoleFilterCaseInsensitive } from '../RoleFilter';
 
 import { PencilAltIcon, UserGroupIcon } from '@heroicons/react/outline';
 
 import USACE_Logo from '../../images/USACE_logo.png';
+import PositionSummaryBullet from '../charts/PositionSummaryBullet';
 
-const AllocationTable = ({ title, items, office, doModalOpen }) => {
+const AllocationTable = ({
+  title,
+  items,
+  office,
+  maxBulletSize,
+  doModalOpen,
+}) => {
   return (
     <div className="col-span-full xl:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
       <header className="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
@@ -45,16 +51,26 @@ const AllocationTable = ({ title, items, office, doModalOpen }) => {
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-left">
                     Positions <br />
-                    (Filled, Allowed, Target)
+                    <div className="flex space-x-1">
+                      <div className="text-white px-2 rounded-xl bg-gray-900">
+                        Filled
+                      </div>
+                      <div className="text-gray-900 px-2 rounded-xl bg-gray-300">
+                        Allocated
+                      </div>
+                      <div className="text-white px-2 rounded-xl bg-green-500">
+                        Target
+                      </div>
+                    </div>
                   </div>
-                </th>
-                <th className="p-2 whitespace-nowrap">
-                  <div className="font-semibold text-left"># Employees</div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-center">
-                    # Vacant Positions
+                    Positions Filled
                   </div>
+                </th>
+                <th className="p-2 whitespace-nowrap">
+                  <div className="font-semibold text-center">Vacancies</div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-center">Action</div>
@@ -78,7 +94,6 @@ const AllocationTable = ({ title, items, office, doModalOpen }) => {
                             alt={t.name}
                           />
                         )}
-                        {/*  */}
                       </div>
                       <a href={t.href}>
                         <div className="font-medium text-blue-500 hover:text-blue-800">
@@ -88,28 +103,32 @@ const AllocationTable = ({ title, items, office, doModalOpen }) => {
                     </div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    <div className="">
-                      <span className="inline-block w-40 h-10">
-                        <MyResponsiveBulletHorizontal />
+                    <div className="h-6 w-56">
+                      {t.allocated === 0 ? null : (
+                        <PositionSummaryBullet
+                          id={t.slug}
+                          maxValue={maxBulletSize}
+                          employees={t.employees}
+                          allocated={t.allocated}
+                          target={t.target}
+                          maxBulletSize={maxBulletSize}
+                        />
+                      )}
+                    </div>
+                  </td>
+                  <td className="p-2 whitespace-nowrap">
+                    <div className="flex text-center title-font font-medium justify-center">
+                      <div className="text-gray-900">{t.employees}</div>
+                      <div className="mx-2 text-gray-300">/</div>
+                      <div className="text-gray-300">{t.allocated}</div>
+                    </div>
+                  </td>
+                  <td className="p-2 whitespace-nowrap">
+                    <div className="text-center font-medium">
+                      <span className="text-gray-300">
+                        {t.allocated - t.employees}
                       </span>
                     </div>
-                  </td>
-                  <td className="p-2 whitespace-nowrap">
-                    <div className="text-center font-medium text-green-500">
-                      {t.count_employees}
-                    </div>
-                  </td>
-                  <td className="p-2 whitespace-nowrap">
-                    {t.count_positions && t.count_vacancies && (
-                      <div className="text-center font-medium ">
-                        <span className="text-red-400">
-                          {t.count_vacancies}
-                        </span>
-                        <span className="ml-2 text-gray-300">
-                          / {t.count_positions} total
-                        </span>
-                      </div>
-                    )}
                   </td>
                   <td className="p-2 whitespace-nowrap">
                     <RoleFilterCaseInsensitive
@@ -150,14 +169,23 @@ const OfficeAllocationTable = connect(
       href: `/offices/${f.symbol.toLowerCase()}${qs}`,
     }));
 
-    return <AllocationTable title="Offices" items={items} />;
+    return (
+      <AllocationTable
+        title="Offices"
+        items={items}
+        // Largest target or allocated size among all offices
+        maxBulletSize={items.reduce(
+          (a, b) => Math.max(a, b.target, b.allocated),
+          0
+        )}
+      />
+    );
   }
 );
 
 const GroupAllocationTable = connect(
   'selectAuthIsLoggedIn',
   'selectGroupActiveArray',
-  'selectPositionCountsByGroup',
   'doModalOpen',
   'selectQueryString',
   'selectOfficeActive',
@@ -171,12 +199,9 @@ const GroupAllocationTable = connect(
     const qs = queryString && `?${queryString}`;
     const items = groups.map((g) => ({
       ...g,
-      count_positions:
-        positionCounts[g.slug] && positionCounts[g.slug].positions,
-      count_employees:
-        positionCounts[g.slug] && positionCounts[g.slug].employees,
-      count_vacancies:
-        positionCounts[g.slug] && positionCounts[g.slug].vacancies,
+      count_positions: g.allocated,
+      count_employees: g.employees,
+      count_vacancies: g.allocated - g.employees,
       href: `/offices/${g.office_symbol.toLowerCase()}/groups/${g.slug}${qs}`,
     }));
 
@@ -186,6 +211,11 @@ const GroupAllocationTable = connect(
         items={items}
         office={officeActive}
         doModalOpen={doModalOpen}
+        // Largest target or allocated size among all offices
+        maxBulletSize={items.reduce(
+          (a, b) => Math.max(a, b.target, b.allocated),
+          0
+        )}
       />
     );
   }

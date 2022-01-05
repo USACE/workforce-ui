@@ -63,7 +63,7 @@ const HorizontalSeriesMetricsResponsiveBullet = connect(
   ({ seriesMetricsBulletInfo: info }) => {
     const { maxValue, data } = info;
     return (
-      <div className="w-full h-full flex flex-col space-y-1 justify-center px-12 py-8">
+      <>
         {data.map((d, idx) => (
           <div key={idx} style={{ height: idx === 0 ? 36 : 18 }}>
             <ResponsiveBullet
@@ -99,7 +99,7 @@ const HorizontalSeriesMetricsResponsiveBullet = connect(
             />
           </div>
         ))}
-      </div>
+      </>
     );
   }
 );
@@ -122,7 +122,9 @@ const HorizontalSeriesMetricsCard = (props) => (
         </div>
       </div>
     </div>
-    <HorizontalSeriesMetricsResponsiveBullet />
+    <div className="w-full h-full flex flex-col space-y-1 justify-center px-12 py-8">
+      <HorizontalSeriesMetricsResponsiveBullet />
+    </div>
   </div>
 );
 
