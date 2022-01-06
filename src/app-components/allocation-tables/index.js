@@ -107,11 +107,11 @@ const AllocationTable = ({
                       {t.allocated === 0 ? null : (
                         <PositionSummaryBullet
                           id={t.slug}
-                          maxValue={maxBulletSize}
-                          employees={t.employees}
-                          allocated={t.allocated}
-                          target={t.target}
-                          maxBulletSize={maxBulletSize}
+                          maxValue={maxBulletSize || 0}
+                          employees={t.employees || 0}
+                          allocated={t.allocated || 0}
+                          target={t.target || 0}
+                          maxBulletSize={maxBulletSize || 0}
                         />
                       )}
                     </div>
