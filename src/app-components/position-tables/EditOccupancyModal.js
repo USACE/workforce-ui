@@ -14,19 +14,22 @@ import Select from 'react-select';
 const EditOccupancyModal = connect(
   'doModalClose',
   'selectCredentialItems',
+  'selectCredentialItemsObject',
   'doOccupancySave',
   'doPositionFetch',
   'doCredentialFetch',
   ({
     doModalClose,
     // groupActiveArray: groups,
-    credentialItems: credentials,
+    credentialItems: allCredentials,
+    credentialItemsObject: allCredentialsObj,
     doOccupancySave,
     doPositionFetch,
     doCredentialFetch,
     position: p,
   }) => {
     const occupant = p.current_occupancy;
+    // const credentials = occupant.credentials || null;
     const [payload, setPayload] = useState({
       id: (occupant && occupant.id) || null,
       position_id: (p && p.id) || null,
@@ -51,6 +54,8 @@ const EditOccupancyModal = connect(
           occupant.end_date &&
           utcToZonedTime(toDate(occupant.end_date), 'UTC')) ||
         null,
+      credentials: (occupant && occupant.credentials) || [],
+      // credentials: ['AP', 'SP'],
       dob:
         (occupant &&
           occupant.dob &&
@@ -129,7 +134,7 @@ const EditOccupancyModal = connect(
                     <span className="text-gray-600">
                       Additional Title/Role:{' '}
                       <span className="text-sm text-gray-400 block">
-                        (ex: Team Lead, Regional RTS)
+                        (ex: Team Lead, Regional RTS, Section Chief)
                       </span>
                     </span>
                   </label>
@@ -317,16 +322,30 @@ const EditOccupancyModal = connect(
                   </label>
                   <Select
                     placeholder={null}
+                    value={
+                      payload.credentials &&
+                      allCredentialsObj &&
+                      payload.credentials.map((c) => ({
+                        value: allCredentialsObj[c].abbrev,
+                        label: `${allCredentialsObj[c].name}`,
+                      }))
+                    }
                     closeMenuOnSelect={false}
                     isMulti
                     menuPlacement="top"
                     options={
-                      credentials &&
-                      credentials.map((c, idx) => ({
-                        value: c.id,
+                      allCredentials &&
+                      allCredentials.map((c, idx) => ({
+                        value: c.abbrev,
                         label: `${c.name}`,
                       }))
                     }
+                    onChange={(selectedOption) => {
+                      setPayload({
+                        ...payload,
+                        credentials: selectedOption.map(({ value }) => value),
+                      });
+                    }}
                   ></Select>
                 </div>
 
@@ -359,14 +378,14 @@ const EditOccupancyModal = connect(
                   />
                 </div>
 
-                {/* <div className="mt-4">
+                <div className="mt-4">
                   <textarea
                     cols={50}
                     rows={8}
                     value={JSON.stringify(payload)}
                     readOnly
                   ></textarea>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
