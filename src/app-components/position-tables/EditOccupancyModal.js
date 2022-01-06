@@ -332,6 +332,7 @@ const EditOccupancyModal = connect(
                     }
                     closeMenuOnSelect={false}
                     isMulti
+                    isDisabled
                     menuPlacement="top"
                     options={
                       allCredentials &&
@@ -378,14 +379,14 @@ const EditOccupancyModal = connect(
                   />
                 </div>
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <textarea
                     cols={50}
                     rows={8}
                     value={JSON.stringify(payload)}
                     readOnly
                   ></textarea>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
