@@ -20,7 +20,6 @@ const EditOccupancyModal = connect(
   'doCredentialFetch',
   ({
     doModalClose,
-    // groupActiveArray: groups,
     credentialItems: allCredentials,
     credentialItemsObject: allCredentialsObj,
     doOccupancySave,
@@ -29,7 +28,6 @@ const EditOccupancyModal = connect(
     position: p,
   }) => {
     const occupant = p.current_occupancy;
-    // const credentials = occupant.credentials || null;
     const [payload, setPayload] = useState({
       id: (occupant && occupant.id) || null,
       position_id: (p && p.id) || null,
@@ -54,8 +52,7 @@ const EditOccupancyModal = connect(
           occupant.end_date &&
           utcToZonedTime(toDate(occupant.end_date), 'UTC')) ||
         null,
-      credentials: (occupant && occupant.credentials) || [],
-      // credentials: ['AP', 'SP'],
+      credentials: (occupant && occupant.credentials) || null,
       dob:
         (occupant &&
           occupant.dob &&
@@ -326,25 +323,29 @@ const EditOccupancyModal = connect(
                       payload.credentials &&
                       allCredentialsObj &&
                       payload.credentials.map((c) => ({
-                        value: allCredentialsObj[c].abbrev,
-                        label: `${allCredentialsObj[c].name}`,
+                        value: c.abbrev,
+                        label: c.name,
+                        abbrev: c.abbrev,
+                        name: c.name,
                       }))
                     }
                     closeMenuOnSelect={false}
                     isMulti
-                    isDisabled
                     menuPlacement="top"
                     options={
                       allCredentials &&
                       allCredentials.map((c, idx) => ({
                         value: c.abbrev,
                         label: `${c.name}`,
+                        abbrev: c.abbrev,
+                        name: c.name,
                       }))
                     }
                     onChange={(selectedOption) => {
                       setPayload({
                         ...payload,
-                        credentials: selectedOption.map(({ value }) => value),
+                        // credentials: selectedOption.map(({ value }) => value),
+                        credentials: selectedOption.map((c) => c),
                       });
                     }}
                   ></Select>
