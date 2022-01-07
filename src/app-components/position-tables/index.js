@@ -16,6 +16,22 @@ import { formatDistanceToNowStrict, parseISO } from 'date-fns';
 
 import ReactTooltip from 'react-tooltip';
 
+const CredentialPill = ({ cred }) => {
+  const prefName = { SP: 'Sec+', AP: 'A+', NP: 'Net+' };
+  const displayAbbrev = prefName.hasOwnProperty(cred.abbrev)
+    ? prefName[cred.abbrev]
+    : cred.abbrev;
+
+  return (
+    <div
+      data-tip={cred.name}
+      className="mr-1 px-1 text-xs rounded-xl border-gray-300 border-2 bg-gray-100 inline"
+    >
+      {displayAbbrev}
+    </div>
+  );
+};
+
 const PositionTable = connect(
   'doModalOpen',
   ({ title, items, office, doModalOpen }) => {
@@ -62,7 +78,7 @@ const PositionTable = connect(
                       Pay Plan-Grade
                     </div>
                   </th>
-                  <th className="hidden lg:table-cell p-2 whitespace-nowrap">
+                  <th className="hidden xl:table-cell p-2 whitespace-nowrap">
                     <div className="font-semibold text-center">Credentials</div>
                   </th>
                   <th className="p-2 whitespace-nowrap">
@@ -158,9 +174,13 @@ const PositionTable = connect(
                           {pay_plan}-{grade}
                         </div>
                       </td>
-                      <td className="hidden lg:table-cell p-2 whitespace-nowrap">
+                      <td className="hidden xl:table-cell p-2 whitespace-nowrap">
                         <div className="text-center font-medium text-gray-800">
-                          -
+                          {current_occupancy &&
+                            current_occupancy.credentials &&
+                            current_occupancy.credentials.map((c) => (
+                              <CredentialPill key={c.abbrev} cred={c} />
+                            ))}
                         </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
