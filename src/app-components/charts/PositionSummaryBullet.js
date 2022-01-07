@@ -11,6 +11,7 @@ const PositionSummaryBullet = ({
 }) => {
   return (
     <ResponsiveBullet
+      key={id}
       animate={false}
       data={[
         {
