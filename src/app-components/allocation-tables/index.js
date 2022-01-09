@@ -22,21 +22,20 @@ const AllocationTable = ({
           {title} ({items.length})
         </h2>
         {/* Only show button on groups table */}
-        <RoleFilterCaseInsensitive
-          allow={[
-            'application.admin',
-            title && title === 'Groups' && office && `${office.symbol}.admin`,
-          ]}
-        >
-          <button
-            onClick={(e) => {
-              doModalOpen(EditGroupModal, {});
-            }}
-            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+        {title && title === 'Groups' && (
+          <RoleFilterCaseInsensitive
+            allow={['application.admin', office && `${office.symbol}.admin`]}
           >
-            + New Group
-          </button>
-        </RoleFilterCaseInsensitive>
+            <button
+              onClick={(e) => {
+                doModalOpen(EditGroupModal, {});
+              }}
+              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+            >
+              + New Group
+            </button>
+          </RoleFilterCaseInsensitive>
+        )}
       </header>
       <div className="p-3">
         {/* Table */}
@@ -51,14 +50,14 @@ const AllocationTable = ({
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-left">
                     Positions <br />
-                    <div className="flex space-x-1">
-                      <div className="text-white px-2 rounded-xl bg-gray-900">
+                    <div className="flex space-x-1 normal-case font-normal">
+                      <div className="text-white px-2 py-1 rounded-xl bg-gray-900">
                         Filled
                       </div>
-                      <div className="text-gray-900 px-2 rounded-xl bg-gray-300">
+                      <div className="text-gray-900 px-2 py-1 rounded-xl bg-gray-300">
                         Allocated
                       </div>
-                      <div className="text-white px-2 rounded-xl bg-green-500">
+                      <div className="text-white px-2 py-1 rounded-xl bg-green-500">
                         Target
                       </div>
                     </div>
@@ -88,7 +87,7 @@ const AllocationTable = ({
                           <UserGroupIcon className="w-8 text-gray-500" />
                         ) : (
                           <img
-                            className="rounded-lg opacity-80 pt-1"
+                            className="rounded-lg opacity-80 pt-1 grayscale"
                             src={USACE_Logo}
                             width="40"
                             alt={t.name}
@@ -132,23 +131,23 @@ const AllocationTable = ({
                     </div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
-                    <RoleFilterCaseInsensitive
-                      allow={[
-                        'application.admin',
-                        title &&
-                          title === 'Groups' &&
+                    {title && title === 'Groups' && (
+                      <RoleFilterCaseInsensitive
+                        allow={[
+                          'application.admin',
                           `${t.office_symbol}.admin`,
-                      ]}
-                    >
-                      <button
-                        onClick={(e) => {
-                          doModalOpen(EditGroupModal, { group: t });
-                        }}
-                        className="bg-gray-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        ]}
                       >
-                        <PencilAltIcon className="w-6 h-6" />
-                      </button>
-                    </RoleFilterCaseInsensitive>
+                        <button
+                          onClick={(e) => {
+                            doModalOpen(EditGroupModal, { group: t });
+                          }}
+                          className="bg-gray-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                          <PencilAltIcon className="w-6 h-6" />
+                        </button>
+                      </RoleFilterCaseInsensitive>
+                    )}
                   </td>
                 </tr>
               ))}
