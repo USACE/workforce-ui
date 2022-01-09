@@ -435,11 +435,7 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
               onClick={(e) => doUpdateUrl('/')}
               className="cursor-pointer mr-10 flex items-center"
             >
-              <img
-                src={UsaceLogo}
-                className="w-16 opacity-70"
-                alt="USACE Logo"
-              />
+              <img src={UsaceLogo} className="w-16" alt="USACE Logo" />
               <h3 className="text-base text-gray-800 font-bold tracking-normal leading-tight ml-3 hidden lg:block">
                 Workforce
               </h3>
