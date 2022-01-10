@@ -41,6 +41,10 @@ const EditPositionModal = connect(
       current_occupant: (p && p.current_occupancy) || null,
     });
 
+    const [error, setError] = useState({
+      msg: null,
+    });
+
     const handleSubmit = (e) => {
       e.preventDefault();
 
@@ -54,6 +58,10 @@ const EditPositionModal = connect(
         !payload.group_slug
       ) {
         console.log('Missing one or more required fields for product');
+        setError({
+          ...error,
+          msg: 'Please fill out all required (*) fields.',
+        });
         return;
       }
       doPositionSave(payload);
@@ -81,7 +89,7 @@ const EditPositionModal = connect(
       >
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div className="bg-white px-4 pt-5 pb-4 sm:p-4 sm:pb-4">
-            <div className="sm:flex sm:items-start bg-gray-100 p-2">
+            <div className="sm:flex sm:items-start bg-gray-50 p-2 rounded-xl">
               <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-200 sm:mx-0 sm:h-10 sm:w-10">
                 <PencilAltIcon
                   className="h-6 w-6 text-blue-600"
@@ -101,12 +109,13 @@ const EditPositionModal = connect(
                     : 'New'}{' '}
                   Position
                 </Dialog.Title>
-                {/* <div className="mt-8">
-                  <p className="text-sm text-gray-500">
-                    EDIT POSITION INFORMATION SECTION
-                  </p>
-                  <p>Title, Series/Occupation, PayPlan, Etc.</p>
-                </div> */}
+
+                {error && error.msg && (
+                  <div className="bg-red-100 border-2 border-red-300 mt-2 p-2 text-red-800 rounded">
+                    {error.msg}
+                  </div>
+                )}
+
                 <div className="w-full mt-3 p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="unit">
                     <span className="text-gray-600">

@@ -74,7 +74,7 @@ const EditPositionModal = connect(
                   as="h3"
                   className="text-lg leading-6 font-medium text-gray-900"
                 >
-                  {g && g.id
+                  {g && g.uid
                     ? 'Edit ' + office.symbol + ' Group'
                     : 'New ' + office.symbol + ' Group'}
                 </Dialog.Title>
