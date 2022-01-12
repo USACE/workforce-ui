@@ -16,7 +16,7 @@ export default createRestBundle({
   deleteTemplate: '',
   fetchActions: [],
   urlParamSelectors: [],
-  forceFetchActions: ['ROLEAPPROVAL_SAVE_FINISHED'],
+  forceFetchActions: ['ROLEAPPROVAL_SAVE_FINISHED', 'AUTH_UPDATED'],
   sortBy: 'request_date',
   mergeItems: false,
   sortAsc: false,
