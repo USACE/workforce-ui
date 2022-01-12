@@ -5,6 +5,8 @@ import LoginButtonImage from '../../images/login_button.png';
 import LoggedInAvatarImage from '../../images/logged_in_avatar.png';
 import OfficeListImage from '../../images/office_list.png';
 import PositionsListImage from '../../images/positions_list.png';
+import RequestAccessImage from '../../images/request_access.png';
+import RequestGrantedImage from '../../images/request_granted.png';
 
 export default function Help() {
   // const [show, setShow] = useState(false);
@@ -38,19 +40,37 @@ export default function Help() {
               </p>
             </div>
           </li>
-          <li className="list-decimal mt-5 bg-white p-5 shadow-md">
-            Contact x to have the proper permissions assigned to your account.
-            <p className="text-gray-500 text-sm ml-5">
-              You will not be able to add/modify positions for your office until
-              the permissions are assigned.
-            </p>
-          </li>
+
           <li className="list-decimal mt-5 bg-white p-5 shadow-md">
             Select your office from the list on the home page.
             <img
               src={OfficeListImage}
               className="border-0 m-4"
               alt="Office List"
+            />
+          </li>
+          <li className="list-decimal mt-5 bg-white p-5 shadow-md">
+            <span className="text-red-600 font-bold p-2">
+              If this is your first time using the workforce application, you
+              may not have the required permissions for your office.
+            </span>
+            <p className="text-gray-500 text-lg ml-5 mt-5">
+              To request access click the <strong>Request Office Access</strong>{' '}
+              button as shown below:
+            </p>
+            <img
+              src={RequestAccessImage}
+              className="border-0 m-4 lg:w-3/4"
+              alt="Request Access"
+            />
+            <span className="text-green-600 font-bold p-2">
+              Once access is granted, you will see buttons like "+New Group"
+            </span>
+
+            <img
+              src={RequestGrantedImage}
+              className="border-0 m-4 lg:w-3/4"
+              alt="Request Granted"
             />
           </li>
           <li className="list-decimal mt-5 bg-white p-5 shadow-md">

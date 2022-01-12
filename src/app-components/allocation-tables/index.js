@@ -8,7 +8,60 @@ import { PencilAltIcon, UserGroupIcon } from '@heroicons/react/outline';
 import USACE_Logo from '../../images/USACE_logo.png';
 import PositionSummaryBullet from '../charts/PositionSummaryBullet';
 
+const RequestAccessButton = connect(
+  'selectOfficeActive',
+  'selectAuthIsLoggedIn',
+  'selectAuthRolesObj',
+  'selectRoleRequestItemsObject',
+  'doRoleRequestSave',
+  ({
+    officeActive: office,
+    authIsLoggedIn: isLoggedIn,
+    authRolesObj: rolesObj,
+    roleRequestItemsObject: myRequestsObj,
+    doRoleRequestSave,
+  }) => {
+    if (!isLoggedIn) {
+      return null;
+    }
+    // If have role "application.admin" or have role <officeSymbol>.admin
+    // do not show the button
+    if (
+      rolesObj['application.admin'] ||
+      (office && rolesObj[`${office.symbol.toLowerCase()}.admin`])
+    ) {
+      return null;
+    }
+    // If have submitted a request with status = 'RECEIVED'
+    if (
+      isLoggedIn &&
+      office &&
+      myRequestsObj[office.symbol] &&
+      myRequestsObj[office.symbol].status === 'RECEIVED'
+    ) {
+      return (
+        <button className="bg-gray-400 text-white py-2 px-4 rounded cursor-not-allowed">
+          Access Request Pending
+        </button>
+      );
+    }
+
+    return (
+      <button
+        onClick={(e) => {
+          doRoleRequestSave({ office_symbol: office.symbol }, null, null, true);
+        }}
+        className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+      >
+        Request Office Access
+      </button>
+    );
+  }
+);
+
 const AllocationTable = ({
+  authIsLoggedIn,
+  doRoleRequestSave,
   title,
   items,
   office,
@@ -36,6 +89,8 @@ const AllocationTable = ({
             </button>
           </RoleFilterCaseInsensitive>
         )}
+        {/* User must be on the group page, logged in and does not have application.admin or {office.symbol}.admin */}
+        {title && title === 'Groups' ? <RequestAccessButton /> : null}
       </header>
       <div className="p-3">
         {/* Table */}
@@ -184,17 +239,18 @@ const OfficeAllocationTable = connect(
 );
 
 const GroupAllocationTable = connect(
-  'selectAuthIsLoggedIn',
   'selectGroupActiveArray',
   'doModalOpen',
   'selectQueryString',
   'selectOfficeActive',
+  'doRoleRequestSave',
   ({
     groupActiveArray: groups,
     positionCountsByGroup: positionCounts,
     doModalOpen,
     queryString,
     officeActive,
+    doRoleRequestSave,
   }) => {
     const qs = queryString && `?${queryString}`;
     const items = groups.map((g) => ({
@@ -211,6 +267,7 @@ const GroupAllocationTable = connect(
         items={items}
         office={officeActive}
         doModalOpen={doModalOpen}
+        doRoleRequestSave={doRoleRequestSave}
         // Largest target or allocated size among all offices
         maxBulletSize={
           items.reduce((a, b) => Math.max(a, b.target, b.allocated), 0) || 0

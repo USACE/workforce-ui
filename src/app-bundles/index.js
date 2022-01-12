@@ -23,6 +23,10 @@ import payPlanBundle from './pay-plan-bundle';
 import occupancyBundle from './occupancy-bundle';
 import seriesMetricsBundle from './series-metrics-bundle';
 import credentialBundle from './credential-bundle';
+import roleRequestBundle from './role-request-bundle';
+
+//Admin
+import roleApprovalBundle from './role-approval-bundle';
 
 // const mockTokenAdmin =
 //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJZYVZSTS0xVmp1LWR2N2NEZ0k5ZnJkNVRtZFl1RU5QbWRoV0NaZU1TWmMifQ.eyJleHAiOjE4Mzk1MDU1MzUsImlhdCI6MTYzOTUwNTIzNSwianRpIjoiOTBmN2YzYmYtZTkzNC00NWM2LTg1OGUtNzVjMGM2NDdkZTNkIiwiaXNzIjoiaHR0cHM6Ly9tb2NrLXNlcnZlciIsImF1ZCI6WyJjdW11bHVzIiwid29ya2ZvcmNlIiwiYWNjb3VudCJdLCJzdWIiOiI5MmUxMGQ5My1iNDU0LTQ0Y2ItOWM3Zi01ZGVhZjBkMTZmMTUiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJ3b3JrZm9yY2UiLCJzZXNzaW9uX3N0YXRlIjoiYzI4YTMzZmUtNzM4MC00OTI4LWFkNDYtN2JmZTFiY2M2OTVkIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLXdhdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7Indvcmtmb3JjZSI6eyJyb2xlcyI6WyJhcHBsaWNhdGlvbi5hZG1pbiJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSIsInByZWZlcnJlZF91c2VybmFtZSI6Indvcmtmb3JjZS5hZG1pbiIsImdpdmVuX25hbWUiOiIiLCJmYW1pbHlfbmFtZSI6IiJ9.Aip3doJZ13paloCD-tNY88zuMpkWbKYTASrTXITcvTg';
@@ -46,6 +50,8 @@ export default composeBundles(
   occupancyBundle,
   seriesMetricsBundle,
   credentialBundle,
+  roleRequestBundle,
+  roleApprovalBundle,
   createAuthBundle({
     name: 'auth',
     host: process.env.REACT_APP_AUTH_HOST,
@@ -64,9 +70,14 @@ export default composeBundles(
     skipTokenConfig: {
       custom: ({ method, url }) => {
         // Skip including JWT Bearer Token on all GET requests UNLESS URL pathaname starts with /my_
+        // or it's defined in token_routes array
         if (method === 'GET') {
           const urlObj = new URL(url);
-          if (urlObj.pathname && urlObj.pathname.slice(0, 4) === '/my_') {
+          const token_routes = {
+            '/role_requests': true,
+            '/my_role_requests': true,
+          };
+          if (urlObj.pathname && token_routes[urlObj.pathname]) {
             return false;
           }
           return true;
