@@ -178,7 +178,7 @@ const OfficeAdminRequestTable = connect(
                                   handleUpdateStatus(id, 'approve')
                                 }
                                 className={`${
-                                  isApproved
+                                  !isApproved
                                     ? 'bg-green-500 hover:bg-green-700'
                                     : 'bg-gray-200'
                                 } text-white font-bold py-2 px-4 rounded`}
@@ -193,7 +193,7 @@ const OfficeAdminRequestTable = connect(
                                   handleUpdateStatus(id, 'deny');
                                 }}
                                 className={`${
-                                  isDenied
+                                  !isDenied
                                     ? 'bg-red-500 hover:bg-red-700'
                                     : 'bg-gray-200'
                                 } text-white font-bold py-2 px-4 rounded`}
