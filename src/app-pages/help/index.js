@@ -60,7 +60,7 @@ export default function Help() {
             </p>
             <img
               src={RequestAccessImage}
-              className="border-0 m-4 lg:w-3/4"
+              className="border-0 m-4"
               alt="Request Access"
             />
             <span className="text-green-600 font-bold p-2">
@@ -69,7 +69,7 @@ export default function Help() {
 
             <img
               src={RequestGrantedImage}
-              className="border-0 m-4 lg:w-3/4"
+              className="border-0 m-4"
               alt="Request Granted"
             />
           </li>
