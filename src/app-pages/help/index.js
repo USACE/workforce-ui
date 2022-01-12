@@ -55,8 +55,8 @@ export default function Help() {
               may not have the required permissions for your office.
             </span>
             <p className="text-gray-500 text-lg ml-5 mt-5">
-              To request access click the <strong>Request Office Access</strong>{' '}
-              button as shown below:
+              To request access click the{' '}
+              <strong>Request Edit Permissions</strong> button as shown below:
             </p>
             <img
               src={RequestAccessImage}
