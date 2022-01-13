@@ -75,7 +75,7 @@ const PositionTable = connect(
                   </th>
                   <th className="p-2 whitespace-nowrap">
                     <div className="font-semibold text-left">
-                      Pay Plan-Grade
+                      Pay Plan-Target Grade
                     </div>
                   </th>
                   <th className="hidden xl:table-cell p-2 whitespace-nowrap">
@@ -95,7 +95,7 @@ const PositionTable = connect(
                     occupation_name,
                     title,
                     pay_plan,
-                    grade,
+                    target_grade,
                     current_occupancy,
                     is_active,
                     is_allocated,
@@ -171,7 +171,7 @@ const PositionTable = connect(
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-left font-medium">
-                          {pay_plan}-{grade}
+                          {pay_plan}-{target_grade}
                         </div>
                       </td>
                       <td className="hidden xl:table-cell p-2 whitespace-nowrap">
