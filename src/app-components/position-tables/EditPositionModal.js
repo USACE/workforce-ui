@@ -32,7 +32,7 @@ const EditPositionModal = connect(
       occupation_code: (p && p.occupation_code) || null,
       occupation_name: (p && p.occupation_name) || null,
       pay_plan: (p && p.pay_plan) || null,
-      grade: (p && parseInt(p.grade)) || 0,
+      target_grade: (p && parseInt(p.target_grade)) || 0,
       title: (p && p.title) || null,
       is_active: (p && p.is_active) || false,
       is_supervisor: (p && p.is_supervisor) || false,
@@ -54,7 +54,7 @@ const EditPositionModal = connect(
         !payload.title ||
         !payload.occupation_code ||
         !payload.pay_plan ||
-        !parseInt(payload.grade) ||
+        !parseInt(payload.target_grade) ||
         !payload.group_slug
       ) {
         console.log('Missing one or more required fields for product');
@@ -187,23 +187,32 @@ const EditPositionModal = connect(
                 </div>
 
                 <div className="w-full lg:w-1/2 inline-block p-2">
-                  <label className="block mt-2 mb-2 w-full" forhtml="grade">
+                  <label
+                    className="block mt-2 mb-2 w-full"
+                    forhtml="target_grade"
+                  >
                     <span className="text-gray-600">
-                      <span className="text-lg text-red-700 mr-1">*</span>Grade
+                      <span className="text-lg text-red-700 mr-1 ">*</span>
+                      <span
+                        data-tip="For career ladder positions like 7/9/11 use 11"
+                        className="border-b-2 border-dashed border-gray-400"
+                      >
+                        Target Grade
+                      </span>
                     </span>
                   </label>
                   <input
                     type="number"
                     pattern="\d*"
                     className="block w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
-                    defaultValue={payload.grade}
+                    defaultValue={payload.target_grade}
                     maxLength={2}
                     min={1}
                     max={15}
                     onChange={(e) =>
                       setPayload({
                         ...payload,
-                        grade: parseInt(e.target.value),
+                        target_grade: parseInt(e.target.value),
                       })
                     }
                   />

@@ -21,7 +21,7 @@ export default createRestBundle({
     'POSITION_DELETE_FINISHED',
     'OCCUPANCY_SAVE_FINISHED',
   ],
-  sortBy: 'grade',
+  sortBy: 'target_grade',
   mergeItems: false,
   sortAsc: false,
   addons: {
