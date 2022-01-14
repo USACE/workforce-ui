@@ -13,6 +13,8 @@ import {
 import USACE_Logo from '../../images/USACE_logo.png';
 import PositionSummaryBullet from '../charts/PositionSummaryBullet';
 
+import ReactTooltip from 'react-tooltip';
+
 const RequestAccessButton = connect(
   'selectOfficeActive',
   'selectAuthIsLoggedIn',
@@ -134,7 +136,11 @@ const AllocationTable = ({
                 <th className="p-2 whitespace-nowrap">
                   <div className="font-semibold text-center">Last Verified</div>
                 </th>
-                <th className="p-2 whitespace-nowrap">
+                <th
+                  className={`p-2 whitespace-nowrap ${
+                    title !== 'Groups' ? 'hidden' : null
+                  }`}
+                >
                   <div className="font-semibold text-center">Action</div>
                 </th>
               </tr>
@@ -195,10 +201,16 @@ const AllocationTable = ({
                   </td>
                   <td className="p-2 whitespace-nowrap">
                     <div className="text-center font-medium">
-                      <span className="text-gray-400">01-Jan-2022</span>
+                      <span className="text-gray-300">
+                        {t.last_verified || 'Never'}
+                      </span>
                     </div>
                   </td>
-                  <td className="p-2 whitespace-nowrap text-center">
+                  <td
+                    className={`p-2 whitespace-nowrap text-center ${
+                      title !== 'Groups' ? 'hidden' : null
+                    }`}
+                  >
                     {title && title === 'Groups' && (
                       <RoleFilterCaseInsensitive
                         allow={[
@@ -206,7 +218,9 @@ const AllocationTable = ({
                           `${t.office_symbol}.admin`,
                         ]}
                       >
+                        <ReactTooltip />
                         <button
+                          data-tip="Edit Group"
                           onClick={(e) => {
                             doModalOpen(EditGroupModal, { group: t });
                           }}
@@ -215,6 +229,7 @@ const AllocationTable = ({
                           <PencilAltIcon className="w-6 h-6" />
                         </button>
                         <button
+                          data-tip="Verify Group"
                           onClick={(e) => {
                             doModalOpen(VerifyGroupModal, { group: t });
                           }}
