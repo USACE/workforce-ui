@@ -10,25 +10,23 @@ const EditPositionModal = connect(
   'doModalClose',
   'selectOfficeActive',
   'selectAuthTokenPayload',
-  'doGroupSave',
+  'doGroupVerify',
   ({
     doModalClose,
     officeActive: office,
     authTokenPayload: token,
-    doGroupSave,
+    doGroupVerify,
     group: g,
   }) => {
     const [payload] = useState({
       uid: (g && g.uid) || null,
       name: (g && g.name) || null,
       slug: (g && g.slug) || null,
+      office_symbol: (g && g.office_symbol) || null,
       // office_symbol: (g && g.office_symbol) || office.symbol,
     });
 
-    console.log('\n\n*********');
-    console.log(token.preferred_username);
-
-    const handleSubmit = (e) => {
+    const handleVerify = (e) => {
       e.preventDefault();
 
       if (
@@ -40,7 +38,7 @@ const EditPositionModal = connect(
         console.log('Missing one or more required fields for group');
         return;
       }
-      doGroupSave(payload);
+      doGroupVerify(payload.office_symbol, payload.slug);
       // console.log(payload);
       doModalClose();
     };
@@ -75,12 +73,11 @@ const EditPositionModal = connect(
                 </Dialog.Title>
                 <div className="mt-8">
                   <p>
-                    By clicking <strong>verify</strong> below, I{' '}
+                    I{' '}
                     <span className="uppercase font-bold">
                       {token && token.preferred_username}
                     </span>{' '}
-                    am confirming that I have reviewed all position/occupant
-                    data for this group and verify that it is accurate and
+                    verify that information for this group is accurate and
                     up-to-date.
                   </p>
                   <p className="mt-3 text-gray-500 text-sm uppercase">
@@ -121,7 +118,7 @@ const EditPositionModal = connect(
             <button
               type="button"
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
-              onClick={handleSubmit}
+              onClick={handleVerify}
             >
               Verify
             </button>

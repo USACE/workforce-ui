@@ -7,7 +7,7 @@ export default createRestBundle({
   name: 'group',
   uid: 'slug',
   prefetch: true,
-  staleAfter: 0, //5min
+  staleAfter: 15000, //15s
   persist: false,
   routeParam: '',
   getTemplate: `${apiURL}/offices/:symbol/groups`,
@@ -16,10 +16,23 @@ export default createRestBundle({
   deleteTemplate: `${apiURL}/offices/:symbol/groups/:item.slug`,
   fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED'],
   urlParamSelectors: ['selectOfficeActive'],
-  forceFetchActions: ['GROUP_SAVE_FINISHED', 'GROUP_DELETE_FINISHED'],
-  sortBy: '',
-  sortAsc: false,
+  forceFetchActions: [],
+  sortBy: 'name',
+  sortAsc: true,
   mergeItems: false,
+  reduceFurther: (state, { type, payload }) => {
+    switch (type) {
+      case 'GROUP_VERIFY_STARTED':
+      case 'GROUP_VERIFY_FINISHED':
+      case 'GROUP_VERIFY_ERROR':
+        return {
+          ...state,
+          ...payload,
+        };
+      default:
+        return state;
+    }
+  },
   addons: {
     selectGroupSelected: createSelector(
       'selectOfficeActive',
@@ -38,7 +51,7 @@ export default createRestBundle({
       }
     ),
     selectGroupActiveArray: createSelector(
-      'selectGroupItemsArray',
+      'selectGroupItems',
       'selectOfficeActive',
       (groups, office) => {
         // If Office is not active or no groups: return []
@@ -63,5 +76,26 @@ export default createRestBundle({
       if (group && group.id) return { group_id: group.id };
       return null;
     }),
+    doGroupVerify:
+      (officeSymbol, groupSlug) =>
+      ({ dispatch, store, apiPost }) => {
+        dispatch({ type: 'GROUP_VERIFY_STARTED' });
+        apiPost(
+          `${apiURL}/offices/${officeSymbol}/groups/${groupSlug}/verify`,
+          {},
+          (err, respObj) => {
+            if (!err) {
+              dispatch({
+                type: 'GROUP_VERIFY_FINISHED',
+                payload: {
+                  [respObj.slug]: respObj,
+                },
+              });
+            } else {
+              dispatch({ type: 'GROUP_VERIFY_ERROR', payload: {} });
+            }
+          }
+        );
+      },
   },
 });
