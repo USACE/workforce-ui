@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { ShieldCheckIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 import { CancelButton } from '../forms/buttons';
+import { toDate, formatInTimeZone } from 'date-fns-tz';
 
 const EditPositionModal = connect(
   'doModalClose',
@@ -17,7 +18,7 @@ const EditPositionModal = connect(
     doGroupSave,
     group: g,
   }) => {
-    const [payload, setPayload] = useState({
+    const [payload] = useState({
       uid: (g && g.uid) || null,
       name: (g && g.name) || null,
       slug: (g && g.slug) || null,
@@ -83,7 +84,14 @@ const EditPositionModal = connect(
                     up-to-date.
                   </p>
                   <p className="mt-3 text-gray-500 text-sm uppercase">
-                    Last verified: {g.last_verified || 'Never'}
+                    Last verified:{' '}
+                    {g.last_verified
+                      ? formatInTimeZone(
+                          toDate(g.last_verified),
+                          'UTC',
+                          'dd-MMM-yy'
+                        )
+                      : 'Never'}
                   </p>
                   {/* <label className="block mt-4 w-full" forhtml="label">
                     <span className="text-gray-600">Name</span>
