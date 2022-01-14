@@ -795,5 +795,8 @@ export default function createRestBundle(opts) {
 
   if (config.persistActions) result.persistActions = config.persistActions;
 
+  if (config.persistFurther)
+    result.persistActions = result.persistActions.concat(config.persistFurther);
+
   return result;
 }

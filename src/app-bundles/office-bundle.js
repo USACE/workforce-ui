@@ -8,7 +8,7 @@ export default createRestBundle({
   uid: 'symbol',
   prefetch: true,
   staleAfter: 900000, // 900000 milliseconds = 15min
-  persist: false,
+  persist: true,
   routeParam: 'office_symbol',
   getTemplate: `${apiUrl}/offices`,
   putTemplate: ':/',
@@ -20,6 +20,19 @@ export default createRestBundle({
   sortBy: 'name',
   sortAsc: true,
   mergeItems: false,
+  reduceFurther: (state, { type, payload }) => {
+    switch (type) {
+      case 'OFFICE_FETCH_ONE_STARTED':
+      case 'OFFICE_FETCH_ONE_FINISHED':
+      case 'OFFICE_FETCH_ONE_ERROR':
+        return {
+          ...state,
+          ...payload,
+        };
+      default:
+        return state;
+    }
+  },
   addons: {
     selectOfficeActive: createSelector(
       'selectOfficeItemsObject',
@@ -28,9 +41,26 @@ export default createRestBundle({
         if (!routeParams['office_symbol']) {
           return null;
         }
-
         return officeItemsObject[routeParams['office_symbol'].toUpperCase()];
       }
     ),
+    doOfficeFetchOne:
+      (officeSymbol) =>
+      ({ dispatch, store, apiGet }) => {
+        dispatch({ type: 'OFFICE_FETCH_ONE_STARTED' });
+        apiGet(`${apiUrl}/offices/${officeSymbol}`, (err, respObj) => {
+          if (!err) {
+            dispatch({
+              type: 'OFFICE_FETCH_ONE_FINISHED',
+              payload: {
+                [respObj.symbol]: respObj,
+              },
+            });
+          } else {
+            dispatch({ type: 'OFFICE_FETCH_ONE_ERROR', payload: {} });
+          }
+        });
+      },
   },
+  persistFurther: ['OFFICE_FETCH_ONE_STARTED', 'OFFICE_FETCH_ONE_FINISHED'],
 });

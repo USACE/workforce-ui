@@ -17,36 +17,27 @@ const EditPositionModal = connect(
     doGroupDelete,
     group: g,
   }) => {
-    const [payload, setPayload] = useState({
-      uid: (g && g.uid) || null,
-      name: (g && g.name) || null,
-      slug: (g && g.slug) || null,
-      // office_symbol: (g && g.office_symbol) || office.symbol,
-    });
+    const [name, setName] = useState((g && g.name) || null);
 
     const handleSubmit = (e) => {
       e.preventDefault();
-
-      if (
-        !payload ||
-        (!payload.uid && g) ||
-        !payload.name
-        // !payload.office_symbol
-      ) {
+      if (!name || name === '') {
         console.log('Missing one or more required fields for group');
         return;
       }
-      doGroupSave(payload);
-      // console.log(payload);
+      doGroupSave({
+        ...g,
+        name: name,
+      });
       doModalClose();
     };
 
     const handleDelete = (e) => {
-      if (!payload || !payload.slug) {
+      if (!g || !g.slug) {
         console.log('Payload or payload.slug not set.');
         return;
       }
-      doGroupDelete(payload);
+      doGroupDelete(g);
       doModalClose();
     };
 
@@ -84,22 +75,11 @@ const EditPositionModal = connect(
                   </label>
                   <input
                     className="w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-2"
-                    defaultValue={payload.name}
+                    defaultValue={name}
                     maxLength={40}
-                    onChange={(e) =>
-                      setPayload({ ...payload, name: e.target.value })
-                    }
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-
-                {/* <div className="mt-4">
-                  <textarea
-                    cols={40}
-                    rows={9}
-                    readOnly={1}
-                    value={JSON.stringify(g)}
-                  ></textarea>
-                </div> */}
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'redux-bundler-react';
 import LoginControl from '../login-control';
 import UsaceLogo from '../../images/USACE_logo.png';
+import pkg from '../../../package.json';
 
 const AdminRequestNotificationIcon = connect(
   'selectAuthIsLoggedIn',
@@ -489,9 +490,12 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
               className="cursor-pointer mr-10 flex items-center"
             >
               <img src={UsaceLogo} className="w-16" alt="USACE Logo" />
-              <h3 className="text-base text-gray-800 font-bold tracking-normal leading-tight ml-3 hidden lg:block">
-                Workforce
-              </h3>
+              <div className="flex items-center">
+                <div className="text-base text-gray-800 font-bold tracking-normal leading-tight ml-3 hidden lg:block">
+                  <h3>Workforce</h3>
+                </div>
+                <div className="ml-2 text-xs text-gray-400">v{pkg.version}</div>
+              </div>
             </div>
           </div>
           {/* <div className="flex bg-red-100">

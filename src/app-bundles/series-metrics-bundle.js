@@ -44,6 +44,7 @@ const seriesMetrics = {
         payload: {
           isLoading: true,
           shouldFetch: false,
+          data: null,
         },
       });
       const office = store.selectOfficeActive();
