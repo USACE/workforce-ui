@@ -1,12 +1,20 @@
 import React from 'react';
 import { connect } from 'redux-bundler-react';
 import EditGroupModal from './EditGroupModal';
+import VerifyGroupModal from './VerifyGroupModal';
 import { RoleFilterCaseInsensitive } from '../RoleFilter';
+import { toDate, formatInTimeZone } from 'date-fns-tz';
 
-import { PencilAltIcon, UserGroupIcon } from '@heroicons/react/outline';
+import {
+  PencilAltIcon,
+  UserGroupIcon,
+  ShieldCheckIcon,
+} from '@heroicons/react/outline';
 
 import USACE_Logo from '../../images/USACE_logo.png';
 import PositionSummaryBullet from '../charts/PositionSummaryBullet';
+
+import ReactTooltip from 'react-tooltip';
 
 const RequestAccessButton = connect(
   'selectOfficeActive',
@@ -127,6 +135,13 @@ const AllocationTable = ({
                   <div className="font-semibold text-center">Vacancies</div>
                 </th>
                 <th className="p-2 whitespace-nowrap">
+                  <div className="font-semibold text-center">Last Verified</div>
+                </th>
+                <th
+                  className={`p-2 whitespace-nowrap ${
+                    title !== 'Groups' ? 'hidden' : null
+                  }`}
+                >
                   <div className="font-semibold text-center">Action</div>
                 </th>
               </tr>
@@ -186,6 +201,23 @@ const AllocationTable = ({
                     </div>
                   </td>
                   <td className="p-2 whitespace-nowrap">
+                    <div className="text-center font-medium">
+                      <span className="text-gray-300">
+                        {t.last_verified
+                          ? formatInTimeZone(
+                              toDate(t.last_verified),
+                              'UTC',
+                              'dd-MMM-yy'
+                            )
+                          : 'Never'}
+                      </span>
+                    </div>
+                  </td>
+                  <td
+                    className={`p-2 whitespace-nowrap text-center ${
+                      title !== 'Groups' ? 'hidden' : null
+                    }`}
+                  >
                     {title && title === 'Groups' && (
                       <RoleFilterCaseInsensitive
                         allow={[
@@ -193,13 +225,24 @@ const AllocationTable = ({
                           `${t.office_symbol}.admin`,
                         ]}
                       >
+                        <ReactTooltip />
                         <button
+                          data-tip="Edit Group"
                           onClick={(e) => {
                             doModalOpen(EditGroupModal, { group: t });
                           }}
                           className="bg-gray-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         >
                           <PencilAltIcon className="w-6 h-6" />
+                        </button>
+                        <button
+                          data-tip="Verify Group"
+                          onClick={(e) => {
+                            doModalOpen(VerifyGroupModal, { group: t });
+                          }}
+                          className="bg-green-400 hover:bg-green-700 text-white font-bold py-2 px-4 ml-2 rounded"
+                        >
+                          <ShieldCheckIcon className="w-6 h-6" />
                         </button>
                       </RoleFilterCaseInsensitive>
                     )}
