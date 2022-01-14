@@ -3,6 +3,7 @@ import { connect } from 'redux-bundler-react';
 import EditGroupModal from './EditGroupModal';
 import VerifyGroupModal from './VerifyGroupModal';
 import { RoleFilterCaseInsensitive } from '../RoleFilter';
+import { toDate, formatInTimeZone } from 'date-fns-tz';
 
 import {
   PencilAltIcon,
@@ -202,7 +203,13 @@ const AllocationTable = ({
                   <td className="p-2 whitespace-nowrap">
                     <div className="text-center font-medium">
                       <span className="text-gray-300">
-                        {t.last_verified || 'Never'}
+                        {t.last_verified
+                          ? formatInTimeZone(
+                              toDate(t.last_verified),
+                              'UTC',
+                              'dd-MMM-yy'
+                            )
+                          : 'Never'}
                       </span>
                     </div>
                   </td>
