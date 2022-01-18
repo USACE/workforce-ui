@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 // import Select from 'react-select';
-import { addDays, isValid, subDays } from 'date-fns';
+import { addDays, isValid, subDays, formatDistanceToNow } from 'date-fns';
 import { utcToZonedTime, toDate } from 'date-fns-tz';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -378,6 +378,9 @@ const EditOccupancyModal = connect(
                       })
                     }
                   />
+                  <span className="text-gray-500 text-xs">
+                    {payload.dob && formatDistanceToNow(payload.dob)}
+                  </span>
                 </div>
 
                 {/* <div className="mt-4">
