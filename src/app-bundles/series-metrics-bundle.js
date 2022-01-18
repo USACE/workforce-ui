@@ -99,8 +99,19 @@ const seriesMetrics = {
   ),
   // selectSeriesMetricsBulletInfo formats data for Nivo Bullet Chart component for visualization
   selectSeriesMetricsBulletInfo: createSelector(
+    'selectSeriesMetricsFetchParams',
+    'selectOfficeActive',
+    'selectGroupSelected',
     'selectSeriesMetricsData',
-    (data) => {
+    (fetchParams, office, group, data) => {
+      // If stored data is not for current office or group in view, return null
+      // this prevents momentarily displaying a chart using stale data
+      if (
+        (office && office.symbol) !== fetchParams.officeSymbol ||
+        (group && group.slug) !== fetchParams.groupSlug
+      ) {
+        return null;
+      }
       return {
         maxValue: data ? data.reduce((a, b) => Math.max(a, b.target), 0) : 0,
         data: !data

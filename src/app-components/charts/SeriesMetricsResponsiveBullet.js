@@ -11,6 +11,9 @@ import { connect } from 'redux-bundler-react';
 const VerticalSeriesMetricsResponsiveBullet = connect(
   'selectSeriesMetricsBulletInfo',
   ({ seriesMetricsBulletInfo: info }) => {
+    if (!info) {
+      return null;
+    }
     const { maxValue, data } = info;
     return (
       <div className="w-full h-full flex space-x-3 justify-center p-4">
@@ -61,6 +64,9 @@ const VerticalSeriesMetricsResponsiveBullet = connect(
 const HorizontalSeriesMetricsResponsiveBullet = connect(
   'selectSeriesMetricsBulletInfo',
   ({ seriesMetricsBulletInfo: info }) => {
+    if (!info) {
+      return null;
+    }
     const { maxValue, data } = info;
     return (
       <>

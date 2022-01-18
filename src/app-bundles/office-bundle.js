@@ -7,24 +7,33 @@ export default createRestBundle({
   name: 'office',
   uid: 'symbol',
   prefetch: true,
-  staleAfter: 900000, // 900000 milliseconds = 15min
+  staleAfter: 300000, // 300000 milliseconds = 5min
   persist: true,
   routeParam: 'office_symbol',
-  getTemplate: `${apiUrl}/offices`,
+  getTemplate: `${apiUrl}/offices/:office_symbol`,
   putTemplate: ':/',
   postTemplate: ':/',
   deleteTemplate: ':/',
   fetchActions: [],
   urlParamSelectors: ['selectRouteParams'],
-  forceFetchActions: [],
+  forceFetchActions: [
+    'POSITION_SAVE_FINISHED',
+    'POSITION_DELETE_FINISHED',
+    'OCCUPANCY_SAVE_FINISHED',
+  ],
   sortBy: 'name',
   sortAsc: true,
   mergeItems: false,
+  state: {
+    _shouldFetchAll: true,
+    _isLoadingAll: false,
+    _errLoadingAll: null,
+  },
   reduceFurther: (state, { type, payload }) => {
     switch (type) {
-      case 'OFFICE_FETCH_ONE_STARTED':
-      case 'OFFICE_FETCH_ONE_FINISHED':
-      case 'OFFICE_FETCH_ONE_ERROR':
+      case 'OFFICE_FETCHALL_STARTED':
+      case 'OFFICE_FETCHALL_FINISHED':
+      case 'OFFICE_FETCHALL_ERROR':
         return {
           ...state,
           ...payload,
@@ -44,23 +53,37 @@ export default createRestBundle({
         return officeItemsObject[routeParams['office_symbol'].toUpperCase()];
       }
     ),
-    doOfficeFetchOne:
-      (officeSymbol) =>
+    selectOfficeShouldFetchAll: (state) => state.office._shouldFetchAll,
+    doOfficeFetchAll:
+      () =>
       ({ dispatch, store, apiGet }) => {
-        dispatch({ type: 'OFFICE_FETCH_ONE_STARTED' });
-        apiGet(`${apiUrl}/offices/${officeSymbol}`, (err, respObj) => {
+        dispatch({
+          type: 'OFFICE_FETCHALL_STARTED',
+          payload: { _shouldFetchAll: false, _isLoadingAll: true },
+        });
+        apiGet(`${apiUrl}/offices`, (err, respObj) => {
           if (!err) {
+            let _obj = {};
+            respObj.forEach((item) => {
+              _obj[item.symbol] = item;
+            });
             dispatch({
-              type: 'OFFICE_FETCH_ONE_FINISHED',
-              payload: {
-                [respObj.symbol]: respObj,
-              },
+              type: 'OFFICE_FETCHALL_FINISHED',
+              payload: { _isLoadingAll: false, ..._obj },
             });
           } else {
-            dispatch({ type: 'OFFICE_FETCH_ONE_ERROR', payload: {} });
+            dispatch({
+              type: 'OFFICE_FETCHALL_ERROR',
+              payload: { _isLoadingAll: false, _errLoadingAll: err },
+            });
           }
         });
       },
+    reactOfficeShouldFetchAll: (state) =>
+      state.office._shouldFetchAll
+        ? { actionCreator: 'doOfficeFetchAll' }
+        : null,
   },
-  persistFurther: ['OFFICE_FETCH_ONE_STARTED', 'OFFICE_FETCH_ONE_FINISHED'],
+
+  persistFurther: ['OFFICE_FETCHALL_STARTED', 'OFFICE_FETCHALL_FINISHED'],
 });
