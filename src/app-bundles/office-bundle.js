@@ -20,10 +20,11 @@ export default createRestBundle({
     'POSITION_SAVE_FINISHED',
     'POSITION_DELETE_FINISHED',
     'OCCUPANCY_SAVE_FINISHED',
+    'GROUP_VERIFY_FINISHED',
   ],
   sortBy: 'name',
   sortAsc: true,
-  mergeItems: false,
+  mergeItems: true,
   state: {
     _shouldFetchAll: true,
     _isLoadingAll: false,
