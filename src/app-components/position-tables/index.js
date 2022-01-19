@@ -100,6 +100,22 @@ const PositionTable = connect(
                     is_active,
                     is_allocated,
                     is_supervisor,
+                    experience_gov = current_occupancy &&
+                      current_occupancy.service_start_date &&
+                      formatDistanceToNowStrict(
+                        parseISO(current_occupancy.service_start_date),
+                        {
+                          addSuffix: false,
+                        }
+                      ),
+                    experience_pos = current_occupancy &&
+                      current_occupancy.start_date &&
+                      formatDistanceToNowStrict(
+                        parseISO(current_occupancy.start_date),
+                        {
+                          addSuffix: false,
+                        }
+                      ),
                   } = t;
                   const isVacant = !current_occupancy;
                   return (
@@ -116,17 +132,17 @@ const PositionTable = connect(
                             data-tip={
                               isVacant ? 'Position Vacant' : 'Position Filled'
                             }
-                            className={`rounded-full w-11 h-11 flex justify-around items-center ${
+                            className={`rounded-full w-14 h-14 flex justify-around items-center ${
                               isVacant ? 'bg-gray-200' : 'bg-green-300'
                             }`}
                           >
                             {!isVacant && (
-                              <UserCircleIcon className="text-green-800" />
+                              <UserCircleIcon className="text-green-800 h-14 w-14" />
                             )}
                           </div>
                         </div>
                       </td>
-                      <td className="p-2 whitespace-nowrap">
+                      <td className="p-4 whitespace-nowrap">
                         <div className="font-medium text-gray-800">
                           <span className="block">
                             {title}
@@ -147,6 +163,28 @@ const PositionTable = connect(
                           <span className="block text-red-400">
                             {isVacant && is_active && 'Vacant'}
                           </span>
+                          <div className="block text-xs mt-1">
+                            {/* Gov Experience */}
+                            {current_occupancy &&
+                              current_occupancy.service_start_date && (
+                                <span
+                                  data-tip={`Government Experience = ${experience_gov}`}
+                                  className=" text-gray-400 font-light border-b-2 border-gray-200 border-dashed cursor-default"
+                                >
+                                  Gov: {experience_gov}
+                                </span>
+                              )}
+                            {/* Position Experience */}
+                            {current_occupancy && current_occupancy.start_date && (
+                              <span
+                                data-tip={`Position Experience = ${experience_pos}`}
+                                className="text-gray-400 font-light border-b-2 border-gray-200 border-dashed cursor-default"
+                              >
+                                {' / '}
+                                Pos: {experience_pos}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
@@ -155,16 +193,6 @@ const PositionTable = connect(
                             {occupation_code} - {occupation_name}
                             <span className="block text-red-400">
                               {!is_allocated && is_active && 'Over-Allocation'}
-                            </span>
-                            <span className="block text-gray-400">
-                              {current_occupancy &&
-                                current_occupancy.start_date &&
-                                formatDistanceToNowStrict(
-                                  parseISO(current_occupancy.start_date),
-                                  {
-                                    addSuffix: false,
-                                  }
-                                )}
                             </span>
                           </div>
                         </div>
