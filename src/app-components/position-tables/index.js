@@ -100,6 +100,22 @@ const PositionTable = connect(
                     is_active,
                     is_allocated,
                     is_supervisor,
+                    experience_gov = current_occupancy &&
+                      current_occupancy.service_start_date &&
+                      formatDistanceToNowStrict(
+                        parseISO(current_occupancy.service_start_date),
+                        {
+                          addSuffix: false,
+                        }
+                      ),
+                    experience_pos = current_occupancy &&
+                      current_occupancy.start_date &&
+                      formatDistanceToNowStrict(
+                        parseISO(current_occupancy.start_date),
+                        {
+                          addSuffix: false,
+                        }
+                      ),
                   } = t;
                   const isVacant = !current_occupancy;
                   return (
@@ -147,39 +163,26 @@ const PositionTable = connect(
                           <span className="block text-red-400">
                             {isVacant && is_active && 'Vacant'}
                           </span>
-                          <div className="mt-2 flex space-x-3 items-center">
+                          <div className="block text-xs mt-1">
                             {/* Gov Experience */}
                             {current_occupancy &&
                               current_occupancy.service_start_date && (
-                                <div
-                                  data-tip="Government Experience"
-                                  className="px-2 text-gray-400 border-l-2 border-r-2 border-gray-400 rounded-2xl font-light"
+                                <span
+                                  data-tip={`Government Experience = ${experience_gov}`}
+                                  className=" text-gray-400 font-light border-b-2 border-gray-200 border-dashed cursor-default"
                                 >
-                                  GOV:{' '}
-                                  {formatDistanceToNowStrict(
-                                    parseISO(
-                                      current_occupancy.service_start_date
-                                    ),
-                                    {
-                                      addSuffix: false,
-                                    }
-                                  )}
-                                </div>
+                                  Gov: {experience_gov}
+                                </span>
                               )}
                             {/* Position Experience */}
                             {current_occupancy && current_occupancy.start_date && (
-                              <div
-                                data-tip="Position Experience"
-                                className="px-2 text-gray-400 border-l-2 border-r-2 border-gray-400 rounded-2xl font-light"
+                              <span
+                                data-tip={`Position Experience = ${experience_pos}`}
+                                className="text-gray-400 font-light border-b-2 border-gray-200 border-dashed cursor-default"
                               >
-                                POS:{' '}
-                                {formatDistanceToNowStrict(
-                                  parseISO(current_occupancy.start_date),
-                                  {
-                                    addSuffix: false,
-                                  }
-                                )}
-                              </div>
+                                {' / '}
+                                Pos: {experience_pos}
+                              </span>
                             )}
                           </div>
                         </div>
