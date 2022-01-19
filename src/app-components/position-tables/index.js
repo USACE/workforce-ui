@@ -116,17 +116,17 @@ const PositionTable = connect(
                             data-tip={
                               isVacant ? 'Position Vacant' : 'Position Filled'
                             }
-                            className={`rounded-full w-11 h-11 flex justify-around items-center ${
+                            className={`rounded-full w-14 h-14 flex justify-around items-center ${
                               isVacant ? 'bg-gray-200' : 'bg-green-300'
                             }`}
                           >
                             {!isVacant && (
-                              <UserCircleIcon className="text-green-800" />
+                              <UserCircleIcon className="text-green-800 h-14 w-14" />
                             )}
                           </div>
                         </div>
                       </td>
-                      <td className="p-2 whitespace-nowrap">
+                      <td className="p-4 whitespace-nowrap">
                         <div className="font-medium text-gray-800">
                           <span className="block">
                             {title}
@@ -147,6 +147,41 @@ const PositionTable = connect(
                           <span className="block text-red-400">
                             {isVacant && is_active && 'Vacant'}
                           </span>
+                          <div className="mt-2 flex space-x-3 items-center">
+                            {/* Gov Experience */}
+                            {current_occupancy &&
+                              current_occupancy.service_start_date && (
+                                <div
+                                  data-tip="Government Experience"
+                                  className="px-2 text-gray-400 border-l-2 border-r-2 border-gray-400 rounded-2xl font-light"
+                                >
+                                  GOV:{' '}
+                                  {formatDistanceToNowStrict(
+                                    parseISO(
+                                      current_occupancy.service_start_date
+                                    ),
+                                    {
+                                      addSuffix: false,
+                                    }
+                                  )}
+                                </div>
+                              )}
+                            {/* Position Experience */}
+                            {current_occupancy && current_occupancy.start_date && (
+                              <div
+                                data-tip="Position Experience"
+                                className="px-2 text-gray-400 border-l-2 border-r-2 border-gray-400 rounded-2xl font-light"
+                              >
+                                POS:{' '}
+                                {formatDistanceToNowStrict(
+                                  parseISO(current_occupancy.start_date),
+                                  {
+                                    addSuffix: false,
+                                  }
+                                )}
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
@@ -155,16 +190,6 @@ const PositionTable = connect(
                             {occupation_code} - {occupation_name}
                             <span className="block text-red-400">
                               {!is_allocated && is_active && 'Over-Allocation'}
-                            </span>
-                            <span className="block text-gray-400">
-                              {current_occupancy &&
-                                current_occupancy.start_date &&
-                                formatDistanceToNowStrict(
-                                  parseISO(current_occupancy.start_date),
-                                  {
-                                    addSuffix: false,
-                                  }
-                                )}
                             </span>
                           </div>
                         </div>
