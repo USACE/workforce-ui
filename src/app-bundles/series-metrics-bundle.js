@@ -85,15 +85,22 @@ const seriesMetrics = {
   selectSeriesMetricsTotals: createSelector(
     'selectSeriesMetricsData',
     (data) => {
-      let totals = { positions: 0, employees: 0, vacancies: 0 };
+      let totals = { positions: 0, employees: 0, vacancies: 0, target: 0 };
       if (!data || !data.length) {
         return totals;
       }
       data.forEach((item) => {
         totals.positions += item.allocated;
         totals.employees += item.employees;
+        totals.target += item.target;
       });
+      // vacancies = approved positions - employees
       totals.vacancies = totals.positions - totals.employees;
+      // position_need = additional positions needed (beyond approved in manning doc)
+      totals.position_need = totals.target - totals.positions;
+      // employee_need = how many additional employees needed (beyond current employee count)
+      totals.employee_need = totals.target - totals.employees;
+
       return totals;
     }
   ),

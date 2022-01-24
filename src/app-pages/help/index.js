@@ -91,8 +91,8 @@ export default function Help() {
           </li>
           <li className="list-decimal mt-5 bg-white p-5 shadow-md">
             Once all of the position and occupancy data is complete for a group,
-            click the "Verify Group" button to acknowledge that it has been
-            reviewed and is up-to-date.
+            click the "Verify Group" button on the office group to acknowledge
+            that it has been reviewed and is up-to-date.
             <img
               src={VerifyGroupImage}
               className="border-0 m-4 inline"

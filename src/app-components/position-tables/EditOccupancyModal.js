@@ -139,7 +139,7 @@ const EditOccupancyModal = connect(
                     type="text"
                     className="block w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     defaultValue={payload.title}
-                    maxLength={40}
+                    maxLength={80}
                     onChange={(e) =>
                       setPayload({
                         ...payload,

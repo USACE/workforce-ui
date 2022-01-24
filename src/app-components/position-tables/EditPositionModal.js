@@ -34,9 +34,9 @@ const EditPositionModal = connect(
       pay_plan: (p && p.pay_plan) || null,
       target_grade: (p && parseInt(p.target_grade)) || 0,
       title: (p && p.title) || null,
-      is_active: (p && p.is_active) || false,
+      is_active: (p && p.is_active) || true,
       is_supervisor: (p && p.is_supervisor) || false,
-      is_allocated: (p && p.is_allocated) || false,
+      is_allocated: (p && p.is_allocated) || true,
       group_slug: (p && p.group_slug) || defaultGroup.slug,
       current_occupant: (p && p.current_occupancy) || null,
     });
@@ -232,7 +232,7 @@ const EditPositionModal = connect(
                     type="text"
                     className="block w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     defaultValue={payload.title}
-                    maxLength={40}
+                    maxLength={80}
                     onChange={(e) =>
                       setPayload({
                         ...payload,
