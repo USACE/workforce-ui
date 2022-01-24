@@ -9,14 +9,7 @@ const Statistics = connect(
   'selectSeriesMetricsTotals',
   'selectSeriesMetricsIsLoading',
   ({ seriesMetricsTotals: totals, seriesMetricsIsLoading: isLoading }) => {
-    const {
-      positions,
-      employees,
-      vacancies,
-      target,
-      position_need,
-      employee_need,
-    } = totals;
+    const { positions, employees, vacancies, target, position_need } = totals;
     return (
       <>
         <ReactTooltip />
