@@ -3,29 +3,65 @@ import { connect } from 'redux-bundler-react';
 import Breadcrumb from '../Breadcrumb';
 
 import Header from '../header';
+import ReactTooltip from 'react-tooltip';
 
 const Statistics = connect(
   'selectSeriesMetricsTotals',
   'selectSeriesMetricsIsLoading',
   ({ seriesMetricsTotals: totals, seriesMetricsIsLoading: isLoading }) => {
-    const { positions, employees, vacancies } = totals;
+    const {
+      positions,
+      employees,
+      vacancies,
+      target,
+      position_need,
+      employee_need,
+    } = totals;
     return (
-      <div className="flex text-center justify-center space-x-12 w-full py-4 lg:mr-12 lg:justify-end">
-        <div className="p-4 bg-white rounded shadow-md">
-          <div className="flex title-font font-medium sm:text-4xl text-3xl">
-            <div className="text-gray-900">{isLoading ? '-' : employees}</div>
-            <div className="mx-2 text-gray-300">/</div>
-            <div className="text-gray-300">{isLoading ? '-' : positions}</div>
+      <>
+        <ReactTooltip />
+        <div className="flex text-center justify-center space-x-12 w-full py-4 lg:mr-12 lg:justify-end">
+          <div className="space-y-2 p-4 bg-white rounded shadow-md">
+            <div className="font-semibold text-gray-400 text-md uppercase">
+              Positions Filled
+            </div>
+            <div className="flex title-font font-medium sm:text-4xl text-3xl justify-center">
+              <div className="text-gray-900">{isLoading ? '-' : employees}</div>
+              <div className="mx-2 text-gray-300">/</div>
+              <div
+                data-tip="Allocated Position"
+                className="text-gray-300 border-b-2 border-dashed cursor-default"
+              >
+                {isLoading ? '-' : positions}
+              </div>
+            </div>
+            <div className="leading-relaxed text-gray-600">
+              <span className="block text-gray-400 text-sm font-semibold">
+                {isLoading ? '-' : vacancies} Vacancies
+              </span>
+            </div>
           </div>
-          <div className="leading-relaxed text-gray-600">Positions Filled</div>
+
+          <div className="space-y-2 p-4 bg-white rounded shadow-md">
+            <div className="font-semibold text-gray-400 text-md uppercase">
+              Positions Target
+            </div>
+            <div className="flex title-font font-medium sm:text-4xl text-3xl justify-center">
+              <div
+                data-tip="All Positions - Includes Allocated and UnAllocated Positions"
+                className="text-green-500 border-b-2 border-dashed cursor-default"
+              >
+                {isLoading ? '-' : target}
+              </div>
+            </div>
+            <div className="leading-relaxed text-gray-600">
+              <span className="block text-gray-400 text-sm font-semibold">
+                {isLoading ? '-' : position_need} over allocation
+              </span>
+            </div>
+          </div>
         </div>
-        <div className="p-4 bg-white rounded shadow-md">
-          <h2 className="title-font font-medium sm:text-4xl text-3xl text-gray-900">
-            {isLoading ? '-' : vacancies}
-          </h2>
-          <p className="leading-relaxed text-gray-600">Vacancies</p>
-        </div>
-      </div>
+      </>
     );
   }
 );
