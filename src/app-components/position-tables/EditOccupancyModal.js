@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 // import Select from 'react-select';
-import { addDays, isValid, subDays, formatDistanceToNow } from 'date-fns';
+import { addDays, subDays, formatDistanceToNow } from 'date-fns';
 import { utcToZonedTime, toDate } from 'date-fns-tz';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -37,11 +37,11 @@ const EditOccupancyModal = connect(
           occupant.service_start_date &&
           utcToZonedTime(toDate(occupant.service_start_date), 'UTC')) ||
         null,
-      service_end_date:
-        (occupant &&
-          occupant.service_end_date &&
-          utcToZonedTime(toDate(occupant.service_end_date), 'UTC')) ||
-        null,
+      // service_end_date:
+      //   (occupant &&
+      //     occupant.service_end_date &&
+      //     utcToZonedTime(toDate(occupant.service_end_date), 'UTC')) ||
+      //   null,
       start_date:
         (occupant &&
           occupant.start_date &&
@@ -162,9 +162,6 @@ const EditOccupancyModal = connect(
                       <span className="text-gray-600">
                         <span className="text-lg text-red-700 mr-1">*</span>
                         Service Start:{' '}
-                        {/* <span className="text-sm text-gray-400">
-                        (ex: Team Lead, Regional RTS)
-                      </span> */}
                       </span>
                     </label>
                     <DatePicker
@@ -190,17 +187,12 @@ const EditOccupancyModal = connect(
                     />
                   </div>
 
-                  <div className="w-full lg:w-1/2 inline-block p-2">
+                  {/* <div className="w-full lg:w-1/2 inline-block p-2">
                     <label
                       className="block mt-2 mb-2 w-full"
                       forhtml="serviceEndDate"
                     >
-                      <span className="text-gray-600">
-                        Service End:{' '}
-                        {/* <span className="text-xs text-gray-400 block w-full">
-                        (leave empty if still employed)
-                      </span> */}
-                      </span>
+                      <span className="text-gray-600">Service End: </span>
                     </label>
                     <DatePicker
                       id="serviceEndDate"
@@ -229,7 +221,7 @@ const EditOccupancyModal = connect(
                         })
                       }
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="text-left mt-3">
