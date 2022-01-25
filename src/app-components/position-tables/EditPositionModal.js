@@ -230,7 +230,6 @@ const EditPositionModal = connect(
                   </label>
                   <input
                     type="text"
-                    placeholder="Civil Engineer (Hydraulics)"
                     className="block w-full border-2 rounded border-gray-200 focus:ring-0 focus:border-black p-1 pt-2"
                     defaultValue={payload.title}
                     maxLength={80}
@@ -243,7 +242,7 @@ const EditPositionModal = connect(
                   />
                 </div>
 
-                <div className="w-full inline-block p-2">
+                <div className="w-full lg:w-1/2 inline-block p-2">
                   {/* <label
                     className="block mt-4 mb-2 w-full"
                     forhtml="supervisor"
@@ -253,8 +252,8 @@ const EditPositionModal = connect(
                   <div className="py-2">
                     <Switch.Group>
                       <div className="flex items-center">
-                        <Switch.Label className="mr-4 text-left w-2/3">
-                          Supervisor
+                        <Switch.Label className="mr-4 text-left w-24 lg:w-24">
+                          Supervisor?
                         </Switch.Label>
                         <Switch
                           checked={payload.is_supervisor}
@@ -283,13 +282,18 @@ const EditPositionModal = connect(
                   </div>
                 </div>
 
-                <div className="w-full inline-block p-2">
+                <div className="w-full lg:w-1/2 inline-block p-2">
                   <div className="py-2">
                     <Switch.Group>
                       <div className="flex items-center">
-                        <Switch.Label className="mr-4 text-left w-2/3">
-                          <span data-place="top" data-html="true" className="">
-                            Active (include in metrics)
+                        <Switch.Label className="mr-4 text-left w-24 lg:w-16">
+                          <span
+                            data-place="top"
+                            data-html="true"
+                            data-tip="Setting to 'Inactive' will exclude it from all calculations."
+                            className="border-b-2 border-dashed border-gray-400"
+                          >
+                            Active?
                           </span>
                         </Switch.Label>
                         <Switch
@@ -321,13 +325,14 @@ const EditPositionModal = connect(
                   <div className="py-2">
                     <Switch.Group>
                       <div className="flex items-center">
-                        <Switch.Label className="mr-4 text-left w-2/3">
+                        <Switch.Label className="mr-4 text-left w-24 lg:w-24">
                           <span
                             data-place="right"
                             data-html="true"
-                            className=""
+                            data-tip="Is this position included in your <br />office's manning document?"
+                            className="border-b-2 border-dashed border-gray-400"
                           >
-                            Position allocated in manning document
+                            Position Allocated?
                           </span>
                         </Switch.Label>
                         <Switch
