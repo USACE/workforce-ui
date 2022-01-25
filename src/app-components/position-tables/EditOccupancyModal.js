@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 // import Select from 'react-select';
-import { addDays, isValid, subDays, formatDistanceToNow } from 'date-fns';
+import { addDays, subDays, formatDistanceToNow } from 'date-fns';
 import { utcToZonedTime, toDate } from 'date-fns-tz';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
