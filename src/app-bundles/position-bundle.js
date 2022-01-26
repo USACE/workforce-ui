@@ -10,12 +10,12 @@ export default createRestBundle({
   staleAfter: 300000, // 300000 milliseconds = 5min
   persist: false,
   routeParam: '',
-  getTemplate: `${apiUrl}/offices/:symbol/positions`,
-  putTemplate: `${apiUrl}/offices/:symbol/positions/:item.id`,
-  postTemplate: `${apiUrl}/offices/:symbol/positions`,
-  deleteTemplate: `${apiUrl}/offices/:symbol/positions/:item.id`,
-  fetchActions: ['URL_UPDATED', 'OFFICE_FETCH_FINISHED'],
-  urlParamSelectors: ['selectOfficeActive', 'selectGroupSelected'],
+  getTemplate: `${apiUrl}/offices/:office_symbol/positions`,
+  putTemplate: `${apiUrl}/offices/:office_symbol/positions/:item.id`,
+  postTemplate: `${apiUrl}/offices/:office_symbol/positions`,
+  deleteTemplate: `${apiUrl}/offices/:office_symbol/positions/:item.id`,
+  fetchActions: ['URL_UPDATED'],
+  urlParamSelectors: ['selectRouteParams'],
   forceFetchActions: [
     'POSITION_SAVE_FINISHED',
     'POSITION_DELETE_FINISHED',
