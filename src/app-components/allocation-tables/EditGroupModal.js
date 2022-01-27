@@ -5,6 +5,7 @@ import { PencilAltIcon } from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 import { SaveButton, CancelButton, DeleteButton } from '../forms/buttons';
 
+// TODO; Confirm title of component
 const EditPositionModal = connect(
   'doModalClose',
   'selectOfficeActive',
@@ -18,6 +19,7 @@ const EditPositionModal = connect(
     group: g,
   }) => {
     const [name, setName] = useState((g && g.name) || null);
+    const [deleteIsConfirming, setDeleteIsConfirming] = useState(false);
 
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -84,18 +86,26 @@ const EditPositionModal = connect(
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <SaveButton label="Save" onClick={handleSubmit} />
+            {!deleteIsConfirming && (
+              <SaveButton label="Save" onClick={handleSubmit} />
+            )}
 
-            <CancelButton
-              label="Cancel"
-              onClick={() => {
-                doModalClose();
-              }}
-            />
+            {!deleteIsConfirming && (
+              <CancelButton
+                label="Cancel"
+                onClick={() => {
+                  doModalClose();
+                }}
+              />
+            )}
 
             <div className="flex-auto">
               {g && !g.count_positions && (
-                <DeleteButton label="Delete" onClick={handleDelete} />
+                <DeleteButton
+                  isConfirming={deleteIsConfirming}
+                  setIsConfirming={setDeleteIsConfirming}
+                  onDelete={handleDelete}
+                />
               )}
             </div>
           </div>
