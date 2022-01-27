@@ -6,6 +6,7 @@ import { connect } from 'redux-bundler-react';
 import { CancelButton } from '../forms/buttons';
 import { toDate, formatInTimeZone } from 'date-fns-tz';
 
+// TODO; Confirm title of component
 const EditPositionModal = connect(
   'doModalClose',
   'selectOfficeActive',

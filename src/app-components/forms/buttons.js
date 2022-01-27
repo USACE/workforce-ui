@@ -44,15 +44,31 @@ const SaveButton = (props) => (
   </button>
 );
 
-const DeleteButton = (props) => (
-  <button
-    type="button"
-    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-    onClick={props.onClick}
-  >
-    {props.label}
-  </button>
-);
+const DeleteButton = ({ onDelete, isConfirming, setIsConfirming }) => {
+  return (
+    <div className="w-full py-2 sm:py-0">
+      <button
+        type="button"
+        className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 ${
+          isConfirming
+            ? 'bg-gray-400'
+            : 'bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-2 focus:ring-offset-2'
+        } text-base font-medium text-white focus:outline-none sm:ml-3 sm:w-24 sm:text-sm`}
+        onClick={(e) => setIsConfirming(!isConfirming)}
+      >
+        {isConfirming ? '< Cancel' : 'Delete'}
+      </button>
+      {isConfirming && (
+        <button
+          className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+          onClick={onDelete}
+        >
+          Confirm Delete
+        </button>
+      )}
+    </div>
+  );
+};
 
 // const SaveButton = (props) => (
 //   <button

@@ -1,7 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { useState, Fragment } from 'react';
 import { Dialog, Transition, Switch } from '@headlessui/react';
-import { PencilAltIcon, InformationCircleIcon } from '@heroicons/react/outline';
+import {
+  PencilAltIcon,
+  InformationCircleIcon,
+  ExclamationIcon,
+} from '@heroicons/react/outline';
 import { connect } from 'redux-bundler-react';
 import Select from 'react-select';
 import { DeleteButton, SaveButton, CancelButton } from '../forms/buttons';
@@ -44,6 +48,8 @@ const EditPositionModal = connect(
     const [error, setError] = useState({
       msg: null,
     });
+
+    const [deleteIsConfirming, setDeleteIsConfirming] = useState(false);
 
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -119,7 +125,8 @@ const EditPositionModal = connect(
                 <div className="w-full mt-3 p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="unit">
                     <span className="text-gray-600">
-                      <span className="text-lg text-red-700 mr-1">*</span>Group
+                      <span className="text-lg text-red-700 mr-1">*</span>
+                      Group
                     </span>
                   </label>
                   <Select
@@ -244,12 +251,6 @@ const EditPositionModal = connect(
                 </div>
 
                 <div className="w-full inline-block p-2">
-                  {/* <label
-                    className="block mt-4 mb-2 w-full"
-                    forhtml="supervisor"
-                  >
-                    <span className="text-gray-600">Supervisor?</span>
-                  </label> */}
                   <div className="py-2">
                     <Switch.Group>
                       <div className="flex items-center">
@@ -283,7 +284,12 @@ const EditPositionModal = connect(
                   </div>
                 </div>
 
-                <div className="w-full inline-block p-2">
+                <div
+                  className={`w-full inline-block p-2 ${
+                    deleteIsConfirming &&
+                    'border-2 rounded-xl border-red-200 animate-pulse'
+                  }`}
+                >
                   <div className="py-2">
                     <Switch.Group>
                       <div className="flex items-center">
@@ -302,6 +308,8 @@ const EditPositionModal = connect(
                           }
                           className={`${
                             payload.is_active ? 'bg-blue-600' : 'bg-gray-200'
+                          } ${
+                            deleteIsConfirming && 'animate-pulse'
                           } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                         >
                           <span
@@ -362,33 +370,56 @@ const EditPositionModal = connect(
                 )}
 
                 {/* <div className="mt-4">
-                  <textarea
-                    cols={40}
-                    rows={9}
-                    readOnly={1}
-                    value={JSON.stringify(payload)}
-                  ></textarea>
-                </div> */}
+                <textarea
+                  cols={40}
+                  rows={9}
+                  readOnly={1}
+                  value={JSON.stringify(payload)}
+                ></textarea>
+              </div> */}
               </div>
             </div>
+            {/* CONFIRM DELETE WARNING MESSAGE */}
+            {deleteIsConfirming && (
+              <div className="flex justify-between align-center rounded-xl bg-red-500 p-3 text-white shadow-xl">
+                <ExclamationIcon className="w-36 mr-4 p-2 rounded-xl animate-pulse" />
+                <div>
+                  <span className="font-bold">
+                    Are you sure you want to delete this position?
+                  </span>
+                  <br />
+                  <p className="mt-2">
+                    This will also delete occupancy history. To retain occupancy
+                    history and exclude this position from current metrics,
+                    toggle the active switch "off" instead.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <SaveButton
-              label={p && p.duplicate ? 'Save as New Position' : 'Save'}
-              onClick={handleSubmit}
-            />
+            {!deleteIsConfirming && (
+              <SaveButton
+                label={p && p.duplicate ? 'Save as New Position' : 'Save'}
+                onClick={handleSubmit}
+              />
+            )}
 
-            <CancelButton
-              label="Cancel"
-              onClick={() => {
-                doModalClose();
-              }}
-            />
+            {!deleteIsConfirming && (
+              <CancelButton
+                label="Cancel"
+                onClick={() => {
+                  doModalClose();
+                }}
+              />
+            )}
 
             <div className="flex-auto">
-              {p && !p.current_occupancy && (
-                <DeleteButton label="Delete" onClick={handleDelete} />
-              )}
+              <DeleteButton
+                isConfirming={deleteIsConfirming}
+                setIsConfirming={setDeleteIsConfirming}
+                onDelete={handleDelete}
+              />
             </div>
           </div>
         </div>
