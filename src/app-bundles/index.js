@@ -13,6 +13,7 @@ import cache from '../cache';
 
 // App Bundles
 import breadcrumbBundle from './breadcrumb-bundle';
+import expertiseBundle from './expertise-bundle';
 import redirectBundle from './redirect-bundle';
 import modalBundle from './modal-bundle';
 import officeBundle from './office-bundle';
@@ -42,6 +43,7 @@ export default composeBundles(
   createUrlBundle,
   // Application Bundles
   breadcrumbBundle,
+  expertiseBundle,
   redirectBundle,
   groupBundle,
   modalBundle,

@@ -14,17 +14,19 @@ import Select from 'react-select';
 const EditOccupancyModal = connect(
   'doModalClose',
   'selectCredentialItems',
+  'selectExpertiseItems',
   'selectCredentialItemsObject',
   'doOccupancySave',
-  'doPositionFetch',
   'doCredentialFetch',
+  'doExpertiseFetch',
   ({
     doModalClose,
     credentialItems: allCredentials,
+    expertiseItems: allExpertise,
     credentialItemsObject: allCredentialsObj,
     doOccupancySave,
-    doPositionFetch,
     doCredentialFetch,
+    doExpertiseFetch,
     position: p,
   }) => {
     const occupant = p.current_occupancy;
@@ -53,6 +55,7 @@ const EditOccupancyModal = connect(
           utcToZonedTime(toDate(occupant.end_date), 'UTC')) ||
         null,
       credentials: (occupant && occupant.credentials) || null,
+      expertise: (occupant && occupant.expertise) || null,
       dob:
         (occupant &&
           occupant.dob &&
@@ -67,7 +70,8 @@ const EditOccupancyModal = connect(
     // Load credentials on modal load
     useEffect(() => {
       doCredentialFetch();
-    }, [doCredentialFetch]);
+      doExpertiseFetch();
+    }, [doCredentialFetch, doExpertiseFetch]);
 
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -304,7 +308,48 @@ const EditOccupancyModal = connect(
                 <div className="p-1 text-gray-400 border-b-2 border-gray-300 uppercase text-sm font-semibold mt-5">
                   Additional Employee Details:
                 </div>
-
+                {/* Major Functional Area of Expertise */}
+                <div className="w-full block p-2">
+                  <label className="block mt-2 mb-2 w-full" forhtml="title">
+                    <span className="text-gray-600">
+                      Major Functional Area of Expertise
+                    </span>
+                  </label>
+                  <Select
+                    placeholder={null}
+                    value={
+                      payload.expertise &&
+                      payload.expertise.map((x) => ({
+                        value: x.id,
+                        label: x.name,
+                        id: x.id,
+                        name: x.name,
+                      }))
+                    }
+                    closeMenuOnSelect={false}
+                    isMulti
+                    menuPlacement="top"
+                    options={
+                      allExpertise &&
+                      allExpertise.map((x) => ({
+                        value: x.id,
+                        label: x.name,
+                        id: x.id,
+                        name: x.name,
+                      }))
+                    }
+                    onChange={(selectedOption) => {
+                      setPayload({
+                        ...payload,
+                        expertise: selectedOption.map((x) => ({
+                          id: x.id,
+                          name: x.name,
+                        })),
+                      });
+                    }}
+                  ></Select>
+                </div>
+                {/* Credentials */}
                 <div className="w-full block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">Employee Credentials</span>
