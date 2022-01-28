@@ -32,6 +32,8 @@ export default createRestBundle({
   },
   reduceFurther: (state, { type, payload }) => {
     switch (type) {
+      case 'OFFICE_SHOULD_FETCHALL':
+        return { ...state, _shouldFetchAll: true };
       case 'OFFICE_FETCHALL_STARTED':
       case 'OFFICE_FETCHALL_FINISHED':
       case 'OFFICE_FETCHALL_ERROR':
@@ -79,6 +81,11 @@ export default createRestBundle({
             });
           }
         });
+      },
+    doOfficeShouldFetchAll:
+      () =>
+      ({ dispatch, store }) => {
+        dispatch({ type: 'OFFICE_SHOULD_FETCHALL' });
       },
     reactOfficeShouldFetchAll: (state) =>
       state.office._shouldFetchAll

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'redux-bundler-react';
 import EditGroupModal from './EditGroupModal';
 import VerifyGroupModal from './VerifyGroupModal';
@@ -260,7 +260,12 @@ const AllocationTable = ({
 const OfficeAllocationTable = connect(
   'selectOfficeItems',
   'selectQueryString',
-  ({ officeItems: offices, queryString }) => {
+  'doOfficeShouldFetchAll',
+  ({ officeItems: offices, queryString, doOfficeShouldFetchAll }) => {
+    useEffect(() => {
+      doOfficeShouldFetchAll();
+    }, [doOfficeShouldFetchAll]);
+
     const qs = queryString && '?' + queryString;
     const items = offices.map((f) => ({
       ...f,
