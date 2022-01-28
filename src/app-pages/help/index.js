@@ -192,7 +192,7 @@ export default function Help() {
                       If an employee leaves a position,{' '}
                     </span>{' '}
                     set the Occupancy End Date in the data entry form for the
-                    leaving employee. This will set the position "Vacant".
+                    leaving employee. This will set the position "Vacant".{' '}
                     <span className="italic">
                       Note: If this same position is filled by a new occupant, a
                       new "Occupancy" should be entered, rather than editing the

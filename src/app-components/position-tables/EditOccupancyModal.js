@@ -308,11 +308,11 @@ const EditOccupancyModal = connect(
                 <div className="p-1 text-gray-400 border-b-2 border-gray-300 uppercase text-sm font-semibold mt-5">
                   Additional Employee Details:
                 </div>
-                {/* Major Functional Area of Expertise */}
+                {/* Major Functional Areas of Expertise */}
                 <div className="w-full block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">
-                      Major Functional Area of Expertise
+                      Major Functional Areas of Expertise
                     </span>
                   </label>
                   <Select
