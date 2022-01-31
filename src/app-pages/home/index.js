@@ -11,7 +11,7 @@ export default function Home() {
   // const [deliverables, setDeliverables] = useState(false);
   // const [profile, setProfile] = useState(false);
   return (
-    <Wrapper title="Hydraulics, Hydrology, Coastal Community of Practice">
+    <Wrapper title="Hydrology, Hydraulics & Coastal Community of Practice">
       {/* different colors for screen size breakpoints only enabled when NODE_ENV === 'development' */}
       <div
         className={`container justify-between inline-flex shadow-md ${
