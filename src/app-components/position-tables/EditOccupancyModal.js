@@ -80,8 +80,8 @@ const EditOccupancyModal = connect(
         !payload ||
         (!payload.id && occupant) ||
         !payload.service_start_date ||
-        !payload.start_date ||
-        !payload.dob
+        !payload.start_date
+        // || !payload.dob
       ) {
         console.log('Missing one or more required fields.');
         setError({
@@ -157,7 +157,6 @@ const EditOccupancyModal = connect(
                   <div className="p-1 text-gray-400 border-b-2 border-gray-300 uppercase text-sm font-semibold mt-5">
                     Employee's Federal Service Dates:
                   </div>
-
                   <div className="w-full block lg:w-1/2 lg:inline-block p-2">
                     <label
                       className="block mt-2 mb-2 w-full"
@@ -391,7 +390,7 @@ const EditOccupancyModal = connect(
                 <div className="w-full block p-2">
                   <label className="block mt-2 mb-2 w-full" forhtml="title">
                     <span className="text-gray-600">
-                      <span className="text-lg text-red-700 mr-1">*</span>
+                      {/* <span className="text-lg text-red-700 mr-1">*</span> */}
                       Employee's Year of Birth:{' '}
                       <span className="text-sm text-gray-400">(year only)</span>
                     </span>
