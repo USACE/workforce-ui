@@ -38,9 +38,9 @@ const EditPositionModal = connect(
       pay_plan: (p && p.pay_plan) || null,
       target_grade: (p && parseInt(p.target_grade)) || 0,
       title: (p && p.title) || null,
-      is_active: (p && p.is_active) || true,
+      is_active: p ? p.is_active : true,
       is_supervisor: (p && p.is_supervisor) || false,
-      is_allocated: (p && p.is_allocated) || true,
+      is_allocated: p ? p.is_allocated : true,
       group_slug: (p && p.group_slug) || defaultGroup.slug,
       current_occupant: (p && p.current_occupancy) || null,
     });
