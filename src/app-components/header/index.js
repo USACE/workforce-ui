@@ -524,6 +524,23 @@ const Header = connect('doUpdateUrl', ({ doUpdateUrl }) => {
             <div className="flex items-center mr-10">
               <AdminRequestNotificationIcon />
               <a
+                className="text-gray-500 hover:text-blue-800 mr-5"
+                title="More Details"
+                href="/rollup"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M22,21H2V3H4V19H6V17H10V19H12V16H16V19H18V17H22V21M18,14H22V16H18V14M12,6H16V9H12V6M16,15H12V10H16V15M6,10H10V12H6V10M10,16H6V13H10V16Z"
+                  />
+                </svg>
+              </a>
+              <a
                 className="text-gray-500 hover:text-blue-800"
                 title="Help"
                 href="/help"

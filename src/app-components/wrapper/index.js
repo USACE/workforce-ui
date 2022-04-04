@@ -86,7 +86,7 @@ export default function Wrapper({ children, title }) {
         </div>
 
         {/* Page title ends */}
-        <div className="container mx-auto px-6">{children}</div>
+        <div className="container mx-auto px-6 h-full">{children}</div>
       </div>
     </>
   );
