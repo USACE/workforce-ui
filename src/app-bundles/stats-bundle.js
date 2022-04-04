@@ -36,23 +36,10 @@ const statsBundle = {
           _shouldFetch: false,
         },
       });
-      const url = `${apiUrl}/report/csv`;
+      const url = `${apiUrl}/report/json`;
       fetch(url)
-        .then((response) => response.text())
-        .then((csv) => {
-          const data = csv
-            .split(/\r?\n/)
-            .map((line, i, arr) => {
-              if (i === 0) return false;
-              if (!line.length) return false;
-              const entry = {};
-              const values = line.split(',');
-              arr[0].split(',').forEach((key, idx) => {
-                entry[key] = values[idx];
-              });
-              return entry;
-            })
-            .filter((r) => !!r);
+        .then((response) => response.json())
+        .then((data) => {
           dispatch({
             type: 'STATS_FETCH_FINISHED',
             payload: {
