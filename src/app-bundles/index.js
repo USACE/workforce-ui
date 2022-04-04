@@ -25,6 +25,7 @@ import occupancyBundle from './occupancy-bundle';
 import seriesMetricsBundle from './series-metrics-bundle';
 import credentialBundle from './credential-bundle';
 import roleRequestBundle from './role-request-bundle';
+import statsBundle from './stats-bundle';
 
 //Admin
 import roleApprovalBundle from './role-approval-bundle';
@@ -57,6 +58,7 @@ export default composeBundles(
   credentialBundle,
   roleRequestBundle,
   roleApprovalBundle,
+  statsBundle,
   createAuthBundle({
     name: 'auth',
     host: process.env.REACT_APP_AUTH_HOST,
