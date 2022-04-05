@@ -1,4 +1,6 @@
 import { createSelector } from 'redux-bundler';
+import grinder from '../utils/data-grinder';
+import pieBaker from '../utils/data-pie-baker';
 
 const apiUrl = process.env.REACT_APP_WORKFORCE_API_URL;
 const statsBundle = {
@@ -112,17 +114,47 @@ const statsBundle = {
       'Over 55': 5,
     };
     const pay_plan_grade_sort = {
-      'GS-3': 0,
-      'GS-5': 1,
-      'GS-6': 2,
-      'GS-7': 3,
-      'GS-9': 4,
-      'GS-10': 5,
-      'GS-11': 6,
-      'GS-12': 7,
-      'GS-13': 8,
-      'GS-14': 9,
-      'GS-15': 10,
+      'DB-1': 0,
+      'DB-2': 1,
+      'DB-3': 2,
+      'DB-4': 3,
+      'DB-5': 4,
+      'DB-6': 5,
+      'DE-1': 6,
+      'DE-2': 7,
+      'DE-3': 8,
+      'DE-4': 9,
+      'DE-5': 10,
+      'DE-6': 11,
+      'DJ-1': 12,
+      'DJ-2': 13,
+      'DJ-3': 14,
+      'DJ-4': 15,
+      'DJ-5': 16,
+      'DJ-6': 17,
+      'DK-1': 18,
+      'DK-2': 19,
+      'DK-3': 20,
+      'DK-4': 21,
+      'DK-5': 22,
+      'DK-6': 23,
+      'GS-3': 24,
+      'GS-5': 25,
+      'GS-6': 26,
+      'GS-7': 27,
+      'GS-9': 28,
+      'GS-10': 29,
+      'GS-11': 30,
+      'GS-12': 31,
+      'GS-13': 32,
+      'GS-14': 33,
+      'GS-15': 34,
+      'SES-1': 35,
+      'SES-2': 36,
+      'SES-3': 37,
+      'SES-4': 38,
+      'SES-5': 39,
+      'SES-6': 40,
     };
     const service_range_sort = {
       'not available': 0,
@@ -293,7 +325,6 @@ const statsBundle = {
           const uniqueValues = [];
           chartData.forEach((d) => {
             Object.keys(d).forEach((key) => {
-              console.log(key);
               if (uniqueValues.indexOf(key) === -1) uniqueValues.push(key);
             });
           });
@@ -404,6 +435,80 @@ const statsBundle = {
 
         return match;
       };
+    }
+  ),
+
+  selectStatsChart1: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return grinder(items, 'parent_office_symbol', '', sortAlgos, () => true);
+    }
+  ),
+
+  selectStatsChart2: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return pieBaker(items, 'age_range', sortAlgos, () => true);
+    }
+  ),
+
+  selectStatsChart3: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return pieBaker(items, 'service_range', sortAlgos, () => true);
+    }
+  ),
+
+  selectStatsChart4: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return pieBaker(items, 'pay_plan_grade', sortAlgos, () => true);
+    }
+  ),
+
+  selectStatsChart5: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return grinder(
+        items,
+        'parent_office_symbol',
+        'expertise',
+        sortAlgos,
+        () => true
+      );
+    }
+  ),
+
+  selectStatsChart6: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return grinder(
+        items,
+        'parent_office_symbol',
+        'prof_registration_count',
+        sortAlgos,
+        () => true
+      );
+    }
+  ),
+
+  selectStatsChart7: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return grinder(
+        items,
+        'parent_office_symbol',
+        'vacant',
+        sortAlgos,
+        () => true
+      );
     }
   ),
 

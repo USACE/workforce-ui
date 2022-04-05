@@ -1,242 +1,112 @@
-import { useState } from 'react';
-import { ResponsiveBarCanvas } from '@nivo/bar';
-import { connect } from 'redux-bundler-react';
+import Chart1 from './chart-1';
+import Chart2 from './chart-2';
+import Chart3 from './chart-3';
+import Chart4 from './chart-4';
+import Chart5 from './chart-5';
+import Chart6 from './chart-6';
+import Chart7 from './chart-7';
 import Wrapper from '../../app-components/wrapper';
+import CustomDot from './custom-dot';
+import {
+  CarouselProvider,
+  Slider,
+  Slide,
+  ButtonBack,
+  ButtonNext,
+} from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 const apiUrl = process.env.REACT_APP_WORKFORCE_API_URL;
-/**
- * This is a total hack job to get something out...  Just FYI
- */
 
-export default connect(
-  'selectStatsChartData',
-  'selectStatsGroupByFields',
-  'selectStatsSplitByFields',
-  'selectStatsGroupBy',
-  'selectStatsSplitBy',
-  'selectStatsFilterOfficeSymbol',
-  'selectStatsFilterParentOfficeSymbol',
-  'selectStatsKeys',
-  'selectOfficeItems',
-  'doStatsSetGroupBy',
-  'doStatsSetSplitBy',
-  'doStatsSetFilterOfficeSymbol',
-  'doStatsSetFilterParentOfficeSymbol',
-  ({
-    statsChartData,
-    statsGroupByFields,
-    statsSplitByFields,
-    statsGroupBy: groupBy,
-    statsSplitBy: splitBy,
-    statsFilterOfficeSymbol: officeSymbol,
-    statsFilterParentOfficeSymbol: parentOfficeSymbol,
-    statsKeys,
-    officeItems: offices,
-    doStatsSetGroupBy,
-    doStatsSetSplitBy,
-    doStatsSetFilterOfficeSymbol,
-    doStatsSetFilterParentOfficeSymbol,
-  }) => {
-    const [stacked, setStacked] = useState(true);
-    const parentOfficeId = offices
-      .filter((office) => {
-        return office.symbol === parentOfficeSymbol;
-      })
-      .map((office) => office.id)[0];
-    return (
-      <Wrapper title={'Workforce Rollup'}>
-        <div className="grid grid-cols-12 gap-4 h-full">
-          <div className="col-span-4">
-            <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700">
-                Parent Office Symbol {}
-              </label>
-              <select
-                value={parentOfficeSymbol}
-                onChange={(e) => {
-                  doStatsSetFilterParentOfficeSymbol(e.target.value);
-                }}
-                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value={''}>All Offices</option>;
-                {offices
-                  .filter((office) => {
-                    return !office.parent_id;
-                  })
-                  .map((office) => {
-                    return (
-                      <option key={office.id} value={office.symbol}>
-                        {office.name}
-                      </option>
-                    );
-                  })}
-              </select>
+function Carosel() {
+  return (
+    <Wrapper title={'Workforce Rollup'}>
+      <CarouselProvider
+        naturalSlideWidth={100}
+        naturalSlideHeight={66}
+        totalSlides={7}
+      >
+        <Slider>
+          <Slide index={0}>
+            <Chart1 />
+          </Slide>
+          <Slide index={1}>
+            <Chart2 />
+          </Slide>
+          <Slide index={2}>
+            <Chart3 />
+          </Slide>
+          <Slide index={3}>
+            <Chart4 />
+          </Slide>
+          <Slide index={4}>
+            <Chart5 />
+          </Slide>
+          <Slide index={5}>
+            <Chart6 />
+          </Slide>
+          <Slide index={6}>
+            <Chart7 />
+          </Slide>
+        </Slider>
+        <nav className="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0">
+          <ButtonBack>
+            <div className="-mt-px w-0 flex-1 flex">
+              <span className="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  class="ml-3 h-5 w-5 text-gray-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Previous
+              </span>
             </div>
-
-            <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700">
-                Office Symbol
-              </label>
-              <select
-                value={officeSymbol}
-                onChange={(e) => {
-                  doStatsSetFilterOfficeSymbol(e.target.value);
-                }}
-                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value={''}>All Offices</option>;
-                {offices
-                  .filter((office) => {
-                    if (parentOfficeSymbol) {
-                      return office.parent_id === parentOfficeId;
-                    } else {
-                      return !!office.parent_id;
-                    }
-                  })
-                  .map((office) => {
-                    return (
-                      <option key={office.id} value={office.symbol}>
-                        {office.name}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
-
-            <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700">
-                Group By
-              </label>
-              <select
-                value={groupBy}
-                onChange={(e) => {
-                  doStatsSetGroupBy(e.target.value);
-                }}
-                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                {Object.keys(statsGroupByFields).map((key) => {
-                  return (
-                    <option
-                      key={key}
-                      title={statsGroupByFields[key]}
-                      value={key}
-                    >
-                      {statsGroupByFields[key]}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Split By
-              </label>
-              <select
-                value={splitBy}
-                onChange={(e) => {
-                  doStatsSetSplitBy(e.target.value);
-                }}
-                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value={''}>Do Not Split</option>;
-                {Object.keys(statsSplitByFields).map((key) => {
-                  return (
-                    <option
-                      key={key}
-                      title={statsSplitByFields[key]}
-                      value={key}
-                    >
-                      {statsSplitByFields[key]}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Stack Splits
-              </label>
-              <input
-                disabled={!splitBy}
-                type="checkbox"
-                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                checked={stacked}
-                onChange={(e) => {
-                  setStacked(e.target.checked);
-                }}
-              />
-            </div>
-            <div>
-              <a
-                className="underline text-indigo-600"
-                href={`${apiUrl}/report/csv`}
-              >
-                Download Raw Data
-              </a>
-            </div>
+          </ButtonBack>
+          <div className="hidden md:-mt-px md:flex">
+            <CustomDot slide={0}></CustomDot>
+            <CustomDot slide={1}></CustomDot>
+            <CustomDot slide={2}></CustomDot>
+            <CustomDot slide={3}></CustomDot>
+            <CustomDot slide={4}></CustomDot>
+            <CustomDot slide={5}></CustomDot>
+            <CustomDot slide={6}></CustomDot>
           </div>
-          <div className="col-span-8" style={{ height: '800px' }}>
-            <div className="space-y-2 p-4 bg-white rounded shadow-md h-full">
-              <ResponsiveBarCanvas
-                animate={false}
-                data={statsChartData}
-                keys={statsKeys}
-                indexBy="group"
-                groupMode={stacked ? 'stacked' : 'grouped'}
-                valueScale={{ type: 'linear' }}
-                indexScale={{ type: 'band', round: true }}
-                colors={{ scheme: 'nivo' }}
-                margin={{ top: 50, right: 230, bottom: 150, left: 60 }}
-                padding={0.3}
-                axisTop={null}
-                axisRight={null}
-                axisBottom={{
-                  tickSize: 5,
-                  tickPadding: 5,
-                  tickRotation: -50,
-                }}
-                axisLeft={{
-                  tickSize: 5,
-                  tickPadding: 5,
-                  tickRotation: 0,
-                  legend: 'Count',
-                  legendPosition: 'middle',
-                  legendOffset: -40,
-                }}
-                legends={[
-                  {
-                    dataFrom: 'keys',
-                    anchor: 'bottom-right',
-                    direction: 'column',
-                    justify: false,
-                    translateX: 200,
-                    translateY: 0,
-                    itemsSpacing: 2,
-                    itemWidth: 170,
-                    itemHeight: 20,
-                    itemDirection: 'left-to-right',
-                    itemOpacity: 0.85,
-                    symbolSize: 20,
-                    effects: [
-                      {
-                        on: 'hover',
-                        style: {
-                          itemOpacity: 1,
-                        },
-                      },
-                    ],
-                  },
-                ]}
-              ></ResponsiveBarCanvas>
+          <ButtonNext>
+            <div className="-mt-px w-0 flex-1 flex justify-end">
+              <span className="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                Next
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  class="ml-3 h-5 w-5 text-gray-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
             </div>
-          </div>
-        </div>
-      </Wrapper>
-    );
-  }
-);
+          </ButtonNext>
+        </nav>
+      </CarouselProvider>
+      <div className="mt-6">
+        <a className="underline text-indigo-600" href={`${apiUrl}/report/csv`}>
+          Download Raw Rollup Data
+        </a>
+      </div>
+    </Wrapper>
+  );
+}
+
+export default Carosel;
