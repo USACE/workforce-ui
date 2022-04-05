@@ -1,4 +1,6 @@
 import { createSelector } from 'redux-bundler';
+import grinder from '../utils/data-grinder';
+import pieBaker from '../utils/data-pie-baker';
 
 const apiUrl = process.env.REACT_APP_WORKFORCE_API_URL;
 const statsBundle = {
@@ -433,6 +435,80 @@ const statsBundle = {
 
         return match;
       };
+    }
+  ),
+
+  selectStatsChart1: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return grinder(items, 'parent_office_symbol', '', sortAlgos, () => true);
+    }
+  ),
+
+  selectStatsChart2: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return pieBaker(items, 'age_range', sortAlgos, () => true);
+    }
+  ),
+
+  selectStatsChart3: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return pieBaker(items, 'service_range', sortAlgos, () => true);
+    }
+  ),
+
+  selectStatsChart4: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return pieBaker(items, 'pay_plan_grade', sortAlgos, () => true);
+    }
+  ),
+
+  selectStatsChart5: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return grinder(
+        items,
+        'parent_office_symbol',
+        'expertise',
+        sortAlgos,
+        () => true
+      );
+    }
+  ),
+
+  selectStatsChart6: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return grinder(
+        items,
+        'parent_office_symbol',
+        'prof_registration_count',
+        sortAlgos,
+        () => true
+      );
+    }
+  ),
+
+  selectStatsChart7: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return grinder(
+        items,
+        'parent_office_symbol',
+        'vacant',
+        sortAlgos,
+        () => true
+      );
     }
   ),
 
