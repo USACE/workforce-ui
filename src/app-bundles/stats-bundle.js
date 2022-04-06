@@ -165,6 +165,15 @@ const statsBundle = {
       '20-30 years': 5,
       'Over 30 years': 6,
     };
+    const adv_degree_count_sort = {
+      'No Advanced Degree': 0,
+      Masters: 1,
+      PhD: 2,
+    };
+    const prof_registration_count_sort = {
+      'No Registration': 0,
+      Registered: 1,
+    };
     return {
       age_range: (a, b) => {
         if (age_range_sort[a.group] > age_range_sort[b.group]) return 1;
@@ -220,8 +229,10 @@ const statsBundle = {
         return 0;
       },
       adv_degree_count: (a, b) => {
-        if (a.group > b.group) return 1;
-        if (a.group < b.group) return -1;
+        if (adv_degree_count_sort[a.group] > adv_degree_count_sort[b.group])
+          return 1;
+        if (adv_degree_count_sort[a.group] < adv_degree_count_sort[b.group])
+          return -1;
         return 0;
       },
       certification_count: (a, b) => {
@@ -230,8 +241,16 @@ const statsBundle = {
         return 0;
       },
       prof_registration_count: (a, b) => {
-        if (a.group > b.group) return 1;
-        if (a.group < b.group) return -1;
+        if (
+          prof_registration_count_sort[a.group] >
+          prof_registration_count_sort[b.group]
+        )
+          return 1;
+        if (
+          prof_registration_count_sort[a.group] <
+          prof_registration_count_sort[b.group]
+        )
+          return -1;
         return 0;
       },
       vacant: (a, b) => {
