@@ -5,6 +5,7 @@ import Chart4 from './chart-4';
 import Chart5 from './chart-5';
 import Chart6 from './chart-6';
 import Chart7 from './chart-7';
+import Chart8 from './chart-8';
 import Wrapper from '../../app-components/wrapper';
 import CustomDot from './custom-dot';
 import {
@@ -23,7 +24,7 @@ function Carosel() {
       <CarouselProvider
         naturalSlideWidth={100}
         naturalSlideHeight={66}
-        totalSlides={7}
+        totalSlides={8}
       >
         <Slider>
           <Slide index={0}>
@@ -46,6 +47,9 @@ function Carosel() {
           </Slide>
           <Slide index={6}>
             <Chart7 />
+          </Slide>
+          <Slide index={7}>
+            <Chart8 />
           </Slide>
         </Slider>
         <nav className="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0">
@@ -77,6 +81,7 @@ function Carosel() {
             <CustomDot slide={4}></CustomDot>
             <CustomDot slide={5}></CustomDot>
             <CustomDot slide={6}></CustomDot>
+            <CustomDot slide={7}></CustomDot>
           </div>
           <ButtonNext>
             <div className="-mt-px w-0 flex-1 flex justify-end">

@@ -1,14 +1,14 @@
 import { ResponsiveBarCanvas } from '@nivo/bar';
 import { connect } from 'redux-bundler-react';
 
-export default connect('selectStatsChart6', ({ statsChart6: data }) => {
+export default connect('selectStatsChart8', ({ statsChart8: data }) => {
   return (
     <div
       className="space-y-2 p-4 bg-white rounded shadow-md h-full mb-5 ml-2 mr-2"
       style={{ height: '800px' }}
     >
       <div className="text-center w-full bold text-2xl">
-        CoP Membership Number of Professional Registrations Held
+        CoP Membership Number of Advanced Degrees Held
       </div>
       <ResponsiveBarCanvas
         animate={false}
@@ -20,7 +20,7 @@ export default connect('selectStatsChart6', ({ statsChart6: data }) => {
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
         colors={{ scheme: 'paired' }}
-        margin={{ top: 50, right: 110, bottom: 150, left: 60 }}
+        margin={{ top: 50, right: 200, bottom: 150, left: 60 }}
         padding={0.3}
         axisTop={null}
         axisRight={null}
