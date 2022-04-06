@@ -21,6 +21,29 @@ export default function Grinder(items, groupBy, splitBy, sortAlgos, filterBy) {
           if (item.expertise_wm) ++cache[item[groupBy]]['Water Management'];
           if (item.expertise_wq) ++cache[item[groupBy]]['Water Quality'];
           break;
+        case 'adv_degree_count':
+          if (!cache[item[groupBy]].hasOwnProperty('No Advanced Degree')) {
+            cache[item[groupBy]]['No Advanced Degree'] = 0;
+            cache[item[groupBy]]['Masters'] = 0;
+            cache[item[groupBy]]['PhD'] = 0;
+          }
+          if (item.adv_degree_count === 0)
+            ++cache[item[groupBy]]['No Advanced Degree'];
+          if (item.adv_degree_count === 1) ++cache[item[groupBy]]['Masters'];
+          if (item.adv_degree_count === 2) ++cache[item[groupBy]]['PhD'];
+          break;
+        case 'prof_registration_count':
+          if (!cache[item[groupBy]].hasOwnProperty('No Registration')) {
+            cache[item[groupBy]]['No Registration'] = 0;
+            cache[item[groupBy]]['Registered'] = 0;
+          }
+          if (item.prof_registration_count === 0)
+            ++cache[item[groupBy]]['No Registration'];
+          if (item.prof_registration_count === 1)
+            ++cache[item[groupBy]]['Registered'];
+          if (item.prof_registration_count === 2)
+            ++cache[item[groupBy]]['Registered'];
+          break;
         case 'vacant':
           if (!cache[item[groupBy]].hasOwnProperty('Vacant')) {
             cache[item[groupBy]].Vacant = 0;

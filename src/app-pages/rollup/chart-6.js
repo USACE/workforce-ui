@@ -8,19 +8,19 @@ export default connect('selectStatsChart6', ({ statsChart6: data }) => {
       style={{ height: '800px' }}
     >
       <div className="text-center w-full bold text-2xl">
-        CoP Membership Number of Professional Registrations Held
+        CoP Membership Professional Registrations Held
       </div>
       <ResponsiveBarCanvas
         animate={false}
         theme={{ fontSize: 16 }}
         data={data}
-        keys={['0', '1', '2']}
+        keys={['No Registration', 'Registered']}
         indexBy="group"
         groupMode={'stacked'}
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
         colors={{ scheme: 'paired' }}
-        margin={{ top: 50, right: 110, bottom: 150, left: 60 }}
+        margin={{ top: 50, right: 190, bottom: 150, left: 60 }}
         padding={0.3}
         axisTop={null}
         axisRight={null}
