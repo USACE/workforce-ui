@@ -512,6 +512,20 @@ const statsBundle = {
     }
   ),
 
+  selectStatsChart8: createSelector(
+    'selectStatsItems',
+    'selectStatsGroupSortAlgos',
+    (items, sortAlgos) => {
+      return grinder(
+        items,
+        'parent_office_symbol',
+        'adv_degree_count',
+        sortAlgos,
+        () => true
+      );
+    }
+  ),
+
   reactStatsShouldFetch: (state) => {
     if (state.stats._shouldFetch) return { actionCreator: 'doStatsFetch' };
   },
