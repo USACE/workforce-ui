@@ -17,6 +17,7 @@ import {
   ButtonNext,
 } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
+import CustomDownloadChartButton from './custom-download-chart-button';
 const apiUrl = process.env.REACT_APP_WORKFORCE_API_URL;
 
 function Carosel() {
@@ -54,6 +55,9 @@ function Carosel() {
             <Chart8 />
           </Slide>
         </Slider>
+        <div className="mb-3">
+          <CustomDownloadChartButton />
+        </div>
         <nav className="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0">
           <ButtonBack>
             <div className="-mt-px w-0 flex-1 flex">

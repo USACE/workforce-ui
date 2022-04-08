@@ -1,4 +1,4 @@
-import { ResponsivePie } from '@nivo/pie';
+import { ResponsivePieCanvas } from '@nivo/pie';
 import { connect } from 'redux-bundler-react';
 
 export default connect('selectStatsChart3', ({ statsChart3: data }) => {
@@ -10,7 +10,7 @@ export default connect('selectStatsChart3', ({ statsChart3: data }) => {
       <div className="text-center w-full bold text-2xl">
         CoP Membership by Years of Service
       </div>
-      <ResponsivePie
+      <ResponsivePieCanvas
         data={data}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
         valueFormat=">-"
