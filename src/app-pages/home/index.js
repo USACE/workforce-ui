@@ -15,7 +15,7 @@ export default function Home() {
       {/* different colors for screen size breakpoints only enabled when NODE_ENV === 'development' */}
       <div
         className={`container justify-between inline-flex shadow-md ${
-          import.meta.env.VITE_NODE_ENV === 'development' &&
+          import.meta.env.MODE === 'development' &&
           'border-0 md:border-green-200 sm:border-blue-200 lg:border-red-900'
         }`}
       >
