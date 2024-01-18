@@ -10,7 +10,7 @@ import cache from './cache';
 cache.getAll().then((initialData) => {
   const store = getStore(initialData);
 
-  if (import.meta.env.VITE_NODE_ENV === 'development') window.store = store;
+  if (import.meta.env.MODE === 'development') window.store = store;
 
   ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
