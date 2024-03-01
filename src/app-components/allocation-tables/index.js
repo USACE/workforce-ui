@@ -225,9 +225,10 @@ const AllocationTable = ({
                           `${t.office_symbol}.admin`,
                         ]}
                       >
-                        <ReactTooltip />
+                        <ReactTooltip id="tt" />
                         <button
-                          data-tip="Edit Group"
+                          data-tooltip-content="Edit Group"
+                          data-tooltip-id="tt"
                           onClick={(e) => {
                             doModalOpen(EditGroupModal, { group: t });
                           }}
@@ -236,7 +237,8 @@ const AllocationTable = ({
                           <PencilAltIcon className="w-6 h-6" />
                         </button>
                         <button
-                          data-tip="Verify Group"
+                          data-tooltip-content="Verify Group"
+                          data-tooltip-id="tt"
                           onClick={(e) => {
                             doModalOpen(VerifyGroupModal, { group: t });
                           }}
