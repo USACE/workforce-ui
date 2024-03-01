@@ -201,7 +201,8 @@ const EditPositionModal = connect(
                     <span className="text-gray-600">
                       <span className="text-lg text-red-700 mr-1 ">*</span>
                       <span
-                        data-tip="For career ladder positions like 7/9/11 use 11"
+                        data-tooltip-id="tt"
+                        data-tooltip-content="For career ladder positions like 7/9/11 use 11"
                         className="border-b-2 border-dashed border-gray-400"
                       >
                         Target Grade

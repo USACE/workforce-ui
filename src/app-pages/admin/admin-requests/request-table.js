@@ -85,9 +85,10 @@ const OfficeAdminRequestTable = connect(
                     <tr key={idx}>
                       <td className="p-2 whitespace-nowrap">
                         <div className="flex items-center">
-                          <ReactTooltip />
+                          <ReactTooltip id="tt" />
                           <div
-                            data-tip={
+                            data-tooltip-id="tt"
+                            data-tooltip-content={
                               isApproved
                                 ? 'Approved'
                                 : isDenied
@@ -172,7 +173,8 @@ const OfficeAdminRequestTable = connect(
                           >
                             <>
                               <button
-                                data-tip="Approve"
+                                data-tooltip-id="tt"
+                                data-tooltip-content="Approve"
                                 disabled={isApproved}
                                 onClick={(e) =>
                                   handleUpdateStatus(id, 'approve')
@@ -187,7 +189,8 @@ const OfficeAdminRequestTable = connect(
                               </button>
 
                               <button
-                                data-tip="Deny"
+                                data-tooltip-id="tt"
+                                data-tooltip-content="Deny"
                                 disabled={isDenied}
                                 onClick={(e) => {
                                   handleUpdateStatus(id, 'deny');

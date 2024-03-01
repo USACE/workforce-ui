@@ -22,7 +22,8 @@ const Statistics = connect(
               <div className="text-gray-900">{isLoading ? '-' : employees}</div>
               <div className="mx-2 text-gray-300">/</div>
               <div
-                data-tip="Allocated Position"
+                data-tooltip-id="tt"
+                data-tooltip-content="Allocated Position"
                 className="text-gray-300 border-b-2 border-dashed cursor-default"
               >
                 {isLoading ? '-' : positions}
@@ -41,7 +42,8 @@ const Statistics = connect(
             </div>
             <div className="flex title-font font-medium sm:text-4xl text-3xl justify-center">
               <div
-                data-tip="All Positions - Includes Allocated and UnAllocated Positions"
+                data-tooltip-id="tt"
+                data-tooltip-content="All Positions - Includes Allocated and UnAllocated Positions"
                 className="text-green-500 border-b-2 border-dashed cursor-default"
               >
                 {isLoading ? '-' : target}

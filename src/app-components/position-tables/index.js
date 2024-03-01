@@ -24,7 +24,8 @@ const CredentialPill = ({ cred }) => {
 
   return (
     <div
-      data-tip={cred.name}
+      data-tooltip-id="tt"
+      data-tooltip-content={cred.name}
       className="mr-1 px-1 text-xs rounded-xl border-gray-300 border-2 bg-gray-100 inline"
     >
       {displayAbbrev}
@@ -127,9 +128,10 @@ const PositionTable = connect(
                     >
                       <td className="p-2 whitespace-nowrap">
                         <div className="flex items-center">
-                          <ReactTooltip />
+                          <ReactTooltip id="tt" />
                           <div
-                            data-tip={
+                            data-tooltip-id="tt"
+                            data-tooltip-content={
                               isVacant ? 'Position Vacant' : 'Position Filled'
                             }
                             className={`rounded-full w-14 h-14 flex justify-around items-center ${
@@ -148,7 +150,8 @@ const PositionTable = connect(
                             {title}
                             {is_supervisor && (
                               <StarIcon
-                                data-tip="Supervisor"
+                                data-tooltip-id="tt"
+                                data-tooltip-content="Supervisor"
                                 className="w-4 inline ml-1 mb-1 text-yellow-400"
                               />
                             )}
@@ -168,22 +171,25 @@ const PositionTable = connect(
                             {current_occupancy &&
                               current_occupancy.service_start_date && (
                                 <span
-                                  data-tip={`Government Experience = ${experience_gov}`}
+                                  data-tooltip-id="tt"
+                                  data-tooltip-content={`Government Experience = ${experience_gov}`}
                                   className=" text-gray-400 font-light border-b-2 border-gray-200 border-dashed cursor-default"
                                 >
                                   Gov: {experience_gov}
                                 </span>
                               )}
                             {/* Position Experience */}
-                            {current_occupancy && current_occupancy.start_date && (
-                              <span
-                                data-tip={`Position Experience = ${experience_pos}`}
-                                className="text-gray-400 font-light border-b-2 border-gray-200 border-dashed cursor-default"
-                              >
-                                {' / '}
-                                Pos: {experience_pos}
-                              </span>
-                            )}
+                            {current_occupancy &&
+                              current_occupancy.start_date && (
+                                <span
+                                  data-tooltip-id="tt"
+                                  data-tooltip-content={`Position Experience = ${experience_pos}`}
+                                  className="text-gray-400 font-light border-b-2 border-gray-200 border-dashed cursor-default"
+                                >
+                                  {' / '}
+                                  Pos: {experience_pos}
+                                </span>
+                              )}
                           </div>
                         </div>
                       </td>
@@ -223,7 +229,8 @@ const PositionTable = connect(
                           >
                             <>
                               <button
-                                data-tip="Edit Position"
+                                data-tooltip-id="tt"
+                                data-tooltip-content="Edit Position"
                                 onClick={(e) => {
                                   doModalOpen(EditPositionModal, {
                                     position: t,
@@ -235,7 +242,8 @@ const PositionTable = connect(
                               </button>
 
                               <button
-                                data-tip="Edit Occupant"
+                                data-tooltip-id="tt"
+                                data-tooltip-content="Edit Occupant"
                                 onClick={(e) => {
                                   doModalOpen(EditOccupancyModal, {
                                     position: t,
@@ -247,7 +255,8 @@ const PositionTable = connect(
                               </button>
 
                               <button
-                                data-tip="Duplicate Position"
+                                data-tooltip-id="tt"
+                                data-tooltip-content="Duplicate Position"
                                 onClick={(e) => {
                                   doModalOpen(EditPositionModal, {
                                     position: {
